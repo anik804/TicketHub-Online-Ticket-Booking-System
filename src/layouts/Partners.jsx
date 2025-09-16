@@ -31,13 +31,13 @@ export default function Partners() {
       </motion.h1>
 
       {/* Partners Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
         {partners.map((p, i) => (
           <motion.div
             key={i}
             className="p-6 bg-[#3D0000] border border-[#95010133] rounded-xl shadow-md flex justify-center items-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: i * 0.2 }}
             whileHover={{
               scale: 1.08,
