@@ -28,12 +28,20 @@ export default function HowItWorks() {
   return (
     <section className="py-20 bg-[#000000] text-white">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        {/* Section Title */}
+        {/* Section Title with animated colors */}
         <motion.h2
-          className="text-4xl font-bold mb-12 text-[#FF0000]"
-          initial={{ opacity: 0, y: -50 }}
+          className="text-4xl font-bold mb-12"
+          initial={{ opacity: 0, y: -40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          animate={{
+            color: ["#000000", "#3D0000", "#950101", "#FF0000", "#000000"],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            repeatType: "loop",
+          }}
         >
           How It Works
         </motion.h2>
