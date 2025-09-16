@@ -29,7 +29,7 @@ export default function WhyChooseUs() {
 
   return (
     <section className="w-full px-4 py-20 bg-[#000000] text-white">
-      {/* Animated Heading (no movement, only color change) */}
+      {/* Animated Heading */}
       <motion.h1
         className="pb-10 text-3xl md:text-4xl font-bold text-center"
         initial={{ opacity: 0 }}
@@ -47,12 +47,12 @@ export default function WhyChooseUs() {
         Why Choose Us
       </motion.h1>
 
-      {/* Features Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+      {/* Features Grid: 4 cards full width */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
         {features.map((f, i) => (
           <motion.div
             key={i}
-            className="p-8 rounded-2xl bg-[#3D0000] flex flex-col items-center text-center shadow-md hover:shadow-2xl border border-[#95010133]"
+            className="w-full p-6 rounded-2xl bg-[#3D0000] flex flex-col items-center text-center shadow-md hover:shadow-2xl border border-[#95010133]"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: i * 0.2 }}
@@ -62,12 +62,10 @@ export default function WhyChooseUs() {
               boxShadow: "0px 10px 30px rgba(255,0,0,0.4)",
             }}
           >
-            <div className="mb-6 bg-[#FF000022] rounded-full p-5 flex items-center justify-center">
+            <div className="mb-4 bg-[#FF000022] rounded-full p-5 flex items-center justify-center">
               {f.icon}
             </div>
-            <h2 className="text-xl font-bold mb-3 text-[#FF0000]">
-              {f.title}
-            </h2>
+            <h2 className="text-xl font-bold mb-2 text-[#FF0000]">{f.title}</h2>
             <p className="text-gray-300">{f.desc}</p>
           </motion.div>
         ))}
