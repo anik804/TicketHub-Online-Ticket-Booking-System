@@ -1,0 +1,17 @@
+/* Change inactive dots */
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #950101;
+  opacity: 0.3;
+}
+
+/* Change active dot */
+.slick-dots li.slick-active button:before {
+  color: #ff0000;
+  opacity: 1;
+}
+
+/* Apply Transition */
+.custom-transition {
+  transition: all 0.5s ease-in-out;
+}
