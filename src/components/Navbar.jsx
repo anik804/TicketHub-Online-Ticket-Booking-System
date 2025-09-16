@@ -24,7 +24,7 @@ export default function Navbar() {
             href={link.href}
             className={`${
               pathname === link.href
-                ? "text-[#FF0000] font-semibold  border-[#FF0000]"
+                ? "text-[#FF0000] font-semibold border-b-2 border-[#FF0000]"
                 : "text-gray-400 hover:text-white"
             }`}
           >
