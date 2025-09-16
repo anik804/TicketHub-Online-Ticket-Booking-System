@@ -1,0 +1,17 @@
+/* Change inactive dots */
+.slick-dots li button:before {
+    font-size: 12px;        /* adjust size */
+    color: #950101;         /* Tailwind gray-400 */
+    opacity: .3;             /* force solid color */
+  }
+  
+  /* Change active dot */
+  .slick-dots li.slick-active button:before {
+    color: #FF0000;         /* Tailwind blue-600 */
+    opacity: 1;
+  }
+  
+  /* Apply Transition */
+  .custom-transition {
+    transition: all 0.5s ease-in-out;
+  }
