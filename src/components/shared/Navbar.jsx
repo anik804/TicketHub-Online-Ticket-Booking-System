@@ -37,7 +37,7 @@ export default function Navbar() {
 
 
   return (
-    <div >
+    <div className='sticky top-0 z-50 w-full '>
       <div className="navbar bg-[#000000] shadow-sm">
   <div className="navbar-start">
     <div className="dropdown">
