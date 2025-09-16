@@ -38,13 +38,13 @@ export default function SpecialOffers() {
   ];
 
   return (
-    <section className="w-full">
+    <section className="w-full px-4">
       <h1 className="pb-5 text-xl md:text-2xl font-semibold text-center">Special Offers</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {events.map((event) => (
           <div
             key={event.id}
-            className="p-4 border border-gray-200 rounded-lg shadow-md hover:shadow-lg flex flex-col items-center justify-center hover:scale-102 hover:rotate-3 transition-all duration-300 ease-in-out"
+            className="p-4 border border-gray-200 rounded-lg shadow-md hover:shadow-lg flex flex-col items-center justify-center hover:scale-102 hover:rotate-3 custom-transition"
           >
             <h2 className="text-2xl font-bold mb-2">{event.title}</h2>
             <p className="text-lg text-[#3D0000] bg-[#FF000011] rounded-full py-1 px-3 my-2">{event.date}</p>
