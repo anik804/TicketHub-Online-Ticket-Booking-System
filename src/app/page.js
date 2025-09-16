@@ -1,3 +1,4 @@
+import CategorySection from "@/layouts/CategorySection";
 import CustomerTestimonials from "@/layouts/CustomerTestimonials";
 import HowItWorks from "@/layouts/HowItWorks";
 import Partners from "@/layouts/Partners";
@@ -7,6 +8,7 @@ import WhyChooseUs from "@/layouts/WhyChooseUs";
 export default function Home() {
   return (
     <main>
+      <CategorySection></CategorySection>
       <SpecialOffers/>
       <CustomerTestimonials/>
       <WhyChooseUs></WhyChooseUs>
