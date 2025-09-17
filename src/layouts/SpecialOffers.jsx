@@ -40,40 +40,65 @@ export default function SpecialOffers() {
   ];
 
   return (
-    <section className="w-full px-4">
-      <h1 className="pb-5 text-xl md:text-2xl font-semibold text-center">
-        Special Offers
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+    <section className="w-full px-4 py-10 bg-[#000000]">
+      {/* Animated Heading */}
+      <motion.h1
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          color: ["#FF0000", "#950101", "#3D0000", "#FF0000"], // looping colors
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          repeatType: "loop",
+          ease: "linear",
+        }}
+        className="pb-8 text-3xl md:text-4xl font-extrabold text-center tracking-wide"
+      >
+        🎟 Special Offers
+      </motion.h1>
+
+      {/* Event Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {events.map((event, index) => (
           <motion.div
-            initial={{ opacity: 0, scale: 0.7 }}
+            key={event.id}
+            initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: (index + 1) * 0.3, ease: "easeInOut" }}
-            key={index}
-            className="p-[1px] rounded-[8px] shadow-md hover:shadow-[#95010133] hover:scale-102 hover:rotate-3 custom-transition relative overflow-hidden"
+            transition={{
+              duration: 0.5,
+              delay: index * 0.2,
+              ease: "easeOut",
+            }}
+            className="relative overflow-hidden p-[1px] rounded-xl shadow-lg 
+                       bg-gradient-to-br from-[#950101] via-[#FF0000] to-[#3D0000] 
+                       hover:shadow-2xl hover:scale-105 transition-all"
           >
-            <div className="absolute top-0 right-0 bg-transparent w-full h-full z-1 scale-200 bg-gradient-to-l from-[#FF0000] to-[40%] to-transparent glow-border-spin" />
-
-            <div className="flex visible flex-col items-center justify-center bg-white rounded-[7px] relative z-2 p-4">
-              <h2 className="text-2xl font-bold mb-2">{event.title}</h2>
-              <p className="text-lg text-[#3D0000] bg-[#FF000011] rounded-lg py-1 px-3 my-2 shadow">
+            <div className="flex flex-col items-center justify-center bg-[#000000] rounded-lg relative z-10 p-5 h-full">
+              <h2 className="text-xl font-bold mb-2 text-white text-center">
+                {event.title}
+              </h2>
+              <p className="text-sm text-[#FF0000] bg-[#3D0000] rounded-lg px-3 py-1 mb-2 shadow">
                 {event.date}
               </p>
-              <p className="text-xl font-semibold">{event.location}</p>
-              <motion.p 
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              transition={{
-                duration: 0.8,
-                repeat: Infinity,   
-                repeatType: "reverse",
-                ease: "linear",
-              }}
-              className="my-2 font-semibold text-[#FF0000] text-2xl">
+              <p className="text-base font-medium text-gray-300 mb-2">
+                {event.location}
+              </p>
+              <motion.p
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1.1 }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut",
+                }}
+                className="font-bold text-[#FF0000] text-2xl"
+              >
                 ৳{event.price}
               </motion.p>
-              <span className="inline-block mt-1 text-2xl text-transparent bg-[#950101] font-bold glow-text">
+              <span className="inline-block mt-2 text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FF0000] to-[#950101] animate-pulse">
                 {event.discount}
               </span>
             </div>
