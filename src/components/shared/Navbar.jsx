@@ -13,7 +13,7 @@ export default function Navbar() {
     { href: "/browse-events", label: "Browse Events" },
     { href: "/categories", label: "Categories" },
     { href: "/about", label: "About" },
-    { href: "/contacts", label: "Contacts" },
+    { href: "/Contacts", label: "Contacts" },
   ];
 
   const navItems = () => (
