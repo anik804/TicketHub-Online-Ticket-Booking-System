@@ -31,60 +31,60 @@ export default function CustomerTestimonials() {
     autoplay: true,
     autoplaySpeed: 5000,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 3 },
-      },
-      {
-        breakpoint: 640,
-        settings: { slidesToShow: 1 },
-      },
+      { breakpoint: 1280, settings: { slidesToShow: 3 } },
       { breakpoint: 1024, settings: { slidesToShow: 2 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
-
     ],
   };
 
   return (
-    <section className="w-full py-10 px-1 overflow-hidden">
-      <h1 className="pb-6 text-xl md:text-2xl font-semibold text-center">
-        Customer Testimonials
-      </h1>
+    <section className="w-full py-12 px-2 overflow-hidden bg-[#000000]">
+      {/* Animated heading */}
+      <motion.h1
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          color: ["#FF0000", "#950101", "#3D0000", "#FF0000"],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          repeatType: "loop",
+          ease: "linear",
+        }}
+        className="pb-8 text-2xl md:text-3xl font-extrabold text-center tracking-wide"
+      >
+        ❤️ Customer Testimonials
+      </motion.h1>
 
+      {/* Slider */}
       <Slider className="py-2 review-slick" {...settings}>
         {reviews.map((item, index) => (
           <motion.div
+            key={item.id}
             initial={{ scale: 0.6, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{
               duration: index < 5 ? (index + 1) * 0.4 : 0.8,
               ease: "easeInOut",
             }}
-            key={item.id}
             className="py-2 px-3"
           >
-            <div className="bg-white border border-gray-200 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
-
-      <Slider {...settings}>
-        {reviews.map((item) => (
-          <div key={item.id} className="px-3">
-            <div className="bg-white border border-gray-200 flex flex-col items-center rounded-xl shadow-md p-5 text-center min-h-[220px] hover:-translate-y-2 transition-transform duration-300 ease-in-out">
-
+            <div className="bg-[#111111] border border-[#950101] flex flex-col items-center rounded-xl shadow-md p-5 text-center min-h-[240px] hover:-translate-y-2 hover:shadow-[0px_0px_15px_#FF0000] transition-transform duration-300 ease-in-out">
               <Image
                 src={item.photo}
                 alt={item.name}
                 width={100}
                 height={100}
-                className="w-16 h-16 object-cover rounded-full mx-auto mb-3"
-                role="img"
+                className="w-16 h-16 object-cover rounded-full mx-auto mb-3 border-2 border-[#FF0000]"
               />
-              <h2 className="font-bold text-lg">{item.name}</h2>
+              <h2 className="font-bold text-lg text-white">{item.name}</h2>
               <div className="flex justify-center my-2" aria-label={`Rating: ${item.rating} out of 5`}>
                 {[...Array(item.rating)].map((_, i) => (
                   <FaStar key={i} className="text-[#FF0000]" />
                 ))}
               </div>
-              <p className="text-[#3D0000] italic line-clamp-2">
+              <p className="text-[#FFCCCC] italic line-clamp-2">
                 {item.review}
               </p>
             </div>
