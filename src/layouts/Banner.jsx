@@ -47,7 +47,7 @@ export default function Banner() {
                 </h1>
                 <p className="text-base md:text-xl opacity-90">{slide.desc}</p>
                 <Link
-                  href="/events"
+                  href="/browse-events"
                   className="inline-block bg-white text-black px-6 py-3 rounded-2xl font-semibold text-lg shadow-md hover:scale-105 hover:bg-gray-200 transition-all duration-300"
                 >
                   Browse Events
