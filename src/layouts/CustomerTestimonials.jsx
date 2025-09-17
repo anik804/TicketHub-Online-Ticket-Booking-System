@@ -3,9 +3,10 @@
 import React from "react";
 import Slider from "react-slick";
 import { FaStar } from "react-icons/fa";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
+import { motion } from "motion/react";
 
 export default function CustomerTestimonials() {
   const reviews = [
@@ -25,13 +26,22 @@ export default function CustomerTestimonials() {
     dots: true,
     infinite: true,
     speed: 600,
-    slidesToShow: 3,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 5000,
     responsive: [
+      {
+        breakpoint: 1024,
+        settings: { slidesToShow: 3 },
+      },
+      {
+        breakpoint: 640,
+        settings: { slidesToShow: 1 },
+      },
       { breakpoint: 1024, settings: { slidesToShow: 2 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
+
     ],
   };
 
@@ -40,10 +50,26 @@ export default function CustomerTestimonials() {
       <h1 className="pb-6 text-xl md:text-2xl font-semibold text-center">
         Customer Testimonials
       </h1>
+
+      <Slider className="py-2 review-slick" {...settings}>
+        {reviews.map((item, index) => (
+          <motion.div
+            initial={{ scale: 0.6, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{
+              duration: index < 5 ? (index + 1) * 0.4 : 0.8,
+              ease: "easeInOut",
+            }}
+            key={item.id}
+            className="py-2 px-3"
+          >
+            <div className="bg-white border border-gray-200 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
+
       <Slider {...settings}>
         {reviews.map((item) => (
           <div key={item.id} className="px-3">
             <div className="bg-white border border-gray-200 flex flex-col items-center rounded-xl shadow-md p-5 text-center min-h-[220px] hover:-translate-y-2 transition-transform duration-300 ease-in-out">
+
               <Image
                 src={item.photo}
                 alt={item.name}
@@ -58,9 +84,11 @@ export default function CustomerTestimonials() {
                   <FaStar key={i} className="text-[#FF0000]" />
                 ))}
               </div>
-              <p className="text-[#3D0000] italic">{item.review}</p>
+              <p className="text-[#3D0000] italic line-clamp-2">
+                {item.review}
+              </p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </Slider>
     </section>
