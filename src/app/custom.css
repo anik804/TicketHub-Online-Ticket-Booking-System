@@ -1,17 +1,51 @@
 /* Change inactive dots */
-.slick-dots li button:before {
+.review-slick .slick-dots li button:before {
   font-size: 12px;
   color: #950101;
   opacity: 0.3;
 }
 
 /* Change active dot */
-.slick-dots li.slick-active button:before {
+.review-slick .slick-dots li.slick-active button:before {
   color: #ff0000;
   opacity: 1;
 }
 
 /* Apply Transition */
 .custom-transition {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+/* Glow Border Spin */
+@keyframes glow-border-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.glow-border-spin {
+  animation: glow-border-spin 6s ease-in-out infinite;
+}
+
+@keyframes glow-text {
+  0%,
+  100% {
+    background: linear-gradient(to right, #ff0000, #950101, #950101);
+    background-clip: text;
+  }
+  25%,
+  75% {
+    background: linear-gradient(to right, #950101, #ff0000, #950101);
+    background-clip: text;
+  }
+  50% {
+    background: linear-gradient(to right, #950101, #950101, #ff0000);
+    background-clip: text;
+  }
+}
+
+.glow-text {
+  animation: glow-text 5s ease-in-out infinite;
 }
