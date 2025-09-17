@@ -1,9 +1,9 @@
 import CategorySection from "@/layouts/CategorySection";
 import Banner from "@/layouts/Banner";
-import CustomerTestimonials from "@/layouts/CustomerTestimonials";
+import CustomerTestimonials from "@/components/home/CustomerTestimonials";
 import HowItWorks from "@/layouts/HowItWorks";
 import Partners from "@/layouts/Partners";
-import SpecialOffers from "@/layouts/SpecialOffers";
+import SpecialOffers from "@/components/home/SpecialOffers";
 import WhyChooseUs from "@/layouts/WhyChooseUs";
 import Newsletter from "@/layouts/Newsletter";
 
