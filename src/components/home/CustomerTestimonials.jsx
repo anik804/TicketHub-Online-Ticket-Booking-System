@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 import { motion } from "motion/react";
+import HomeLayer from "@/ui/HomeLayer";
 
 export default function CustomerTestimonials() {
   // Dummy review data
@@ -105,10 +106,7 @@ export default function CustomerTestimonials() {
   };
 
   return (
-    <section className="w-full py-10 px-1 overflow-hidden">
-      <h1 className="pb-6 text-xl md:text-2xl font-semibold text-center">
-        Customer Testimonials
-      </h1>
+    <HomeLayer title="Customer Testimonials">
       <Slider className="py-2 review-slick" {...settings}>
         {reviews.map((item, index) => (
           <motion.div
@@ -121,13 +119,13 @@ export default function CustomerTestimonials() {
             key={item.id}
             className="py-2 px-3"
           >
-            <div className="bg-white border border-gray-200 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
+            <div className="bg-secondary/20 border border-secondary/30 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
               <Image
                 src={item.photo}
                 alt={item.name}
                 width={100}
                 height={100}
-                className="w-16 h-16 object-cover rounded-full mx-auto mb-3"
+                className="w-16 h-16 object-cover rounded-full mx-auto mb-3 shadow-sm"
               />
               <h2 className="font-bold text-lg">{item.name}</h2>
               <div className="flex justify-center my-2">
@@ -142,6 +140,6 @@ export default function CustomerTestimonials() {
           </motion.div>
         ))}
       </Slider>
-    </section>
+    </HomeLayer>
   );
 }
