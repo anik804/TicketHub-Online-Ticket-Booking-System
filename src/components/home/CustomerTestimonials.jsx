@@ -119,13 +119,13 @@ export default function CustomerTestimonials() {
             key={item.id}
             className="py-2 px-3"
           >
-            <div className="bg-white border border-gray-200 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
+            <div className="bg-secondary/20 border border-secondary/30 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
               <Image
                 src={item.photo}
                 alt={item.name}
                 width={100}
                 height={100}
-                className="w-16 h-16 object-cover rounded-full mx-auto mb-3"
+                className="w-16 h-16 object-cover rounded-full mx-auto mb-3 shadow-sm"
               />
               <h2 className="font-bold text-lg">{item.name}</h2>
               <div className="flex justify-center my-2">

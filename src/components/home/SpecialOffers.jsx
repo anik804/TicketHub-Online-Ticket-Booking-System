@@ -49,13 +49,13 @@ export default function SpecialOffers() {
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: (index + 1) * 0.3, ease: "easeInOut" }}
             key={index}
-            className="p-[1px] rounded-[8px] shadow-md hover:shadow-[#95010133] hover:scale-102 hover:rotate-3 custom-transition relative overflow-hidden"
+            className="p-[1px] rounded-[8px] shadow-md hover:shadow-secondary/30 hover:scale-102 hover:rotate-3 custom-transition relative overflow-hidden "
           >
-            <div className="absolute top-0 right-0 bg-transparent w-full h-full z-1 scale-200 bg-gradient-to-l from-[#FF0000] to-[40%] to-transparent glow-border-spin" />
+            <div className="absolute top-0 right-0 bg-transparent w-full h-full z-1 scale-200 bg-gradient-to-l from-secondary to-[40%] to-transparent glow-border-spin" />
 
-            <div className="flex visible flex-col items-center justify-center bg-white rounded-[7px] relative z-2 p-4">
+            <div className="flex visible flex-col items-center justify-center bg-base-200 rounded-[7px] relative z-2 p-4">
               <h2 className="text-2xl font-bold mb-2">{event.title}</h2>
-              <p className="text-lg text-[#3D0000] bg-[#FF000011] rounded-lg py-1 px-3 my-2 shadow">
+              <p className="text-lg text-primary bg-primary/20 rounded-lg py-1 px-3 my-2 shadow">
                 {event.date}
               </p>
               <p className="text-xl font-semibold">{event.location}</p>
