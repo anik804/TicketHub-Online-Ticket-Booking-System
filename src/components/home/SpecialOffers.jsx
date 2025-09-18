@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import HomeLayer from "@/ui/HomeLayer";
+import { BsCalendarDate } from "react-icons/bs";
 
 export default function SpecialOffers() {
   // Dummy event data
@@ -54,9 +55,12 @@ export default function SpecialOffers() {
             <div className="absolute top-0 right-0 bg-transparent w-full h-full z-1 scale-200 bg-gradient-to-l from-secondary to-[40%] to-transparent glow-border-spin" />
 
             <div className="flex visible flex-col items-center justify-center bg-base-200 rounded-[7px] relative z-2 p-4">
+            <span className="inline-block text-2xl lg:text-3xl text-transparent bg-[#950101] font-bold glow-text mt-2 mb-4">
+                {event.discount}
+              </span>
               <h2 className="text-2xl font-bold mb-2">{event.title}</h2>
-              <p className="text-lg text-primary bg-primary/20 rounded-lg py-1 px-3 my-2 shadow">
-                {event.date}
+              <p className="text-lg rounded-lg py-1 px-3 my-2 shadow flex items-center gap-2">
+              <BsCalendarDate /> {event.date}
               </p>
               <p className="text-xl font-semibold">{event.location}</p>
               <motion.p 
@@ -68,12 +72,10 @@ export default function SpecialOffers() {
                 repeatType: "reverse",
                 ease: "linear",
               }}
-              className="my-2 font-semibold text-[#FF0000] text-2xl">
-                ৳{event.price}
+              className="my-3 font-semibold text-[#FF0000] text-2xl">
+                Only Taka {event.price}
               </motion.p>
-              <span className="inline-block mt-1 text-2xl text-transparent bg-[#950101] font-bold glow-text">
-                {event.discount}
-              </span>
+              
             </div>
           </motion.div>
         ))}

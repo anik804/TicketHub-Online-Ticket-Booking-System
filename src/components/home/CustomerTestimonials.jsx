@@ -119,7 +119,7 @@ export default function CustomerTestimonials() {
             key={item.id}
             className="py-2 px-3"
           >
-            <div className="bg-secondary/20 border border-secondary/30 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
+            <div className="bg-base-200 border border-secondary/30 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
               <Image
                 src={item.photo}
                 alt={item.name}
@@ -130,10 +130,10 @@ export default function CustomerTestimonials() {
               <h2 className="font-bold text-lg">{item.name}</h2>
               <div className="flex justify-center my-2">
                 {[...Array(item.rating)].map((_, i) => (
-                  <FaStar key={i} className="text-[#FF0000]" />
+                  <FaStar key={i} className="text-amber-400" />
                 ))}
               </div>
-              <p className="text-[#3D0000] italic line-clamp-2">
+              <p className="text-secondary italic line-clamp-2">
                 {item.review}
               </p>
             </div>
