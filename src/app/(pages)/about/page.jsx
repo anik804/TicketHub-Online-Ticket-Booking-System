@@ -86,7 +86,7 @@ export default function AboutUs() {
         </p>
         <a
           href="/browse-events"
-          className="inline-block bg-blue-600 hover:bg-blue-700 transition-colors duration-300 text-white font-semibold px-6 py-3 rounded-2xl shadow-md"
+          className="inline-block bg-black transition-colors duration-300 text-white font-semibold px-6 py-3 rounded-md shadow-md"
         >
           Browse Events
         </a>
