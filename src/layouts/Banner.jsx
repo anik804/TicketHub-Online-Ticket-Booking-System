@@ -39,9 +39,11 @@ export default function Banner() {
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-6 h-full
+            <div
+              className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-6 h-full
                             bg-gradient-to-b from-[#1a0000] via-[#4B0000] to-[#FF0000] text-white
-                            shadow-2xl overflow-hidden">
+                            shadow-2xl overflow-hidden"
+            >
               {/* Text Section */}
               <div className="text-center md:text-left space-y-6 max-w-lg flex-1">
                 <h1 className="text-3xl md:text-5xl font-bold leading-tight">
