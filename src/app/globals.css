@@ -11,7 +11,7 @@
   name: "light";
   --color-primary: #3d0000;
   --color-secondary: #950101;
-  --color-accent: #4b5563;
+  --color-accent: #111827;
   --color-base-100: #fcfaf2;
   --color-base-200: #fffbeb;
   --color-base-300: #1f2937;
@@ -21,7 +21,7 @@
   name: "dark";
   --color-primary: #3d0000;
   --color-secondary: #950101;
-  --color-accent: #1f2937;
+  --color-accent: #fcfaf2;
   --color-base-100: #080a0f;
   --color-base-200: #111827;
   --color-base-300: #fed7aa;

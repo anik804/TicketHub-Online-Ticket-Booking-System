@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import EventCard from "@/components/event/EvantCard";
 
-
 export default function BrowseEvents() {
   // Dummy event data (16 events)
   const dummyEvents = [
@@ -166,7 +165,7 @@ export default function BrowseEvents() {
   );
 
   return (
-    <section className="w-full bg-gray-50 text-gray-900 py-16 px-6 md:px-16">
+    <section className="w-full text-accent py-16 px-6 md:px-16">
       {/* Heading */}
       <motion.div
         className="text-center mb-12"
@@ -174,27 +173,27 @@ export default function BrowseEvents() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-3">
+        <h1 className="text-4xl text-accent md:text-5xl font-extrabold mb-3">
           Browse Events
         </h1>
-        <p className="text-lg md:text-xl max-w-2xl mx-auto text-gray-700">
+        <p className="text-lg md:text-xl max-w-2xl mx-auto">
           Find the perfect event for you and your friends
         </p>
       </motion.div>
 
       {/* Filter Row */}
-      <div className="w-full flex flex-col md:flex-row gap-4 mb-10 max-w-4xl mx-auto">
+      <div className="w-full lg:w-4/5 flex flex-col md:flex-row gap-6 mb-10 mx-auto">
         <input
           type="text"
           placeholder="Search events..."
-          className="border border-gray-300 rounded-lg p-3 w-full shadow-sm"
+          className="flex-2 h-12 text-lg border border-accent/30 rounded-sm p-3 w-full shadow-sm focus-within:outline-0 focus-within:shadow-md focus-within:border-secondary/50 focus-within:scale-104 custom-transition"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="border border-gray-300 rounded-lg p-3 w-full md:w-48 shadow-sm"
+          className="rounded-lg select h-12 text-lg flex-1 border border-accent/30 p-3 w-full shadow-sm focus-within:outline-0 focus-within:shadow-md focus-within:border-secondary/50 custom-transition"
         >
           <option value="">All Categories</option>
           <option>Concert</option>
