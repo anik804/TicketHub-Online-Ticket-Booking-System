@@ -26,7 +26,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-20 bg-[#000000] text-white">
+    <section className="py-20 text-white">
       <div className="max-w-7xl mx-auto px-6 text-center">
         {/* Section Title with animated colors */}
         <motion.h2
