@@ -79,7 +79,7 @@ export default function Register() {
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-3xl md:text-4xl font-extrabold text-gray-800 text-center mb-2"
+            className="text-3xl md:text-4xl font-extrabold  text-center mb-2 bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] bg-clip-text text-transparent"
           >
             Create Your Ticketing Account ✨
           </motion.h2>
@@ -203,7 +203,7 @@ export default function Register() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              className="w-full py-3 bg-gradient-to-r from-red-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-indigo-700 transition-all duration-300 shadow-md"
+              className="w-full py-3 rounded-md bg-gradient-to-r from-[#950101] to-[#FF0000] font-semibold hover:opacity-95 transition text-white"
             >
               Register
             </motion.button>
@@ -216,7 +216,7 @@ export default function Register() {
             className="mt-6 text-center text-gray-500 text-sm"
           >
             Already have an account?{" "}
-            <Link href="/auth/login" className="text-black font-medium hover:underline">
+            <Link href="/auth/login" className="text-orange-700 font-bold  hover:underline">
               Login here
             </Link>
           </motion.p>
