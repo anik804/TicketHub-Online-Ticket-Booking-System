@@ -1,11 +1,14 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
+import { MdDateRange } from "react-icons/md";
+import { FaLocationDot } from "react-icons/fa6";
 
 export default function EventCard({ event }) {
   return (
     <motion.div
-      className="relative border border-gray-300 rounded-xl shadow-md hover:shadow-lg overflow-hidden bg-white flex flex-col cursor-pointer group"
+      className="relative border border-gray-200 rounded-lg shadow-md hover:shadow-lg overflow-hidden bg-base-200 flex flex-col cursor-pointer group"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -23,12 +26,16 @@ export default function EventCard({ event }) {
       {/* Content */}
       <div className="p-4 flex flex-col flex-grow">
         <h2 className="text-lg font-semibold mb-1">{event.title}</h2>
-        <p className="text-sm text-gray-600">{event.date}</p>
-        <p className="text-sm text-gray-600">{event.location}</p>
-        <p className="my-2 text-xl font-bold text-secondary">৳{event.price}</p>
-        <span className="absolute top-2 left-2 mt-auto inline-block text-xs px-2 py-1 bg-secondary/20 text-secondary rounded-md w-fit">
+        <p className="text-sm flex items-center gap-2"><MdDateRange /> {event.date}</p>
+        <p className="text-sm flex items-center gap-2"><FaLocationDot />{event.location}</p>
+        <p className="mt-3  mb-5   flex items-center gap-2 text-2xl text-shadow-xs font-bold text-base-300 "><HiOutlineCurrencyBangladeshi /> {event.price}</p>
+        <span className="absolute top-2 right-2 mt-auto inline-block text-xs px-2 py-1 bg-amber-200 border border-amber-300 text-secondary rounded-md w-fit">
           {event.category}
         </span>
+
+        <button className="absolute bottom-2 right-2 btn btn-ghost mt-auto inline-block text-xs px-2 py-1 bg-base-200 text-secondary rounded-md w-fit">
+          View Details
+        </button>
       </div>
     </motion.div>
   );
