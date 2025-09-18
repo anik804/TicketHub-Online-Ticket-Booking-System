@@ -28,7 +28,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="w-full px-4 py-20 bg-[#000000] text-white">
+    <section className="w-full px-4 py-20 text-white">
       {/* Animated Heading */}
       <motion.h1
         className="pb-10 text-3xl md:text-4xl font-bold text-center"

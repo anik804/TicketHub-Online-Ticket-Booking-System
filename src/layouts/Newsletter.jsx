@@ -16,7 +16,7 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="relative text-white py-16 bg-[#000000]">
+    <section className="relative text-white py-16">
       {/*  Container */}
       <div className="max-w-[1280px] mx-auto xl:px-20 md:px-10 sm:px-4 px-6">
         {/*  Section Title */}
@@ -29,7 +29,7 @@ export default function Newsletter() {
           <h2 className="text-4xl md:text-5xl font-extrabold text-[#FF0000]">
             📰 Subscribe to Our Newsletter
           </h2>
-          <p className="text-gray-300 text-lg mt-3">
+          <p className="text-gray-500 text-lg mt-3">
             Get the latest event updates, early access to tickets, and special
             discounts — straight to your inbox!
           </p>
