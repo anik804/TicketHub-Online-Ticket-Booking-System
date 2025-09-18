@@ -1,31 +1,41 @@
-// components/Categories.jsx
 import Link from "next/link";
+import { Film, Music, Theater, Trophy, Airplay, Coffee } from "lucide-react";
 
 const categories = [
-  { name: "Movies", icon: "🎬", slug: "movies" },
-  { name: "Concerts", icon: "🎵", slug: "concerts" },
-  { name: "Theater", icon: "🎭", slug: "theater" },
-  { name: "Sports", icon: "🏆", slug: "sports" },
-  { name: "Travel/Transport", icon: "✈️", slug: "travel" },
-  { name: "Workshops & Food Events", icon: "🍴", slug: "workshops" },
+  { name: "Movies", icon: <Film size={40} />, slug: "movies" },
+  { name: "Concerts", icon: <Music size={40} />, slug: "concerts" },
+  { name: "Theater", icon: <Theater size={40} />, slug: "theater" },
+  { name: "Sports", icon: <Trophy size={40} />, slug: "sports" },
+  { name: "Travel/Transport", icon: <Airplay size={40} />, slug: "travel" },
+  { name: "Workshops & Food Events", icon: <Coffee size={40} />, slug: "workshops" },
 ];
 
 export default function Categories() {
   return (
-    <section className="w-full px-4 py-16">
-      <h1 className="pb-5 text-xl md:text-2xl font-semibold text-center">
+    <section className="w-full px-4 py-16 min-h-screen">
+
+      {/* Heading stays the same */}
+      <h1
+        className="pb-7 text-3xl md:text-3xl font-extrabold text-center
+                   bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
+                   bg-clip-text text-transparent"
+      >
         Explore by Categories
       </h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+
+      {/* Grid */}
+      <div className="grid pt-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-7xl mx-auto">
         {categories.map((cat, i) => (
           <Link
-            key={i}
-            href={`/categories/${cat.slug}`}
-            className="p-6 border bg-[#3D0000] rounded-lg shadow-md hover:shadow-lg flex flex-col items-center hover:scale-105 transition"
-          >
-            <span className="text-4xl">{cat.icon}</span>
-            <h2 className="mt-2 text-white font-semibold">{cat.name}</h2>
-          </Link>
+  key={i}
+  href={`/categories/${cat.slug}`}
+  className="p-6 border rounded-lg shadow-md hover:shadow-lg flex flex-col items-center hover:scale-105 transition
+             bg-gradient-to-br from-[#4d0000] via-[#a60000] to-[#ff4d4d] h-40" // h-72 height
+>
+  <span className="text-4xl text-white pt-4">{cat.icon}</span>
+  <h2 className="mt-2 text-white font-semibold text-center">{cat.name}</h2>
+</Link>
+
         ))}
       </div>
     </section>

@@ -48,7 +48,7 @@ export default function ContactPage() {
           transition={{ duration: 0.8 }}
           className="bg-orange-50 dark:bg-gray-800 p-10 rounded-3xl shadow-xl border border-orange-200 dark:border-gray-700"
         >
-          <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-gray-100">
+          <h2 className="text-3xl font-bold mb-3 text-gray-700 dark:text-gray-100">
             Send us a Message
           </h2>
           <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg">
@@ -107,7 +107,7 @@ export default function ContactPage() {
           className="space-y-8"
         >
           <div className="bg-orange-50 dark:bg-gray-700 p-8 rounded-3xl shadow-xl border border-orange-200 dark:border-gray-600">
-            <h2 className="text-2xl font-semibold mb-6 border-b border-orange-200 dark:border-gray-600 pb-2 text-gray-900 dark:text-gray-100">
+            <h2 className="text-3xl font-semibold mb-6 border-b border-orange-200 dark:border-gray-600 pb-2 text-gray-700 dark:text-gray-100">
               Contact Information
             </h2>
             <ul className="space-y-4 text-gray-900 dark:text-gray-100 text-base">
