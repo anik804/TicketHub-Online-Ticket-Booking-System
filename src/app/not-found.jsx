@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function NotFound() {
   const router = useRouter();
   return (
-    <div className="flex flex-col my-10 items-center justify-center min-h-screen bg-gradient-to-b  px-6 text-center">
+    <div className="flex flex-col my-10 items-center justify-center min-h-screen bg-gradient-to-b from-white via-orange-50 to-red-50   px-6 text-center">
       {/* 🎥 Lottie Animation */}
       <div id="book-lottie">
         <Lottie
