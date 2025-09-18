@@ -119,7 +119,7 @@ export default function CustomerTestimonials() {
             key={item.id}
             className="py-2 px-3"
           >
-            <div className="bg-base-200 border border-secondary/30 flex items-center flex-col rounded-xl shadow-md p-5  text-center h-58 hover:-translate-y-2 custom-transition">
+            <div className="bg-base-200 border border-secondary/30 flex items-center flex-col rounded-2xl shadow-md p-5 text-center h-58 hover:-translate-y-2 custom-transition">
               <Image
                 src={item.photo}
                 alt={item.name}
