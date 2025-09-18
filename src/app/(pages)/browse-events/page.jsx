@@ -186,14 +186,14 @@ export default function BrowseEvents() {
         <input
           type="text"
           placeholder="Search events..."
-          className="flex-2 h-12 text-lg border border-accent/30 rounded-sm p-3 w-full shadow-sm focus-within:outline-0 focus-within:shadow-md focus-within:border-secondary/50 focus-within:scale-104 custom-transition"
+          className="flex-2 h-12 text-lg border border-base-200 rounded-sm p-3 w-full shadow-sm focus-within:outline-0 focus-within:shadow-md focus-within:border-secondary/50 focus-within:scale-104 custom-transition"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="rounded-lg select h-12 text-lg flex-1 border border-accent/30 p-3 w-full shadow-sm focus-within:outline-0 focus-within:shadow-md focus-within:border-secondary/50 custom-transition"
+          className="rounded-lg select h-12 text-lg flex-1 border border-base-200 p-3 w-full shadow-sm focus-within:outline-0 focus-within:shadow-md focus-within:border-secondary/50 custom-transition"
         >
           <option value="">All Categories</option>
           <option>Concert</option>
