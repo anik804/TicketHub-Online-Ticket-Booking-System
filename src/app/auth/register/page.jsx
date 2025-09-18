@@ -4,17 +4,64 @@ import { useState } from "react";
 import Link from "next/link";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
-import registerAnimation from "../../../../public/animations/register.json"; // replace with your Lottie file
+import { signIn } from "next-auth/react";
+import registerAnimation from "../../../../public/animations/register.json"; // Lottie animation
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    photo: "",
+    role: "User",
+    terms: false,
+  });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Register submitted:", { name, email, password });
-    // TODO: Add registration logic
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    if (!formData.terms) {
+      alert("You must agree to the Terms & Conditions.");
+      return;
+    }
+
+    // NextAuth registration logic (example with credentials)
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        // Automatically login after registration
+        await signIn("credentials", {
+          redirect: true,
+          email: formData.email,
+          password: formData.password,
+        });
+      } else {
+        const error = await res.json();
+        alert(error.message || "Registration failed");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong!");
+    }
   };
 
   return (
@@ -22,11 +69,7 @@ export default function Register() {
       <div className="w-full max-w-5xl bg-white shadow-2xl rounded-2xl flex flex-col md:flex-row overflow-hidden border border-gray-100">
         {/* Left Animation */}
         <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-red-50 to-indigo-50 items-center justify-center p-6">
-          <Lottie
-            animationData={registerAnimation}
-            loop={true}
-            className="w-80 h-80"
-          />
+          <Lottie animationData={registerAnimation} loop={true} className="w-80 h-80" />
         </div>
 
         {/* Right Form */}
@@ -48,24 +91,17 @@ export default function Register() {
             transition={{ duration: 1, delay: 0.3 }}
             className="text-center text-gray-500 mb-6"
           >
-            Join now and unlock a seamless way to book events, concerts, and
-            shows — anytime, anywhere 🎟️
+            Join now and unlock a seamless way to book events, concerts, and shows — anytime, anywhere 🎟️
           </motion.p>
 
-          {/* Register Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Full Name
-              </label>
+              <label className="block text-sm font-medium text-gray-600">Full Name</label>
               <input
-                id="name"
+                name="name"
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={handleChange}
                 placeholder="Enter your full name"
                 required
                 className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -73,17 +109,12 @@ export default function Register() {
             </div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Email Address
-              </label>
+              <label className="block text-sm font-medium text-gray-600">Email Address</label>
               <input
-                id="email"
+                name="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Enter your email"
                 required
                 className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -91,21 +122,81 @@ export default function Register() {
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-600">Phone Number</label>
               <input
-                id="password"
+                name="phone"
+                type="text"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Enter your phone number"
+                required
+                className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-600">Password</label>
+              <input
+                name="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="Create a password"
                 required
                 className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-600">Confirm Password</label>
+              <input
+                name="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm password"
+                required
+                className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-600">Photo URL</label>
+              <input
+                name="photo"
+                type="text"
+                value={formData.photo}
+                onChange={handleChange}
+                placeholder="Photo URL"
+                className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-600">Role</label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="User">User</option>
+                <option value="Organizer">Organizer</option>
+              </select>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                name="terms"
+                type="checkbox"
+                checked={formData.terms}
+                onChange={handleChange}
+                required
+                className="h-4 w-4 accent-indigo-600"
+              />
+              <label className="text-gray-600 text-sm">
+                I agree to the <Link href="/terms" className="text-black hover:underline">Terms & Conditions</Link>
+              </label>
             </div>
 
             <motion.button
@@ -118,7 +209,6 @@ export default function Register() {
             </motion.button>
           </form>
 
-          {/* Footer Text */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -126,10 +216,7 @@ export default function Register() {
             className="mt-6 text-center text-gray-500 text-sm"
           >
             Already have an account?{" "}
-            <Link
-              href="/auth/login"
-              className="text-black font-medium hover:underline"
-            >
+            <Link href="/auth/login" className="text-black font-medium hover:underline">
               Login here
             </Link>
           </motion.p>
