@@ -26,3 +26,10 @@
   --color-base-200: #111827;
   --color-base-300: #293542;
 }
+
+
+/* Custom Tailwind */
+
+.custom-card {
+  @apply relative bg-base-200 rounded-2xl shadow-md ;
+}
