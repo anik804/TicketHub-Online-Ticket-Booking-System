@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import EventCard from "@/components/event/EvantCard";
+import { FaSearch } from "react-icons/fa";
 
 export default function BrowseEvents() {
   // Dummy event data (16 events)
@@ -173,7 +174,7 @@ export default function BrowseEvents() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-4xl text-accent md:text-5xl font-extrabold mb-3">
+        <h1 className="text-4xl bg-gradient-to-r from-accent via-accent to-secondary w-fit mx-auto md:text-5xl font-extrabold mb-3 text-transparent bg-clip-text">
           Browse Events
         </h1>
         <p className="text-lg md:text-xl max-w-2xl mx-auto">
@@ -183,6 +184,10 @@ export default function BrowseEvents() {
 
       {/* Filter Row */}
       <div className="w-full lg:w-4/5 flex flex-col md:flex-row gap-6 mb-10 mx-auto">
+      <span className="size-12 text-2xl border border-base-200 rounded-sm shadow-sm flex items-center justify-center text-base-300">
+      <FaSearch />
+      </span>
+      
         <input
           type="text"
           placeholder="Search events..."
