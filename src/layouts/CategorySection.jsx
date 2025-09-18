@@ -17,7 +17,9 @@ export default function CategorySection() {
       <div className="max-w-6xl mx-auto px-6 text-center">
         {/* Section Title */}
         <motion.h2
-          className="text-4xl font-bold mb-12 text-[#FF0000]"
+          className="text-4xl font-extrabold mb-12 text-center
+                     bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
+                     bg-clip-text text-transparent"
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -29,16 +31,23 @@ export default function CategorySection() {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {categories.map((category, index) => (
             <motion.div
-              key={category.id}
-              className="bg-[#3D0000] rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer shadow-lg hover:shadow-2xl transition duration-300"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05, backgroundColor: "#950101" }}
-            >
-              <div className="text-[#FF0000] mb-4">{category.icon}</div>
-              <h3 className="text-lg font-semibold text-white">{category.title}</h3>
+  key={category.id}
+  className="group relative rounded-3xl overflow-hidden shadow-lg
+             p-6 flex flex-col items-center justify-center cursor-pointer
+             bg-gradient-to-br from-[#FF7F50] via-[#FF4500] to-[#FF0000]
+             border-[1px] border-transparent hover:border-[1px] hover:border-gradient-to-r 
+             hover:from-[#ff7f50] hover:via-#ffa07a] hover:to-[#ffd1a4]
+             transition-all duration-300"
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: index * 0.1 }}
+  whileHover={{ scale: 1.05, boxShadow: "0px 15px 30px rgba(255, 99, 71, 0.4)" }}
+>
+  <div className="text-white mb-4">{category.icon}</div>
+  <h3 className="text-lg text-white font-semibold ">{category.title}</h3>
             </motion.div>
+
+
           ))}
         </div>
       </div>

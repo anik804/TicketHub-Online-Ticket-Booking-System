@@ -49,24 +49,26 @@ export default function HowItWorks() {
         {/* Steps Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {steps.map((step, index) => (
-            <motion.div
-              key={step.id}
-              className="w-full bg-[#3D0000] rounded-2xl p-8 shadow-md hover:shadow-2xl flex flex-col items-center text-center border border-[#95010133]"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              whileHover={{
-                scale: 1.05,
-                rotate: 1,
-                boxShadow: "0px 10px 30px rgba(255,0,0,0.4)",
-              }}
-            >
-              <div className="flex justify-center items-center mb-6 text-[#FF0000]">
-                {step.icon}
-              </div>
-              <h3 className="text-xl font-semibold text-[#FF0000] mb-3">{step.title}</h3>
-              <p className="text-gray-300">{step.description}</p>
-            </motion.div>
+           <motion.div
+  key={step.id}
+  className="group relative rounded-3xl overflow-hidden shadow-lg
+             p-8 flex flex-col items-center text-center
+             bg-gradient-to-br from-[#FF7F50] via-[#FF4500] to-[#FF0000]
+             border-[1px] border-transparent hover:border-[1px] hover:border-gradient-to-r 
+             hover:from-[#ff7f50] hover:via-[#ffa07a] hover:to-[#ffd1a4]
+             transition-all duration-300"
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: index * 0.2 }}
+  whileHover={{ scale: 1.05, boxShadow: "0px 15px 30px rgba(255, 99, 71, 0.4)" }}
+>
+  <div className="flex justify-center items-center mb-6 text-white">
+    {step.icon}
+  </div>
+  <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
+  <p className="text-white/80">{step.description}</p>
+          </motion.div>
+
           ))}
         </div>
       </div>
