@@ -55,19 +55,38 @@ export default function Footer() {
 
         {/* Social */}
         <nav>
-          <h6 className="footer-title text-gray-400 mb-2">Social</h6>
-          <div className="flex gap-4 mt-2">
-            <a className="text-gray-400 hover:text-[#FF0000] transition-colors" aria-label="Facebook">
-              <Facebook size={24} />
-            </a>
-            <a className="text-gray-400 hover:text-[#FF0000] transition-colors" aria-label="Twitter">
-              <Twitter size={24} />
-            </a>
-            <a className="text-gray-400 hover:text-[#FF0000] transition-colors" aria-label="Instagram">
-              <Instagram size={24} />
-            </a>
-          </div>
+  <h6 className="footer-title text-gray-400 mb-2">Social</h6>
+  <div className="flex gap-4 mt-2">
+    <a
+      href="https://www.facebook.com/TicketHubDemo"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-gray-400 hover:text-[#FF0000] transition-colors"
+      aria-label="Facebook"
+    >
+      <Facebook size={24} />
+    </a>
+    <a
+      href="https://twitter.com/TicketHubDemo"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-gray-400 hover:text-[#FF0000] transition-colors"
+      aria-label="Twitter"
+    >
+      <Twitter size={24} />
+    </a>
+    <a
+      href="https://www.instagram.com/TicketHubDemo"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-gray-400 hover:text-[#FF0000] transition-colors"
+      aria-label="Instagram"
+    >
+      <Instagram size={24} />
+    </a>
+  </div>
         </nav>
+
       </footer>
 
       {/* Bottom Footer */}
