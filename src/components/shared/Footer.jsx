@@ -9,7 +9,7 @@ export default function Footer() {
 
   const companyLinks = [
     { href: "/about", label: "About us" },
-    { href: "/contacts", label: "Contact" },
+    { href: "/Contacts", label: "Contact" },
     { href: "/refund-policy", label: "Refund Policy" },
     { href: "/terms", label: "Terms & Conditions" },
   ];
@@ -19,12 +19,21 @@ export default function Footer() {
       <footer className="footer sm:footer-horizontal bg-[#000000] text-base-content p-10">
         {/* Services */}
         <nav>
-          <h6 className="footer-title text-gray-400">Services</h6>
-          <p className="text-gray-400">Online Ticket Booking</p>
-          <p className="text-gray-400">Real-time Seat Selection</p>
-          <p className="text-gray-400">Secure Payment</p>
-          <p className="text-gray-400">E-Ticket with QR Code</p>
-        </nav>
+  <h6 className="footer-title text-gray-400">Services</h6>
+  <p className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
+    Online Ticket Booking
+  </p>
+  <p className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
+    Real-time Seat Selection
+  </p>
+  <p className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
+    Secure Payment
+  </p>
+  <p className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
+    E-Ticket with QR Code
+  </p>
+</nav>
+
 
         {/* Company */}
         <nav>
@@ -35,7 +44,7 @@ export default function Footer() {
               href={link.href}
               className={`${
                 pathname === link.href
-                  ? "text-[#FF0000] font-semibold border-b-2 border-[#FF0000]"
+                  ? "text-[#FF0000] font-semibold  border-[#FF0000]"
                   : "text-gray-400 hover:text-[#FF0000]"
               }`}
             >
