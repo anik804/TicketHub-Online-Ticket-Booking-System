@@ -106,7 +106,8 @@ export default function CustomerTestimonials() {
   };
 
   return (
-    <HomeLayer title="Customer Testimonials">
+    <section className="max-w-7xl mx-auto px-6">
+      <HomeLayer title="Customer Testimonials">
       <Slider className="py-2 review-slick" {...settings}>
         {reviews.map((item, index) => (
           <motion.div
@@ -117,9 +118,9 @@ export default function CustomerTestimonials() {
               ease: "easeInOut",
             }}
             key={item.id}
-            className="py-2 px-3"
+            className="py-2  px-3"
           >
-            <div className="custom-card border border-secondary/30 flex items-center flex-col p-5 text-center h-58 hover:-translate-y-2 custom-transition">
+            <div className="custom-card border border-secondary/30 flex items-center  flex-col p-5 text-center h-62 hover:-translate-y-2 custom-transition ">
               <Image
                 src={item.photo}
                 alt={item.name}
@@ -141,5 +142,6 @@ export default function CustomerTestimonials() {
         ))}
       </Slider>
     </HomeLayer>
+    </section>
   );
 }

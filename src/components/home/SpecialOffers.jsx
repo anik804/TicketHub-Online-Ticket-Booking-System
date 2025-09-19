@@ -42,8 +42,9 @@ export default function SpecialOffers() {
   ];
 
   return (
-    <HomeLayer title="Special Offers">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+    <section className="max-w-7xl mx-auto px-6">
+      <HomeLayer title="Special Offers ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 ">
         {events.map((event, index) => (
           <motion.div
             initial={{ opacity: 0, scale: 0.7 }}
@@ -81,5 +82,6 @@ export default function SpecialOffers() {
         ))}
       </div>
     </HomeLayer>
+    </section>
   );
 }
