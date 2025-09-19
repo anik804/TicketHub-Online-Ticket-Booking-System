@@ -3,6 +3,7 @@
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const slides = [
   {
@@ -78,14 +79,14 @@ export default function Banner() {
                 {slide.desc}
               </motion.p>
 
-              <motion.button
-                className="mt-6 bg-white text-black px-6 py-3 rounded-2xl font-semibold text-lg shadow-md hover:scale-105 transition-transform duration-300"
+              <Link href={'/browse-events'}
+                className="mt-6 btn bg-white text-black px-6 py-3 rounded-2xl font-semibold text-lg shadow-md hover:scale-105 transition-transform duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
                 Browse Events
-              </motion.button>
+              </Link>
             </motion.div>
           </div>
         ))}
