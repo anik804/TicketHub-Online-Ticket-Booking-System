@@ -62,7 +62,7 @@ export default function Banner() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <motion.h1
-                className="text-3xl md:text-5xl font-bold leading-tight drop-shadow-lg"
+                className="text-3xl text-gray-300 md:text-5xl font-bold leading-tight drop-shadow-lg"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -71,7 +71,7 @@ export default function Banner() {
               </motion.h1>
 
               <motion.p
-                className="text-lg md:text-xl mt-4 opacity-90 drop-shadow-md"
+                className="text-lg text-gray-300 md:text-xl mt-4 opacity-90 drop-shadow-md"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -80,7 +80,7 @@ export default function Banner() {
               </motion.p>
 
               <Link href={'/browse-events'}
-                className="mt-6 btn bg-white text-black px-6 py-3 rounded-2xl font-semibold text-lg shadow-md hover:scale-105 transition-transform duration-300"
+                className="mt-6 btn bg-black text-gray-400 px-6 py-3 rounded-md font-semibold text-lg shadow-md hover:scale-105 transition-transform duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}

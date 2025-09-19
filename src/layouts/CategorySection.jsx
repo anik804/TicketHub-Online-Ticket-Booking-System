@@ -14,7 +14,7 @@ const categories = [
 export default function CategorySection() {
   return (
     <section className="py-20">
-      <div className="max-w-6xl mx-auto px-6 text-center">
+      <div className="max-w-7xl mx-auto px-6 text-center">
         {/* Section Title */}
         <motion.h2
           className="text-4xl font-extrabold mb-12 text-center
@@ -34,7 +34,7 @@ export default function CategorySection() {
   key={category.id}
   className="group relative rounded-3xl overflow-hidden shadow-lg
              p-6 flex flex-col items-center justify-center cursor-pointer
-             bg-gradient-to-br from-[#FF7F50] via-[#FF4500] to-[#FF0000]
+             bg-gradient-to-br from-[#4d0000] via-[#a60000] to-[#ff4d4d] h-40 
              border-[1px] border-transparent hover:border-[1px] hover:border-gradient-to-r 
              hover:from-[#ff7f50] hover:via-#ffa07a] hover:to-[#ffd1a4]
              transition-all duration-300"
