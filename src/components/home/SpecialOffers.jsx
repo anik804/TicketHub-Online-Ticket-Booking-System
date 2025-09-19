@@ -50,12 +50,12 @@ export default function SpecialOffers() {
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: (index + 1) * 0.3, ease: "easeInOut" }}
             key={index}
-            className="p-[1px] rounded-[8px] shadow-md hover:shadow-secondary/30 hover:scale-102 hover:rotate-3 custom-transition relative overflow-hidden "
+            className="custom-card p-[0.1rem] hover:shadow-secondary/30 hover:scale-102 hover:rotate-3 custom-transition overflow-hidden"
           >
-            <div className="absolute top-0 right-0 bg-transparent w-full h-full z-1 scale-200 bg-gradient-to-l from-secondary to-[40%] to-transparent glow-border-spin" />
+            <div className="absolute top-0 right-0 bg-transparent w-full h-full z-1 scale-200 bg-gradient-to-b from-secondary to-[40%] to-transparent glow-border-spin conic-div" />
 
-            <div className="flex visible flex-col items-center justify-center bg-base-200 rounded-[7px] relative z-2 p-4">
-            <span className="inline-block text-2xl lg:text-3xl text-transparent bg-[#950101] font-bold glow-text mt-2 mb-4">
+            <div className="flex flex-col items-center justify-center bg-base-200 rounded-[16px] relative z-2 p-4">
+            <span className="inline-block text-2xl lg:text-3xl text-transparent font-bold glow-text mt-2 mb-4">
                 {event.discount}
               </span>
               <h2 className="text-2xl font-bold mb-2">{event.title}</h2>
@@ -72,7 +72,7 @@ export default function SpecialOffers() {
                 repeatType: "reverse",
                 ease: "linear",
               }}
-              className="my-3 font-semibold text-[#FF0000] text-2xl">
+              className="my-3 font-semibold text-secondary text-2xl">
                 Only Taka {event.price}
               </motion.p>
               

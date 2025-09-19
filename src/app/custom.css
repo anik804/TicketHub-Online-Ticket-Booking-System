@@ -11,7 +11,7 @@
   opacity: 1;
 }
 
-/* Apply Transition */
+/* Custom  */
 .custom-transition {
   transition: all 0.4s ease-in-out;
 }
@@ -50,3 +50,6 @@
   animation: glow-text 5s ease-in-out infinite;
 }
 
+.conic-div {
+  clip-path: polygon(48% 75%, 26% 0, 71% 0);
+}
