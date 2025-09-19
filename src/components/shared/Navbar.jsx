@@ -2,14 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { data: session, status } = useSession();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const links = [
     { href: "/", label: "Home" },
@@ -36,8 +38,17 @@ export default function Navbar() {
     ));
 
   const handleLogout = async () => {
-    toast.success("Successfully logged out 👋");
-    await signOut({ callbackUrl: "/" });
+    try {
+      setIsLoggingOut(true);
+      await signOut({ redirect: false }); // Prevent automatic redirect
+      toast.success("Successfully logged out 👋");
+      router.push("/"); // Manual redirect to home
+    } catch (error) {
+      toast.error("Logout failed 😢");
+      console.error(error);
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
   return (
@@ -124,8 +135,12 @@ export default function Navbar() {
                   <Link href="/dashboard">Dashboard</Link>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className="text-red-600">
-                    Logout
+                  <button
+                    onClick={handleLogout}
+                    className={`text-red-600 ${isLoggingOut ? "opacity-50 cursor-not-allowed" : ""}`}
+                    disabled={isLoggingOut}
+                  >
+                    {isLoggingOut ? "Logging out..." : "Logout"}
                   </button>
                 </li>
               </ul>
