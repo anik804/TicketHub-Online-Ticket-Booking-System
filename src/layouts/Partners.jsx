@@ -35,7 +35,7 @@ export default function Partners() {
         {partners.map((p, i) => (
           <motion.div
             key={i}
-            className="p-6 bg-[#3D0000] border border-[#95010133] rounded-xl shadow-md flex justify-center items-center"
+            className="p-6 bg-gradient-to-br from-[#4d0000] via-[#a60000] to-[#ff4d4d] h-40 border border-[#95010133] rounded-xl shadow-md flex justify-center items-center"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: i * 0.2 }}
