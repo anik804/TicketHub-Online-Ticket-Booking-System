@@ -14,37 +14,54 @@ export const authOptions = {
       async authorize(credentials) {
         const Users = dbConnect("Users");
 
-        // Find user by email
         const user = await Users.findOne({ email: credentials.email });
-        if (!user) {
-          throw new Error("No user found with this email");
-        }
+        if (!user) throw new Error("No user found with this email");
 
-        // Compare hashed password
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-        if (!isValid) {
-          throw new Error("Invalid password");
-        }
+        const isValid = await bcrypt.compare(credentials.password, user.password);
+        if (!isValid) throw new Error("Invalid password");
 
         return {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
           role: user.role,
-          photo: user.photo || null,
+          image: user.photo || "/images/placeholder-image.svg", // map photo to image
         };
       },
     }),
   ],
+
   session: {
     strategy: "jwt",
   },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.role = user.role;
+        token.image = user.image; // store image in token
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.role = token.role;
+        session.user.image = token.image; // map token.image to session.user.image
+      }
+      return session;
+    },
+  },
+
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
   },
+
   pages: {
     signIn: "/auth/login",
   },
