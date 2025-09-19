@@ -16,7 +16,7 @@ export default function Categories() {
 
       {/* Heading stays the same */}
       <h1
-        className="pb-7 text-3xl md:text-3xl font-extrabold text-center
+        className="pb-7 text-4xl md:text-5xl font-extrabold text-center
                    bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
                    bg-clip-text text-transparent"
       >
