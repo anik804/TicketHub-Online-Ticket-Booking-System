@@ -132,7 +132,7 @@ export default function Navbar() {
                   <Link href="/profile">Profile</Link>
                 </li>
                 <li>
-                  <Link href="/dashboard">Dashboard</Link>
+                  <Link href={`/dashboard/${session.user.role.toLowerCase()}`}>Dashboard</Link>
                 </li>
                 <li>
                   <button
