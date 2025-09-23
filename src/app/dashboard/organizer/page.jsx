@@ -4,6 +4,8 @@ import DashboardLayout from "../components/DashboardLayout";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import ManageEvents from "./managements/page";
+
 
 export default function OrganizerDashboard() {
   const { data: session } = useSession();
@@ -60,6 +62,7 @@ export default function OrganizerDashboard() {
             <p className="text-gray-600 text-2xl">${stats.totalProfit}</p>
           </motion.div>
         </div>
+       <ManageEvents/>
       </motion.div>
     </DashboardLayout>
   );
