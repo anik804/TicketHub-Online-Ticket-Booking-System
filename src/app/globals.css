@@ -1,30 +1,28 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin "daisyui" {
+  themes: all;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@plugin "daisyui/theme" {
+  name: "light";
+  --color-primary: #3d0000;
+  --color-secondary: #950101;
+  --color-accent: #111827;
+  --color-base-100: #fcfaf2;
+  --color-base-200: #fffbeb;
+  --color-base-300: #1f2937;
 }
 
-/* Removed dark mode media query */
-/* 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-*/
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@plugin "daisyui/theme" {
+  name: "dark";
+  --color-primary: #3d0000;
+  --color-secondary: #950101;
+  --color-accent: #fcfaf2;
+  --color-base-100: #080a0f;
+  --color-base-200: #111827;
+  --color-base-300: #fed7aa;
 }

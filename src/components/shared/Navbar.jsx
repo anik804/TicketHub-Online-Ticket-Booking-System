@@ -13,7 +13,7 @@ export default function Navbar() {
     { href: "/browse-events", label: "Browse Events" },
     { href: "/categories", label: "Categories" },
     { href: "/about", label: "About" },
-    { href: "/contacts", label: "Contacts" },
+    { href: "/Contacts", label: "Contacts" },
   ];
 
   const navItems = () => (
@@ -61,7 +61,7 @@ export default function Navbar() {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn  border border-gray-600 bg-[#000000] text-gray-400 rounded-md shadow-none">Login</a>
+    <Link href="/auth/login" className="btn  border border-gray-600 bg-[#000000] text-gray-400 rounded-md shadow-none">Login</Link>
   </div>
 </div></div>
   )

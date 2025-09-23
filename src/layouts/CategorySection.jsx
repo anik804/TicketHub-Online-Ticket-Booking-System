@@ -13,7 +13,7 @@ const categories = [
 
 export default function CategorySection() {
   return (
-    <section className="py-20 bg-[#000000]">
+    <section className="py-20">
       <div className="max-w-6xl mx-auto px-6 text-center">
         {/* Section Title */}
         <motion.h2
