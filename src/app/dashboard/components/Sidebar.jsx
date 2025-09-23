@@ -4,19 +4,37 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-const links = [
-  { label: "Overview", href: "overview" },
-  { label: "Events", href: "events" },
-  { label: "Settings", href: "settings" },
-  { label: "Analytics", href: "analytics" },
-];
+const linksConfig = {
+  user: [
+    { label: "Overview", href: "overview" },
+    { label: "My Tickets", href: "tickets" },
+    { label: "Profile", href: "profile" },
+    { label: "Settings", href: "settings" },
+  ],
+  organizer: [
+    { label: "Overview", href: "overview" },
+    { label: "Events", href: "events" },
+    { label: "Add Event", href: "add-event" },
+    { label: "Manage Events", href: "managements" },
+    { label: "Analytics", href: "analytics" },
+  ],
+  admin: [
+    { label: "Overview", href: "overview" },
+    { label: "All Users", href: "users" },
+    { label: "All Events", href: "events" },
+    { label: "Payments", href: "payments" },
+    { label: "Reports", href: "reports" },
+    { label: "Settings", href: "settings" },
+  ],
+};
 
 export default function Sidebar({ role }) {
   const pathname = usePathname();
+  const links = linksConfig[role.toLowerCase()] || [];
 
   return (
     <aside className="w-64 bg-gradient-to-b from-red-900 to-red-600 min-h-screen p-6 text-white">
-      <h2 className="text-2xl font-bold mb-8">{role} Dashboard</h2>
+      <h2 className="text-2xl font-bold mb-8 capitalize">{role} Dashboard</h2>
       <ul className="flex flex-col gap-4">
         {links.map((link) => (
           <motion.li
