@@ -10,6 +10,7 @@ const links = [
   { label: "Manage Events", href: "Managements" },
   { label: "Settings", href: "settings" },
   { label: "Analytics", href: "analytics" },
+  { label: "Events Reminder", href: "eventsReminder" },
 ];
 
 export default function Sidebar({ role }) {
