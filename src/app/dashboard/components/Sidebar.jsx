@@ -9,6 +9,7 @@ const links = [
   { label: "Events", href: "events" },
   { label: "Settings", href: "settings" },
   { label: "Analytics", href: "analytics" },
+  { label: "Events Reminder", href: "eventsReminder" },
 ];
 
 export default function Sidebar({ role }) {

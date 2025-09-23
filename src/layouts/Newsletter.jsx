@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ export default function Newsletter() {
     e.preventDefault();
     if (!email) return alert("Please enter a valid email.");
     console.log("Subscribed with:", email); // Replace with API call
-    alert("✅ Thank you for subscribing!");
+    toast("✅ Thank you for subscribing!");
     setEmail("");
   };
 
@@ -95,7 +96,7 @@ export default function Newsletter() {
               />
               <motion.button
                 type="submit"
-                className="bg-gradient-to-r from-[#950101] to-[#FF0000] text-white 
+                className="bg-gradient-to-r btn from-[#950101] to-[#FF0000] text-white 
                            px-6 py-3 rounded-xl font-semibold text-lg shadow-md 
                            transition-all duration-300 hover:scale-105"
                 whileTap={{ scale: 0.95 }}
