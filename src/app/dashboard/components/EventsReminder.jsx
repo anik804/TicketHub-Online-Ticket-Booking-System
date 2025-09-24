@@ -10,22 +10,28 @@ export default function EventsReminder() {
   const [eventName, setEventName] = useState("");
   const [date, setDate] = useState("");
 
-  const handleSendReminder = (e) => {
-    e.preventDefault();
+const handleSendReminder = async (e) => {
+  e.preventDefault();
 
-    const newReminder = {
-      id: Date.now(),
-      email,
-      eventName,
-      date,
-      status: "Sent ✅",
-    };
+  const newReminder = { email, eventName, date, status: "Sent ✅" };
 
-    setReminders([newReminder, ...reminders]);
-    setEmail("");
-    setEventName("");
-    setDate("");
-  };
+  // Send to API
+  const res = await fetch("/api/reminders", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newReminder),
+  });
+
+  if (res.ok) {
+    const saved = await res.json();
+    setReminders([saved, ...reminders]); // Update local state
+  }
+
+  setEmail("");
+  setEventName("");
+  setDate("");
+};
+
 
   return (
     <section className="max-w-5xl mx-auto p-6 space-y-10">
