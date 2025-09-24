@@ -2,7 +2,6 @@
 
 import React from "react";
 
-
 import Sidebar from "../../components/Sidebar";
 import EventsReminder from "../../components/EventsReminder";
 
