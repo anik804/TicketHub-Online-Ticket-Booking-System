@@ -1,31 +1,27 @@
-import { dbConnect } from "../../../../libs/dbConnect";
+import { MongoClient } from "mongodb";
 
-export async function PUT(req) {
-  try {
-    const { email, name, image } = await req.json();
-    if (!email || !name) {
-      return new Response(JSON.stringify({ error: "Email and name are required" }), { status: 400 });
-    }
+const uri = process.env.MONGODB_URI;
+const options = {};
 
-    const users = await dbConnect("Users"); // Make sure the collection name matches
+let client;
+let clientPromise;
 
-    // Convert email to lowercase to avoid case issues
-    const updated = await users.updateOne(
-      { email: email.toLowerCase() },
-      { $set: { name, image } }
-    );
+if (!process.env.MONGODB_URI) {
+  throw new Error("Please add your Mongo URI to .env.local");
+}
 
-    if (updated.matchedCount === 0) {
-      return new Response(JSON.stringify({ error: "User not found" }), { status: 404 });
-    }
-
-    if (updated.modifiedCount === 0) {
-      return new Response(JSON.stringify({ message: "No changes detected" }), { status: 200 });
-    }
-
-    return new Response(JSON.stringify({ message: "Profile updated successfully" }), { status: 200 });
-  } catch (error) {
-    console.error("Update API error:", error);
-    return new Response(JSON.stringify({ error: "Something went wrong" }), { status: 500 });
+if (process.env.NODE_ENV === "development") {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect();
   }
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
+
+export async function dbConnect() {
+  const client = await clientPromise;
+  return client.db(process.env.MONGODB_DB); // <-- returns db
 }
