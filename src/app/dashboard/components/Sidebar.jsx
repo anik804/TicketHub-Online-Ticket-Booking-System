@@ -21,10 +21,9 @@ const linksConfig = {
   admin: [
     { label: "Overview", href: "overview" },
     { label: "All Users", href: "users" },
-    { label: "All Events", href: "events" },
+    { label: "All Events", href: "Err" },
     { label: "Payments", href: "payments" },
-    { label: "Reports", href: "reports" },
-    { label: "Settings", href: "settings" },
+    { label: "Events Reminder", href: "eventsReminder" },
   ],
 };
 
