@@ -15,7 +15,7 @@ const linksConfig = {
     { label: "Overview", href: "overview" },
     { label: "Events", href: "events" },
     { label: "Add Event", href: "add-event" },
-    { label: "Manage Events", href: "managements" },
+    { label: "Manage Events", href: "Managements" },
     { label: "Analytics", href: "analytics" },
   ],
   admin: [
