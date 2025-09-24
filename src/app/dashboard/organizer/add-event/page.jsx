@@ -44,7 +44,7 @@ export default function AddEventPage() {
 
     try {
       
-      const res = await fetch("/api/organizer/events", {
+      const res = await fetch("/api/organizer/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
