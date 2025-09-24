@@ -27,6 +27,9 @@ const linksConfig = {
     { label: "Events Reminder", href: "eventsReminder" },
     { label: "Reports", href: "reports" },
     { label: "Settings", href: "settings" },
+    { label: "Payments", href: "payments" },
+    { label: "Events Reminder", href: "eventsReminder" },
+
   ],
 };
 
