@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
-import AllUser from "../../components/AllUser";
+import AllEvents from "../../components/AllEvents";
 
 function page() {
   return (
@@ -10,7 +10,7 @@ function page() {
 
       {/* Main Content Area */}
       <main className="flex-1 bg-gray-50 p-6">
-        <AllUser></AllUser>
+        <AllEvents></AllEvents>
       </main>
     </div>
   );
