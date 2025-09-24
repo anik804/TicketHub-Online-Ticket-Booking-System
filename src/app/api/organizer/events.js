@@ -2,7 +2,7 @@ import { dbConnect } from "@/lib/dbConnect";
 
 export default async function handler(req, res) {
   const { email } = req.query;
-  const collection = dbConnect("events");
+  const collection = await dbConnect("events");
 
   if (req.method === "GET") {
     try {
