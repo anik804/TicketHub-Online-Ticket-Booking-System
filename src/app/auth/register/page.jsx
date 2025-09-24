@@ -8,6 +8,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import registerAnimation from "../../../../public/animations/register.json";
+import SocialLogin from "../components/socialLogin";
 
 export default function Register() {
   const router = useRouter();
@@ -258,7 +259,6 @@ export default function Register() {
                 </Link>
               </label>
             </div>
-
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -268,7 +268,7 @@ export default function Register() {
               Register
             </motion.button>
           </form>
-
+          <SocialLogin></SocialLogin>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -75,13 +75,17 @@ export default function Login() {
             transition={{ duration: 1, delay: 0.3 }}
             className="text-center text-gray-500 mb-6"
           >
-            Access your e-tickets, manage bookings, and start your hassle-free travel experience.
+            Access your e-tickets, manage bookings, and start your hassle-free
+            travel experience.
           </motion.p>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-600"
+              >
                 Email Address
               </label>
               <input
@@ -96,7 +100,10 @@ export default function Login() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-600">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-600"
+              >
                 Password
               </label>
               <input
@@ -109,7 +116,14 @@ export default function Login() {
                 className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               />
             </div>
-
+            <div className="flex justify-end mt-2">
+              <Link
+                href="/auth/forgot-password"
+                className="text-sm text-orange-700 hover:underline"
+              >
+                Forgot Password?
+              </Link>
+            </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -127,7 +141,10 @@ export default function Login() {
             className="mt-6 text-center text-gray-500 text-sm"
           >
             Don’t have an account?{" "}
-            <Link href="/auth/register" className="text-orange-700 font-bold hover:underline">
+            <Link
+              href="/auth/register"
+              className="text-orange-700 font-bold hover:underline"
+            >
               Register here
             </Link>
           </motion.p>
