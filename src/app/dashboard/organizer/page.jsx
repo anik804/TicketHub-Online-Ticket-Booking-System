@@ -4,7 +4,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import ManageEvents from "./Managements/page";
+import ManageEvents from "./managements/page";
 
 
 export default function OrganizerDashboard() {
