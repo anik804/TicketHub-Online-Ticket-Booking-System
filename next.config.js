@@ -7,8 +7,12 @@ const nextConfig = {
         hostname: "i.pravatar.cc",
       },
       {
-        protocol: "https",
-        hostname: "i.ibb.co.com",
+        protocol: 'https',
+        hostname: 'i.ibb.co.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
       },
       {
         protocol: "https",
