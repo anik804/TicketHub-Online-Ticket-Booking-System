@@ -12,9 +12,13 @@ export async function DELETE(req) {
     }
 
     const collection = await dbConnect("events");
-    await collection.deleteOne({ _id: new ObjectId(eventId) });
+    const result = await collection.deleteOne({ _id: new ObjectId(eventId) });
 
-    return NextResponse.json({ message: "Event deleted" });
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ error: "Event not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Event deleted successfully", _id: eventId });
   } catch (err) {
     console.error("Delete failed:", err);
     return NextResponse.json({ error: "Failed to delete event" }, { status: 500 });
