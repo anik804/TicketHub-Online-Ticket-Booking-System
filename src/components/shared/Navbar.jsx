@@ -81,7 +81,7 @@ export default function Navbar() {
               alt="Logo"
               width={36}
               height={36}
-              className="rounded-full"
+              className="rounded-md"
             />
             <p className="text-gray-600 text-2xl font-bold">
               Ticket<span className="text-red-600">Hub</span>
