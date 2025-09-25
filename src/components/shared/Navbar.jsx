@@ -117,7 +117,7 @@ export default function Navbar() {
               >
                 <div className="w-10 rounded-full">
                   <Image
-                    src={session.user?.image || "/images/placeholder-image.svg"}
+                    src={session.user?.image || "/images/placeholder-avatar.svg"}
                     alt="User Avatar"
                     width={40}
                     height={40}
