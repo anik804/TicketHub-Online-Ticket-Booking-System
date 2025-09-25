@@ -43,7 +43,7 @@ export async function POST(req) {
     );
 
     // 303 redirect ensures POST → GET
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/ticket-payment/success`, { status: 303 });
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/ticket-details?seat=${trx.seat}&eventID=${trx.eventId}`, { status: 303 });
   } catch (err) {
     console.error("Payment success error:", err);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
