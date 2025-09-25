@@ -4,23 +4,38 @@ import { ObjectId } from "mongodb";
 
 export async function PUT(req) {
   try {
-    const body = await req.json();
-    const { eventId, totalSeats, availableSeats, price, discount } = body;
+    const { eventId, totalSeats, availableSeats, price, decreaseSeat } = await req.json();
 
     if (!eventId) {
-      return NextResponse.json({ error: "Event ID is required" }, { status: 400 });
+      return NextResponse.json({ error: "Event ID required" }, { status: 400 });
     }
 
     const collection = await dbConnect("events");
-    const updateFields = {};
-    if (totalSeats !== undefined) updateFields.totalSeats = totalSeats;
-    if (availableSeats !== undefined) updateFields.availableSeats = availableSeats;
-    if (price !== undefined) updateFields.price = price;
-    if (discount !== undefined) updateFields.discount = discount;
+    let updates = {};
+
+    if (decreaseSeat) {
+      // Only decrease if availableSeats > 0
+      updates = { $inc: { availableSeats: -1 } };
+      const result = await collection.findOneAndUpdate(
+        { _id: new ObjectId(eventId), availableSeats: { $gt: 0 } },
+        updates,
+        { returnDocument: "after" }
+      );
+
+      if (!result.value) {
+        return NextResponse.json({ error: "No seats left to decrease" }, { status: 400 });
+      }
+      return NextResponse.json({ ...result.value, _id: result.value._id.toString() });
+    }
+
+    // For updating totalSeats, availableSeats, or price
+    if (totalSeats !== undefined) updates.totalSeats = totalSeats;
+    if (availableSeats !== undefined) updates.availableSeats = availableSeats;
+    if (price !== undefined) updates.price = price;
 
     const result = await collection.findOneAndUpdate(
       { _id: new ObjectId(eventId) },
-      { $set: updateFields },
+      { $set: updates },
       { returnDocument: "after" }
     );
 
