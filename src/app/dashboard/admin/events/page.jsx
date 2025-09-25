@@ -1,16 +1,16 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
-import AddEvents from "../../components/AddEvents";
+import AllEvents from "../../components/AllEvents";
 
 function page() {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar on the left */}
-      <Sidebar role="Organizer" />
+      <Sidebar role="Admin" />
 
       {/* Main Content Area */}
       <main className="flex-1 bg-gray-50 p-6">
-        <AddEvents></AddEvents>
+        <AllEvents></AllEvents>
       </main>
     </div>
   );

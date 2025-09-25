@@ -6,14 +6,14 @@ import { usePathname } from "next/navigation";
 
 const linksConfig = {
   user: [
-    { label: "Overview", href: "overview" },
+    { label: "Overview", href: "/" },
     { label: "My Tickets", href: "tickets" },
     { label: "Profile", href: "profile" },
     { label: "Settings", href: "settings" },
     { label: "User Reminder", href: "userReminder" },
   ],
   organizer: [
-    { label: "Overview", href: "overview" },
+    { label: "Overview", href: "/" },
     { label: "Events Reminder", href: "eventsReminder" },
     { label: "Add Event", href: "add-event" },
     { label: "Manage Events", href: "Managements" },
@@ -21,15 +21,10 @@ const linksConfig = {
     { label: "Analytics", href: "analytics" },
   ],
   admin: [
-    { label: "Overview", href: "overview" },
+    { label: "Overview", href: "/" },
     { label: "All Users", href: "users" },
     { label: "All Events", href: "events" },
     { label: "Events Reminder", href: "eventsReminder" },
-    { label: "Reports", href: "reports" },
-    { label: "Settings", href: "settings" },
-    { label: "Payments", href: "payments" },
-    { label: "Events Reminder", href: "eventsReminder" },
-
   ],
 };
 

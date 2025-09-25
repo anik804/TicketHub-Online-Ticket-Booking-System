@@ -1,4 +1,5 @@
 "use client";
+import Button from "@/ui/Button";
 import { useState } from "react";
 
 export default function CheckoutButton() {
@@ -21,7 +22,7 @@ export default function CheckoutButton() {
 
     const data = await res.json();
     if (data?.GatewayPageURL) {
-      window.location.href = data.GatewayPageURL; // redirect
+      window.location.href = data.GatewayPageURL;
     } else {
       alert("Payment initiation failed!");
     }
@@ -29,8 +30,11 @@ export default function CheckoutButton() {
   }
 
   return (
-    <button onClick={handlePayment} disabled={loading}>
-      {loading ? "Processing..." : "Pay Now"}
-    </button>
+    <Button
+      className="w-20 md:w-26 lg:w-32"
+      onClick={handlePayment}
+      disabled={loading}
+      label={loading ? "Processing..." : "Pay Now"}
+    />
   );
 }
