@@ -7,10 +7,7 @@ export default function ManageEvents() {
   const { data: session } = useSession();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // modal state
-  const [showModal, setShowModal] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null); // store eventId for modal
 
   useEffect(() => {
     if (!session?.user?.email) return;
@@ -59,96 +56,96 @@ export default function ManageEvents() {
     return <div className="text-center mt-10 text-gray-600">Loading events...</div>;
 
   return (
-    <>
-      <div className="p-6 bg-gradient-to-br from-[#FF0000]/5 via-white to-[#3D0000]/5 rounded-2xl shadow-md mt-6">
-        <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] bg-clip-text text-transparent">
-          Manage Your Events
-        </h2>
+    <div className="p-6 bg-gradient-to-br from-[#FF0000]/5 via-white to-[#3D0000]/5 rounded-2xl shadow-md mt-6">
+      <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] bg-clip-text text-transparent">
+        Manage Your Events
+      </h2>
 
-        {events.length === 0 && (
-          <p className="text-center text-gray-600">No events found.</p>
-        )}
+      {events.length === 0 && (
+        <p className="text-center text-gray-600">No events found.</p>
+      )}
 
-        <div className="space-y-4">
-          {events.map((event) => (
-            <div
-              key={event._id}
-              className="flex justify-between items-center border border-[#950101]/30 bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition"
-            >
-              <div>
-                <h3 className="font-semibold text-lg text-[#3D0000]">{event.title}</h3>
-                <p className="text-sm text-gray-700">
-                  Seats:{" "}
-                  <span className="font-medium">
-                    {event.availableSeats}/{event.totalSeats}
-                  </span>
-                </p>
-                <p className="text-sm text-gray-700">
-                  Price: <span className="font-medium">${event.price}</span> | Discount:{" "}
-                  {event.discount}%
-                </p>
-              </div>
-
-              <div className="flex gap-2">
-                {/* Primary - Add Seats */}
-                <button
-                  className="px-3 py-1 rounded-lg text-white bg-gradient-to-r from-[#950101] to-[#FF0000] hover:from-[#FF0000] hover:to-[#950101] shadow-md transition"
-                  onClick={() =>
-                    handleUpdate(event._id, { totalSeats: event.totalSeats + 5 })
-                  }
-                >
-                  +5 Seats
-                </button>
-
-                {/* Secondary - Edit Price */}
-                <button
-                  className="px-3 py-1 rounded-lg border border-[#950101] text-[#950101] bg-white hover:bg-[#950101] hover:text-white transition"
-                  onClick={() => {
-                    const newPrice = parseFloat(prompt("Enter new price:", event.price));
-                    if (!isNaN(newPrice)) handleUpdate(event._id, { price: newPrice });
-                  }}
-                >
-                  Edit Price
-                </button>
-
-                {/* Danger - Delete */}
-                <button
-                  className="px-3 py-1 rounded-lg text-white bg-[#3D0000] hover:bg-[#FF0000] transition shadow-sm"
-                  onClick={() => {
-                    setSelectedId(event._id);
-                    setShowModal(true);
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
+      <div className="space-y-4">
+        {events.map((event) => (
+          <div
+            key={event._id}
+            className="flex justify-between items-center border border-[#950101]/30 bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition"
+          >
+            <div>
+              <h3 className="font-semibold text-lg text-[#3D0000]">{event.title}</h3>
+              <p className="text-sm text-gray-700">
+                Seats:{" "}
+                <span className="font-medium">
+                  {event.availableSeats}/{event.totalSeats}
+                </span>
+              </p>
+              <p className="text-sm text-gray-700">
+                Price: <span className="font-medium">${event.price}</span> | Discount:{" "}
+                {event.discount}%
+              </p>
             </div>
-          ))}
-        </div>
+
+            <div className="flex gap-2">
+              {/* Primary - Add Seats */}
+              <button
+                className="px-3 py-1 rounded-lg text-white bg-gradient-to-r from-[#950101] to-[#FF0000] hover:from-[#FF0000] hover:to-[#950101] shadow-md transition"
+                onClick={() =>
+                  handleUpdate(event._id, { totalSeats: event.totalSeats + 5 })
+                }
+              >
+                +5 Seats
+              </button>
+
+              {/* Secondary - Edit Price */}
+              <button
+                className="px-3 py-1 rounded-lg border border-[#950101] text-[#950101] bg-white hover:bg-[#950101] hover:text-white transition"
+                onClick={() => {
+                  const newPrice = prompt("Enter new price:", event.price);
+                  if (newPrice && !isNaN(parseFloat(newPrice))) {
+                    handleUpdate(event._id, { price: parseFloat(newPrice) });
+                  }
+                }}
+              >
+                Edit Price
+              </button>
+
+              {/* Danger - Delete */}
+              <button
+                className="px-3 py-1 rounded-lg text-white bg-[#3D0000] hover:bg-[#FF0000] transition shadow-sm"
+                onClick={() => setConfirmDelete(event._id)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* 🔹 Confirmation Modal */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white rounded-xl p-6 shadow-lg w-96">
+      {/* Delete Confirmation Modal */}
+      {confirmDelete && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <div className="bg-white rounded-xl p-6 shadow-xl w-96">
             <h3 className="text-lg font-bold text-[#3D0000] mb-4">
               Confirm Delete
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-700 mb-6">
               Are you sure you want to delete this event? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-3">
+              {/* No Button */}
               <button
-                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-                onClick={() => setShowModal(false)}
+                className="px-4 py-2 rounded-lg border border-[#950101]/40 text-[#3D0000] bg-white hover:bg-[#950101]/10 transition"
+                onClick={() => setConfirmDelete(null)}
               >
                 No
               </button>
+
+              {/* Yes Button */}
               <button
-                className="px-4 py-2 bg-[#950101] text-white rounded hover:bg-[#FF0000]"
+                className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#950101] to-[#FF0000] text-white hover:opacity-90 transition"
                 onClick={() => {
-                  handleDelete(selectedId);
-                  setShowModal(false);
+                  handleDelete(confirmDelete);
+                  setConfirmDelete(null);
                 }}
               >
                 Yes, Delete
@@ -157,6 +154,6 @@ export default function ManageEvents() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
