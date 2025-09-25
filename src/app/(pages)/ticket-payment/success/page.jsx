@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 
-export default function PaymentSuccessPage() {
+export default function PaymentSuccess() {
   const searchParams = useSearchParams();
   const tranId = searchParams.get("tran_id");
 

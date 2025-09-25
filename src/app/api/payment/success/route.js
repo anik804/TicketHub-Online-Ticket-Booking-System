@@ -1,12 +1,49 @@
 import { NextResponse } from "next/server";
+import { dbConnect } from "@/libs/dbConnect";
+import { ObjectId } from "mongodb";
 
-export async function GET(req) {
+export async function POST(req) {
+  try {
+    const form = await req.formData();
+    const tran_id = form.get("tran_id");
+    const amount = form.get("amount");
+    const status = form.get("status"); // VALIDATED
 
-  const { searchParams } = new URL(req.url, req.nextUrl.origin);
+    const transactionsCollection = dbConnect("seat-transactions");
+    const paymentsCollection = dbConnect("payments");
+    const eventsCollection = dbConnect("events");
 
-  const tran_id = searchParams.get("tran_id");
+    // Find transaction to get eventId
+    const trx = await transactionsCollection.findOne({ tran_id });
+    if (!trx) {
+      return NextResponse.json({ error: "Transaction not found" }, { status: 404 });
+    }
 
-  console.log("✅ Payment Success TranID:", tran_id);
+    // Save payment
+    await paymentsCollection.insertOne({
+      tran_id,
+      amount,
+      status,
+      eventId: new ObjectId(trx.eventId),
+      createdAt: new Date(),
+    });
 
-  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/payment/success?tran_id=${tran_id}`);
+    // Decrease event seat
+    await eventsCollection.updateOne(
+      { _id: new ObjectId(trx.eventId), availableSeats: { $gt: 0 } },
+      { $inc: { availableSeats: -1 } }
+    );
+
+    // Update transaction status
+    await transactionsCollection.updateOne(
+      { tran_id },
+      { $set: { status: "SUCCESS" } }
+    );
+
+    // 303 redirect ensures POST → GET
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/ticket-payment/success`, { status: 303 });
+  } catch (err) {
+    console.error("Payment success error:", err);
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+  }
 }
