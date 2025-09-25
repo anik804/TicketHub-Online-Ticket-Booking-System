@@ -12,6 +12,7 @@
     "bcrypt": "^6.0.0",
     "crypto-js": "^4.2.0",
     "daisyui": "^5.1.12",
+    "date-fns": "^4.1.0",
     "dotenv": "^17.2.2",
     "framer-motion": "^12.23.21",
     "lottie-react": "^2.4.1",
