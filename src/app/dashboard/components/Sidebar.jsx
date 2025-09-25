@@ -14,7 +14,6 @@ const linksConfig = {
   ],
   organizer: [
     { label: "Overview", href: "/" },
-    { label: "Events Reminder", href: "eventsReminder" },
     { label: "Add Event", href: "add-event" },
     { label: "Manage Events", href: "Managements" },
     { label: "Organizer Reminder", href: "organizerReminder" },
