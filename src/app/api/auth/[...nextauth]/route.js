@@ -1,7 +1,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { dbConnect } from "../../../../libs/dbConnect";
+import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
+import { dbConnect } from "../../../../libs/dbConnect";
 
 export const authOptions = {
   providers: [
@@ -24,42 +26,104 @@ export const authOptions = {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
-          role: user.role,
-          image: user.photo || "/images/placeholder-image.svg", // map photo to image
+          role: user.role || "user",
+          image: user.photo || "/images/placeholder-image.svg",
+          provider: user.provider || "credentials",
+        };
+      },
+    }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          role: "user",
+          provider: "google",
+        };
+      },
+    }),
+
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+          role: "user",
+          provider: "github",
         };
       },
     }),
   ],
 
-  session: {
-    strategy: "jwt",
-  },
+  session: { strategy: "jwt" },
 
   callbacks: {
+    async signIn({ user, account }) {
+      const Users = dbConnect("Users");
+
+      if (!user?.email){
+        throw new Error("Email is required")
+      };
+
+      const existingUser = await Users.findOne({ email: user.email });
+
+      if (existingUser) {
+        const userProvider = existingUser.provider || "credentials"; // fallback
+        if (account && account.provider !== userProvider) {
+          throw new Error(
+            `Email already registered using ${userProvider}. Please login with ${userProvider}.`
+          );
+        }
+        return true;
+      }
+
+      // Insert new user only for social login
+      if (account) {
+        await Users.insertOne({
+          name: user.name,
+          email: user.email,
+          image: user.image,
+          role: user.role || "user",
+          provider: account.provider,
+          createdAt: new Date(),
+        });
+      }
+
+      return true;
+    },
+
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
         token.role = user.role;
-        token.image = user.image; // store image in token
+        token.image = user.image;
+        token.provider = user.provider || "credentials";
       }
       return token;
     },
+
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.role = token.role;
-        session.user.image = token.image; // map token.image to session.user.image
+        session.user.image = token.image;
+        session.user.provider = token.provider;
       }
       return session;
     },
-  },
-
-  jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
   },
 
   pages: {
