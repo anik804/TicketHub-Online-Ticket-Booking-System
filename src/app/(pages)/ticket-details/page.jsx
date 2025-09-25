@@ -2,7 +2,7 @@
 
 import PageLayout from "@/ui/PageLayout";
 import { format } from "date-fns";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { QrCode, MapPinned, CalendarDays, Ticket } from "lucide-react";
 import CheckoutButton from "@/components/event/CheckoutButton";
 import { useSearchParams } from "next/navigation";
@@ -12,6 +12,59 @@ import { QRCodeCanvas } from "qrcode.react";
 export default function TicketDetails() {
   const searchParams = useSearchParams();
   const seat = searchParams.get("seat");
+  const eventID = searchParams.get("eventID");
+
+  const [transactions, setTransactions] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!seat || !eventID) return;
+
+    const fetchTransaction = async () => {
+      try {
+        const res = await fetch(
+          `/api/payment/transactions?seat=${seat}&eventID=${eventID}`
+        );
+        const data = await res.json();
+
+        setTransactions(data[0]);
+      } catch (err) {
+        console.error("Failed to load transaction:", err);
+        setTransactions(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTransaction();
+  }, [seat, eventID]);
+
+  
+
+  if (!seat || !eventID) {
+    return (
+      <PageLayout>
+        <div className="flex flex-col items-center justify-center h-screen">
+          <h1 className="text-2xl font-bold text-red-500">
+            Invalid ticket details!
+          </h1>
+          <p className="text-sm opacity-80">
+            Please check your ticket details and try again.
+          </p>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  if(loading){
+    return (
+      <PageLayout>
+        <div className="flex flex-col items-center justify-center h-screen">
+          <h1 className="text-2xl font-bold text-red-500">Loading...</h1>
+        </div>
+      </PageLayout>
+    );
+  }
 
   const singleTicket = {
     id: "TCKT-20250923-0001",
@@ -29,7 +82,7 @@ export default function TicketDetails() {
     payment: {
       price: 1500.0,
       currency: "BDT",
-      status: "Panding",
+      status: transactions ? transactions.status : "PENDING",
       purchaseDate: "2025-09-01T10:00:00.000Z",
       transactionId: "TXN123456",
     },
@@ -92,7 +145,7 @@ export default function TicketDetails() {
             PRICE : {singleTicket.payment.price} {singleTicket.payment.currency}
           </p>
           <p className="text-sm opacity-80 mb-3">{purchaseDate}</p>
-          {singleTicket.payment.status === "Panding" ? (
+          {singleTicket.payment.status === "PENDING" ? (
             <span className="badge badge-warning">Pending</span>
           ) : (
             <span className="badge badge-success">Paid</span>
@@ -101,14 +154,13 @@ export default function TicketDetails() {
 
         {/* QR and Button */}
         <div className="flex flex-col items-center gap-4">
-          {singleTicket.payment.status === "Panding" ? (
+          {singleTicket.payment.status === "PENDING" ? (
             <>
               <QrCode className="size-20 md:size-26 lg:size-32 opacity-80 border border-base-300 rounded-lg" />
-              <CheckoutButton seat={seat} />
+              <CheckoutButton seat={seat} eventID={eventID} />
             </>
           ) : (
             <>
-              {/* Auto QR Code for Paid Ticket */}
               <QRCodeCanvas value={qrValue} className="size-20 md:size-26 lg:size-32" />
               <DownloadTicket ticket={singleTicket} />
             </>

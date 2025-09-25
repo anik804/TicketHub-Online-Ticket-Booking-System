@@ -7,7 +7,7 @@ export async function POST(req) {
     const form = await req.formData();
     const tran_id = form.get("tran_id");
     const amount = form.get("amount");
-    const status = form.get("status"); // VALIDATED
+    const status = form.get("status");
 
     const transactionsCollection = dbConnect("seat-transactions");
     const paymentsCollection = dbConnect("payments");
@@ -19,12 +19,14 @@ export async function POST(req) {
       return NextResponse.json({ error: "Transaction not found" }, { status: 404 });
     }
 
+
     // Save payment
     await paymentsCollection.insertOne({
       tran_id,
+      eventId: trx.eventId,
+      seat: trx.seat,
       amount,
       status,
-      eventId: new ObjectId(trx.eventId),
       createdAt: new Date(),
     });
 
