@@ -31,7 +31,6 @@ export async function POST(req) {
       product_category: "ecommerce",
       product_name: body.productName,
       product_profile: "event",
-
       cus_name: body.customerName,
       cus_email: body.customerEmail,
       cus_phone: body.customerPhone,
