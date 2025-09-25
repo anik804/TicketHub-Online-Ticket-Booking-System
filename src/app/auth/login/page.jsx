@@ -8,6 +8,7 @@ import { signIn } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import loginAnimation from "../../../../public/animations/login.json";
+import SocialLogin from "../components/socialLogin";
 
 export default function Login() {
   const router = useRouter();
@@ -133,6 +134,8 @@ export default function Login() {
               Login
             </motion.button>
           </form>
+
+          <SocialLogin></SocialLogin>
 
           <motion.p
             initial={{ opacity: 0 }}
