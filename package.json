@@ -12,7 +12,7 @@
     "bcrypt": "^6.0.0",
     "daisyui": "^5.1.12",
     "dotenv": "^17.2.2",
-    "framer-motion": "^12.23.13",
+    "framer-motion": "^12.23.21",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.544.0",
     "mongodb": "^6.20.0",
