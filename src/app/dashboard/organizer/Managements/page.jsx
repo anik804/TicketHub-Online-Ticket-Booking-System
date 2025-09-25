@@ -7,7 +7,9 @@ export default function ManageEvents() {
   const { data: session } = useSession();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [confirmDelete, setConfirmDelete] = useState(null); // store eventId for modal
+  const [confirmDelete, setConfirmDelete] = useState(null); // store eventId for delete modal
+  const [editPriceEvent, setEditPriceEvent] = useState(null); // store event for edit modal
+  const [newPrice, setNewPrice] = useState(""); // temporary price input
 
   useEffect(() => {
     if (!session?.user?.email) return;
@@ -100,10 +102,8 @@ export default function ManageEvents() {
               <button
                 className="px-3 py-1 rounded-lg border border-[#950101] text-[#950101] bg-white hover:bg-[#950101] hover:text-white transition"
                 onClick={() => {
-                  const newPrice = prompt("Enter new price:", event.price);
-                  if (newPrice && !isNaN(parseFloat(newPrice))) {
-                    handleUpdate(event._id, { price: parseFloat(newPrice) });
-                  }
+                  setEditPriceEvent(event);
+                  setNewPrice(event.price);
                 }}
               >
                 Edit Price
@@ -125,22 +125,17 @@ export default function ManageEvents() {
       {confirmDelete && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
           <div className="bg-white rounded-xl p-6 shadow-xl w-96">
-            <h3 className="text-lg font-bold text-[#3D0000] mb-4">
-              Confirm Delete
-            </h3>
+            <h3 className="text-lg font-bold text-[#3D0000] mb-4">Confirm Delete</h3>
             <p className="text-gray-700 mb-6">
               Are you sure you want to delete this event? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-3">
-              {/* No Button */}
               <button
                 className="px-4 py-2 rounded-lg border border-[#950101]/40 text-[#3D0000] bg-white hover:bg-[#950101]/10 transition"
                 onClick={() => setConfirmDelete(null)}
               >
                 No
               </button>
-
-              {/* Yes Button */}
               <button
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#950101] to-[#FF0000] text-white hover:opacity-90 transition"
                 onClick={() => {
@@ -149,6 +144,39 @@ export default function ManageEvents() {
                 }}
               >
                 Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Price Modal */}
+      {editPriceEvent && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <div className="bg-white rounded-xl p-6 shadow-xl w-96">
+            <h3 className="text-lg font-bold text-[#3D0000] mb-4">Edit Price</h3>
+            <input
+              type="number"
+              value={newPrice}
+              onChange={(e) => setNewPrice(e.target.value)}
+              className="w-full p-2 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-[#950101]"
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                className="px-4 py-2 rounded-lg border border-[#950101]/40 text-[#3D0000] bg-white hover:bg-[#950101]/10 transition"
+                onClick={() => setEditPriceEvent(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#950101] to-[#FF0000] text-white hover:opacity-90 transition"
+                onClick={() => {
+                  const priceValue = parseFloat(newPrice);
+                  if (!isNaN(priceValue)) handleUpdate(editPriceEvent._id, { price: priceValue });
+                  setEditPriceEvent(null);
+                }}
+              >
+                Save
               </button>
             </div>
           </div>
