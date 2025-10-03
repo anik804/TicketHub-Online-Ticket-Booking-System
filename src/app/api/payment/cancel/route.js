@@ -1,8 +1,37 @@
 import { NextResponse } from "next/server";
+import { dbConnect } from "@/libs/dbConnect";
+
 
 export async function POST(req) {
-  return NextResponse.redirect(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ticket-details`,
-    { status: 303 }
-  );
+ 
+  try {
+    const form = await req.formData();
+    const tranId = form.get("tran_id");
+
+    const paymentTransactions = dbConnect("payment-transactions");
+
+    // find transaction before deleting (to use in redirect)
+    const trx = await paymentTransactions.findOne({ tranId });
+    if (!trx) {
+      return NextResponse.json(
+        { error: "Transaction not found" },
+        { status: 404 }
+      );
+    }
+
+    // delete transaction
+    await paymentTransactions.deleteOne({ tranId });
+
+    // redirect to cancel page with seat & eventId
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket-details?seat=${trx.seat}&eventId=${trx.eventId}`,
+      { status: 303 }
+    );
+  } catch (err) {
+    console.error("Payment cancel error:", err);
+    return NextResponse.json(
+      { error: "Payment cancel failed" },
+      { status: 500 }
+    );
+  }
 }
