@@ -26,9 +26,7 @@ export default function CheckoutButton({ seat }) {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
 
-  const tranId = `TICKETHUB_${Date.now()}_${Math.floor(
-    Math.random() * 100000
-  )}`;
+  const tranId = `TH_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
 
   const tranData = {
     tranId,
