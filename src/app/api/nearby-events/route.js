@@ -1,4 +1,7 @@
 import { dbConnect } from "@/libs/dbConnect";
+import { authOptions } from "../auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
   const toRad = (x) => (x * Math.PI) / 180;
@@ -14,9 +17,14 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
 }
 
 export async function POST(req) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   const { lat, lng } = await req.json();
   if (!lat || !lng) {
-    return Response.json({ error: "Invalid coordinates" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid coordinates" }, { status: 400 });
   }
   const eventsCollection = dbConnect("events");
   const events = await eventsCollection.find({}).toArray();
@@ -29,5 +37,5 @@ export async function POST(req) {
     .filter((e) => e.distance <= 50) // ৫০ কিমির মধ্যে
     .sort((a, b) => a.distance - b.distance);
 
-  return Response.json(nearby);
+  return NextResponse.json(nearby);
 }

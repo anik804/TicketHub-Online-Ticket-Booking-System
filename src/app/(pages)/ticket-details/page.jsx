@@ -8,9 +8,11 @@ import CheckoutButton, { event } from "@/components/event/CheckoutButton";
 import { useSearchParams } from "next/navigation";
 import DownloadTicket from "@/components/event/DownloadTicket";
 import { QRCodeCanvas } from "qrcode.react";
+import { useSession } from "next-auth/react";
 
 export default function TicketDetails() {
   const [loading, setLoading] = useState(true);
+  const { data: session, status } = useSession();
 
   const searchParams = useSearchParams();
   const seat = searchParams.get("seat");
@@ -58,7 +60,7 @@ export default function TicketDetails() {
     );
   }
 
-  if (loading) {
+  if (loading || status === "loading") {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center h-screen">
@@ -68,16 +70,10 @@ export default function TicketDetails() {
     );
   }
 
-  const name = "Pranoy Biswas";
-  const email = "pranay@gmail.com";
-  const phone = "09779691691";
-
-  console.log(transactions);
-
   if (
     transactions &&
     transactions.status === "PAID" &&
-    transactions.email !== email
+    transactions.email !== session.user.email
   ) {
     return (
       <PageLayout>
@@ -126,9 +122,9 @@ export default function TicketDetails() {
       {/* Ticket Holder */}
       <div className="px-6 py-4 border-t border-base-300">
         <h2 className="text-lg font-semibold mb-2">Ticket Holder</h2>
-        <p>{name}</p>
-        <p className="text-sm opacity-80">{email}</p>
-        <p className="text-sm opacity-80">{phone}</p>
+        <p>{session.user.name}</p>
+        <p className="text-sm opacity-80">{session.user.email}</p>
+        <p className="text-sm opacity-80">{session.user.phone || "N/A"}</p>
       </div>
 
       {/* Payment + Status */}
