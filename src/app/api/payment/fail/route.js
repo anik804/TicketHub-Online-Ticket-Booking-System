@@ -1,11 +1,33 @@
 import { NextResponse } from "next/server";
+import { dbConnect } from "@/libs/dbConnect";
 
 export async function POST(req) {
-  const data = await req.formData();
-  const tran_id = data.get("tran_id");
-  console.log("❌ Payment Failed:", Object.fromEntries(data));
 
-  return NextResponse.redirect(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/payment/fail?tran_id=${tran_id}`
-  );
+  try {
+    const form = await req.formData();
+    const tranId = form.get("tran_id");
+
+    const paymentTransactions = dbConnect("payment-transactions");
+
+    // find transaction before deleting (to use in redirect)
+    const trx = await paymentTransactions.findOne({ tranId });
+    if (!trx) {
+      return NextResponse.json(
+        { error: "Transaction not found" },
+        { status: 404 }
+      );
+    }
+
+    // delete transaction
+    await paymentTransactions.deleteOne({ tranId });
+
+    // redirect to cancel page with seat & eventId
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/details?seat=${trx.seat}&eventId=${trx.eventId}`,
+      { status: 303 }
+    );
+  } catch (err) {
+    console.error("Payment fail error:", err);
+    return NextResponse.json({ error: "Payment fail failed" }, { status: 500 });
+  }
 }

@@ -80,7 +80,7 @@ export default function Banner() {
               </motion.p>
 
               <Link href={'/browse-events'}
-                className="mt-6 btn bg-black text-gray-400 px-6 py-3 rounded-md font-semibold text-lg shadow-md hover:scale-105 transition-transform duration-300"
+                className="mt-6 btn rounded-md bg-gradient-to-r from-[#950101] to-[#FF0000] hover:opacity-95 transition text-white px-6 py-3  font-semibold text-lg shadow-md hover:scale-105  duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}

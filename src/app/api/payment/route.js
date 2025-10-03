@@ -1,33 +1,52 @@
 import { NextResponse } from "next/server";
+import { dbConnect } from "@/libs/dbConnect";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await req.json();
 
-  const tran_id = "txn_" + Date.now(); // Unique transaction id
-
-  const payload = {
-    store_id: process.env.SSLC_STORE_ID,
-    store_passwd: process.env.SSLC_STORE_PASS,
-    total_amount: Number(body.amount),
-    currency: "BDT",
-    tran_id,
-    success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/success?tran_id=${tran_id}`,
-    fail_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/fail?tran_id=${tran_id}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/cancel?tran_id=${tran_id}`,
-    product_category: "ecommerce",
-    product_name: body.productName,
-    product_profile: "event",
-
-    cus_name: body.customerName,
-    cus_email: body.customerEmail,
-    cus_phone: body.customerPhone,
-    cus_add1: "Dhaka",
-    cus_city: body.customerCity || "Dhaka",
-    cus_country: "Bangladesh",
-    shipping_method: "NO",
-  };
-
   try {
+    const paymentTransactions = dbConnect("payment-transactions");
+
+    // save transaction mapping
+    await paymentTransactions.insertOne({
+      tranId: body.tranId,
+      eventId: body.eventId,
+      seat: body.seat,
+      email: body.customerEmail,
+      amount: body.amount,
+      status: "PENDING",
+      tranAt: new Date().toISOString(),
+    });
+
+    const payload = {
+      store_id: process.env.SSLC_STORE_ID,
+      store_passwd: process.env.SSLC_STORE_PASS,
+      total_amount: Number(body.amount),
+      currency: "BDT",
+      tran_id: body.tranId,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/success`,
+      fail_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/fail`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/cancel`,
+      product_category: "ticket",
+      product_name: body.eventTitle,
+      product_profile: "ticket_hub",
+      cus_name: body.customerName,
+      cus_email: body.customerEmail,
+      cus_phone: body.customerPhone,
+      cus_add1: body.location || "Not Set",
+      cus_city: body.customerCity || "Not Set",
+      cus_country: "Bangladesh",
+      shipping_method: "NO",
+    };
+
     const response = await fetch(
       "https://sandbox.sslcommerz.com/gwprocess/v4/api.php",
       {
@@ -38,8 +57,10 @@ export async function POST(req) {
     );
 
     const result = await response.json();
+    console.log(result);
     return NextResponse.json(result);
   } catch (err) {
+    console.error("Payment initiation error:", err);
     return NextResponse.json(
       { error: "Payment initiation failed" },
       { status: 500 }
