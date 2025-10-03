@@ -1,6 +1,25 @@
-import React from "react";
+"use client";
+
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
 
 export default function PageLayout({ children, title }) {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (!session) {
+      router.push("/auth/login");
+    }
+  }, [session, status, router]);
+
+  if (status === "loading") {
+    return <Loading/>;
+  }
+
   return (
     <section className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 text-gray-900 dark:text-gray-100 px-6 py-16 flex justify-center">
       <div className="max-w-4xl w-full bg-orange-50 dark:bg-gray-800 shadow-2xl rounded-3xl border border-orange-200 dark:border-gray-700 p-12">
