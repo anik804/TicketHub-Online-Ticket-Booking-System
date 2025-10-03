@@ -9,7 +9,6 @@ export default function AdminDashboard() {
     totalUsers: 0,
     totalOrganizers: 0,
     totalEvents: 0,
-    totalRevenue: 0,
   });
 
   useEffect(() => {
@@ -44,10 +43,6 @@ export default function AdminDashboard() {
           <motion.div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition" whileHover={{ scale: 1.05 }}>
             <h3 className="text-xl font-bold mb-2">Total Events</h3>
             <p className="text-gray-600 text-2xl">{stats.totalEvents}</p>
-          </motion.div>
-          <motion.div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition" whileHover={{ scale: 1.05 }}>
-            <h3 className="text-xl font-bold mb-2">Total Revenue</h3>
-            <p className="text-gray-600 text-2xl">${stats.totalRevenue}</p>
           </motion.div>
         </div>
       </motion.div>
