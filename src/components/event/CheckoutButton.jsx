@@ -36,9 +36,9 @@ export default function CheckoutButton({ seat }) {
     seat,
     amount: event.price,
     eventTitle: event.title,
-    customerName: session?.user?.name || "pranay",
-    customerEmail: session?.user?.email || "pranay@gmail.com",
-    customerPhone: session?.user?.phone || "0125114455",
+    customerName: session?.user?.name,
+    customerEmail: session?.user?.email,
+    customerPhone: session?.user?.phone || "N/A",
     customerCity: "Dhaka",
   };
 
