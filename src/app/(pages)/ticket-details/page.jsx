@@ -144,7 +144,7 @@ export default function TicketDetails() {
           {!loading && transactions.status === "PAID" ? (
             <>
               <QRCodeCanvas
-                value={`${process.env.NEXT_PUBLIC_BASE_URL}/ticket-payment/verify?tranId=${transactions?.tranId}`}
+                value={`${process.env.NEXT_PUBLIC_BASE_URL}/ticket-verify?tranId=${transactions?.tranId}`}
                 className="size-20 md:size-26 lg:size-32"
               />
               <DownloadTicket />
