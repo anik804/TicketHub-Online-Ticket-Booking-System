@@ -5,18 +5,17 @@ export async function POST(req) {
   const body = await req.json();
 
   try {
-    const transactionsCollection = dbConnect("seat-transactions");
-
-    const tran_id = `${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+    const paymentTransactions = dbConnect("payment-transactions");
 
     // save transaction mapping
-    await transactionsCollection.insertOne({
-      tran_id,
+    await paymentTransactions.insertOne({
+      tranId : body.tranId,
       eventId: body.eventId,
       seat: body.seat,
+      email: body.customerEmail,
       amount: body.amount,
       status: "PENDING",
-      createdAt: new Date().toISOString(),
+      tranAt: new Date().toISOString(),
     });
 
     const payload = {
@@ -24,18 +23,18 @@ export async function POST(req) {
       store_passwd: process.env.SSLC_STORE_PASS,
       total_amount: Number(body.amount),
       currency: "BDT",
-      tran_id,
+      tran_id: body.tranId,
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/success`,
       fail_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/fail`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/cancel`,
-      product_category: "ecommerce",
-      product_name: body.productName,
-      product_profile: "event",
+      product_category: "ticket",
+      product_name: body.eventTitle,
+      product_profile: "ticket_hub",
       cus_name: body.customerName,
       cus_email: body.customerEmail,
       cus_phone: body.customerPhone,
-      cus_add1: "Dhaka",
-      cus_city: body.customerCity || "Dhaka",
+      cus_add1: body.location || "Not Set",
+      cus_city: body.customerCity || "Not Set",
       cus_country: "Bangladesh",
       shipping_method: "NO",
     };
@@ -50,6 +49,7 @@ export async function POST(req) {
     );
 
     const result = await response.json();
+    console.log(result);
     return NextResponse.json(result);
   } catch (err) {
     console.error("Payment initiation error:", err);
