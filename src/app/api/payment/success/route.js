@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
 import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function POST(req) {
+   const session = await getServerSession(authOptions);
+  
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
   try {
     const form = await req.formData();
     const tranId = form.get("tran_id");
