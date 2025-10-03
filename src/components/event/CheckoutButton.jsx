@@ -3,9 +3,44 @@ import Button from "@/ui/Button";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
-export default function CheckoutButton({seat}) {
+//dummy data
+export const event = {
+  _id: "68df6fbcc712eb0ef7a6a98e",
+  title: "Cricket Match",
+  date: "2025-09-26T16:08:41.672Z",
+  location: "Andorkilla, Chittagong",
+  price: 120,
+  desc: "Pakistan vs Bangladesh T20I Final Match",
+  category: "sports",
+  imageUrl: "https://i.ibb.co.com/5hzLny6Y/ai-rising.webp",
+  totalSeats: 200,
+  availableSeats: 200,
+  discount: 0,
+  organizerEmail: "pranoy@gmail.com",
+  lat: 22.3554568,
+  lng: 91.8397677,
+  createdAt: "2025-09-24T16:08:41.672Z",
+};
+
+export default function CheckoutButton({ seat }) {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
+
+  const tranId = `TICKETHUB_${Date.now()}_${Math.floor(
+    Math.random() * 100000
+  )}`;
+
+  const tranData = {
+    tranId,
+    eventId: event._id,
+    seat,
+    amount: event.price,
+    eventTitle: event.title,
+    customerName: session?.user?.name,
+    customerEmail: session?.user?.email,
+    customerPhone: session?.user?.phone || "N/A",
+    customerCity: "Dhaka",
+  };
 
   async function handlePayment() {
     setLoading(true);
@@ -13,22 +48,12 @@ export default function CheckoutButton({seat}) {
       const res = await fetch("/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventId: "68d4f6708ae49bb12b05b3f2",
-          amount: 1000,
-          seat: seat,
-          productName: "Laptop Bag",
-          customerName: session?.user?.name || "Pranoy Biswas",
-          customerEmail: session?.user?.email || "pranoy@example.com",
-          customerPhone: session?.user?.phone || "017XXXXXXXX",
-          customerCity: "Dhaka",
-        }),
+        body: JSON.stringify(tranData),
       });
 
       // Network response log
-      console.log("Status:", res.status);
-      const text = await res.text(); // json() fail হলে text() দিয়ে check
-      console.log("Response text:", text);
+      const text = await res.text();
+      console.log("Raw Response:", text);
 
       let data;
       try {
@@ -52,7 +77,7 @@ export default function CheckoutButton({seat}) {
 
   return (
     <Button
-      className="w-20 md:w-26 lg:w-32"
+      className="min-w-20 md:min-w-26 lg:min-w-32"
       onClick={handlePayment}
       disabled={loading}
       label={loading ? "Processing..." : "Pay Now"}
