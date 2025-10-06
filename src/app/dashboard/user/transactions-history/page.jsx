@@ -2,20 +2,25 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import { motion } from "framer-motion";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdInfo } from "react-icons/md";
+import Swal from "sweetalert2";
+import Link from "next/link";
 
-export default function Page() {
+export default function TransactionsHistory() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null);
 
   const fetchTransHistory = async () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/payment/history`);
+      if (!res.ok) throw new Error("Failed to fetch transactions");
+
       const data = await res.json();
-      setTransactions(data);
+      setTransactions(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.log("Failed to load transaction:", err);
+      console.error("Failed to load transaction:", err);
       setTransactions([]);
     } finally {
       setLoading(false);
@@ -27,7 +32,19 @@ export default function Page() {
   }, []);
 
   const handleDelete = async (tranId) => {
-    if (!confirm("Are you sure you want to delete this transaction?")) return;
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won’t be able to recover this transaction!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!result.isConfirmed) return;
+
+    setDeletingId(tranId);
 
     try {
       const res = await fetch(`/api/payment/history?tranId=${tranId}`, {
@@ -37,23 +54,30 @@ export default function Page() {
       const data = await res.json();
 
       if (res.ok) {
-        // remove deleted transaction from state
-        setTransactions(transactions.filter((trx) => trx.tranId !== tranId));
+        setTransactions((prev) => prev.filter((trx) => trx.tranId !== tranId));
+        Swal.fire("Deleted!", "The transaction has been deleted.", "success");
       } else {
-        alert(data.error || "Failed to delete transaction");
+        Swal.fire(
+          "Error!",
+          data.error || "Failed to delete transaction.",
+          "error"
+        );
       }
     } catch (err) {
       console.error("Delete failed:", err);
-      alert("Something went wrong while deleting");
+      Swal.fire("Error!", "Something went wrong while deleting.", "error");
+    } finally {
+      setDeletingId(null);
     }
   };
 
-  if (loading)
+  if (loading) {
     return (
       <DashboardLayout role="User">
         <p className="text-center py-6">Loading Transactions...</p>
       </DashboardLayout>
     );
+  }
 
   return (
     <DashboardLayout role="User">
@@ -74,7 +98,7 @@ export default function Page() {
                   <th className="px-4 py-2 border-b">Transaction ID</th>
                   <th className="px-4 py-2 border-b">Event ID</th>
                   <th className="px-4 py-2 border-b">Seat</th>
-                  <th className="px-4 py-2 border-b">Amount (BDT)</th>
+                  <th className="px-4 py-2 border-b">Amount</th>
                   <th className="px-4 py-2 border-b">Status</th>
                   <th className="px-4 py-2 border-b">Date</th>
                   <th className="px-4 py-2 border-b">Action</th>
@@ -89,15 +113,31 @@ export default function Page() {
                     <td className="px-4 py-2 border-b">{trx.tranId}</td>
                     <td className="px-4 py-2 border-b">{trx.eventId}</td>
                     <td className="px-4 py-2 border-b">{trx.seat}</td>
-                    <td className="px-4 py-2 border-b">{trx.amount}</td>
+                    <td className="px-4 py-2 border-b">
+                      {trx.amount} {trx.currency || "BDT"}
+                    </td>
                     <td className="px-4 py-2 border-b">{trx.status}</td>
                     <td className="px-4 py-2 border-b">
-                      {new Date(trx.tranAt).toLocaleString()}
+                      {trx.tranAt
+                        ? new Date(trx.tranAt).toLocaleString()
+                        : "N/A"}
                     </td>
-                    <td className="px-4 py-2 border-b">
+                    <td className="px-4 py-2 border-b text-center flex gap-2 items-center">
+                      <Link
+                        href={`/ticket/details?seat=${trx.seat}&eventId=${trx.eventId}`}
+                        className={`size-10 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 cursor-pointer text-2xl text-white shadow-sm`}
+                      >
+                        <MdInfo />
+                      </Link>
+
                       <button
-                        className="btn btn-md btn-circle btn-error"
+                        className={`size-10 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 cursor-pointer text-2xl text-white shadow-sm ${
+                          deletingId === trx.tranId
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }`}
                         onClick={() => handleDelete(trx.tranId)}
+                        disabled={deletingId === trx.tranId}
                       >
                         <MdDelete />
                       </button>

@@ -1,11 +1,14 @@
 "use client";
 
+import Button from "@/ui/Button";
 import PageLayout from "@/ui/PageLayout";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function NearbyEvents() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -43,7 +46,6 @@ export default function NearbyEvents() {
       </PageLayout>
     );
 
-
   return (
     <PageLayout title="Nearby Events">
       <div className="flex flex-col gap-4">
@@ -53,15 +55,23 @@ export default function NearbyEvents() {
         {events.map((event) => (
           <div
             key={event._id}
-            className="p-4 rounded-lg shadow bg-white"
+            className="p-4 rounded-lg shadow bg-white flex flex-col md:flex-row gap-4"
           >
-            <h3 className="text-lg font-semibold">{event.title}</h3>
-            <p>{event.location}</p>
-            {typeof event.distance === "number" && (
-              <p className="text-sm text-gray-500">
-                {event.distance.toFixed(1)} km away
-              </p>
-            )}
+            <div className="flex flex-col flex-1">
+              <h3 className="text-lg font-semibold">{event.title}</h3>
+              <p>{event.location}</p>
+              {typeof event.distance === "number" && (
+                <p className="text-sm text-gray-500">
+                  {event.distance.toFixed(1)} km away
+                </p>
+              )}
+            </div>
+            <Button
+              label={"View Details"}
+              onClick={() => {
+                router.push(`/events/${event._id}`);
+              }}
+            />
           </div>
         ))}
       </div>
