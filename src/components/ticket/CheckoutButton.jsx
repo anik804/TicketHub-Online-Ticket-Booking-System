@@ -3,7 +3,7 @@
 import Button from "@/ui/Button";
 import { useState } from "react";
 
-export default function CheckoutButton({ ticket }) {
+export default function CheckoutButton({ ticket, converting }) {
   const [loading, setLoading] = useState(false);
 
   async function handlePayment() {
@@ -35,9 +35,9 @@ export default function CheckoutButton({ ticket }) {
 
   return (
     <Button
-      className="min-w-32"
+      className={`min-w-32 ${loading && converting ? "pointer-events-none" : ""}`}
       onClick={handlePayment}
-      disabled={loading}
+      disabled={loading || converting}
       label={loading ? "Processing..." : "Pay Now"}
     />
   );
