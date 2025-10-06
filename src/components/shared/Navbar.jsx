@@ -126,13 +126,9 @@ export default function Navbar() {
             </Link>
           ) : (
             <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
-              >
-                <div className="w-10 rounded-full">
-                  <Image
+              <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full overflow-hidden">
+                  <img
                     src={session.user?.image || "/images/placeholder-avatar.svg"}
                     alt="User Avatar"
                     className="w-full h-full object-cover"
