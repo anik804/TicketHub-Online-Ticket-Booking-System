@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+import React from "react";
+
+export default function PageLayout({ children, title }) {
+=======
 "use client";
 
 import { useSession } from "next-auth/react";
@@ -20,6 +25,7 @@ export default function PageLayout({ children, title }) {
     return <Loading/>;
   }
 
+>>>>>>> 6bd7e48a8aef6db451a87ff7ce3ece1b6bbfb982
   return (
     <section className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 text-gray-900 dark:text-gray-100 px-6 py-16 flex justify-center">
       <div className="max-w-4xl w-full bg-orange-50 dark:bg-gray-800 shadow-2xl rounded-3xl border border-orange-200 dark:border-gray-700 p-12">
