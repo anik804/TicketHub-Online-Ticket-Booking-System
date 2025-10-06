@@ -11,44 +11,35 @@ export default function Partners() {
   ];
 
   return (
-    <section className="w-full px-4 py-20  text-white">
-      {/* Animated Heading */}
-      <motion.h1
-        className="pb-10 text-3xl md:text-4xl font-bold text-center"
+    <section className="w-full px-4 py-20  bg-gradient-to-b from-[#FFEFE6]/60 via-[#FFF8F3] to-[#FFF8F3]">
+      {/* Heading */}
+      <motion.h2
+        className="pb-10 text-3xl md:text-4xl font-extrabold text-center
+                   bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
+                   bg-clip-text text-transparent"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        animate={{
-          color: ["#000000", "#3D0000", "#950101", "#FF0000", "#000000"],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          repeatType: "loop",
-        }}
+        transition={{ duration: 0.6 }}
       >
-        Partners & Trusted By
-      </motion.h1>
+        Our Trusted Partners
+      </motion.h2>
 
-      {/* Partners Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+      {/* Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto">
         {partners.map((p, i) => (
           <motion.div
             key={i}
-            className="p-6 bg-gradient-to-br from-[#4d0000] via-[#a60000] to-[#ff4d4d] h-40 border border-[#95010133] rounded-xl shadow-md flex justify-center items-center"
-            initial={{ opacity: 0, y: 50 }}
+            className="flex justify-center items-center bg-base-100 rounded-2xl shadow-sm
+                       hover:shadow-lg transition-all duration-300 h-32 border border-gray-100"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: i * 0.2 }}
-            whileHover={{
-              scale: 1.08,
-              rotate: 1,
-              boxShadow: "0px 10px 30px rgba(255,0,0,0.4)",
-            }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            whileHover={{ scale: 1.05 }}
           >
             <img
               src={p.logo}
               alt={p.name}
-              className="h-20 object-contain bg-[#FF000011] p-3 rounded-lg"
+              className="h-16 object-contain  hover:grayscale-0 transition duration-300"
             />
           </motion.div>
         ))}

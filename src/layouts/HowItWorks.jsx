@@ -48,7 +48,7 @@ export default function HowItWorks() {
           {steps.map((step, index) => (
             <motion.div
               key={step.id}
-              className="relative rounded-3xl bg-white p-10 border border-[#FFD1B3] shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center"
+              className="relative rounded-3xl bg-base-200 p-10 border border-[#FFD1B3] shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
