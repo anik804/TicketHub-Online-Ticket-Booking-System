@@ -11,7 +11,7 @@ export default function Partners() {
   ];
 
   return (
-    <section className="w-full px-4 py-20 bg-white">
+    <section className="w-full px-4 py-20  bg-gradient-to-b from-[#FFEFE6]/60 via-[#FFF8F3] to-[#FFF8F3]">
       {/* Heading */}
       <motion.h2
         className="pb-10 text-3xl md:text-4xl font-extrabold text-center
@@ -29,7 +29,7 @@ export default function Partners() {
         {partners.map((p, i) => (
           <motion.div
             key={i}
-            className="flex justify-center items-center bg-gray-50 rounded-2xl shadow-sm
+            className="flex justify-center items-center bg-base-100 rounded-2xl shadow-sm
                        hover:shadow-lg transition-all duration-300 h-32 border border-gray-100"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -39,7 +39,7 @@ export default function Partners() {
             <img
               src={p.logo}
               alt={p.name}
-              className="h-16 object-contain grayscale hover:grayscale-0 transition duration-300"
+              className="h-16 object-contain  hover:grayscale-0 transition duration-300"
             />
           </motion.div>
         ))}
