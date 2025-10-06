@@ -20,10 +20,9 @@ const Marker = dynamic(
   () => import("react-leaflet").then((mod) => mod.Marker),
   { ssr: false }
 );
-const Popup = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Popup),
-  { ssr: false }
-);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
+});
 
 export default function NearbyEvents() {
   const [events, setEvents] = useState([]);
@@ -99,6 +98,34 @@ export default function NearbyEvents() {
   return (
     <PageLayout title="Nearby Events">
       <div className="flex flex-col gap-6">
+        
+
+        {/* Event List */}
+        <div className="flex flex-col gap-4">
+          {events.length === 0 && (
+            <p className="text-center text-gray-500">No nearby events found.</p>
+          )}
+          {events.map((event) => (
+            <div
+              key={event._id}
+              className="p-4 rounded-lg shadow bg-white flex flex-col md:flex-row gap-4"
+            >
+              <div className="flex flex-col flex-1">
+                <h3 className="text-lg font-semibold">{event.title}</h3>
+                <p>{event.location}</p>
+                {typeof event.distance === "number" && (
+                  <p className="text-sm text-gray-500">
+                    {event.distance.toFixed(1)} km away
+                  </p>
+                )}
+              </div>
+              <Button
+                label={"View Details"}
+                onClick={() => router.push(`/events/${event._id}`)}
+              />
+            </div>
+          ))}
+        </div>
         {/* Map Section */}
         {userPos && (
           <div className="relative h-[400px] w-full rounded-xl overflow-hidden shadow">
@@ -149,33 +176,6 @@ export default function NearbyEvents() {
             </button>
           </div>
         )}
-
-        {/* Event List */}
-        <div className="flex flex-col gap-4">
-          {events.length === 0 && (
-            <p className="text-center text-gray-500">No nearby events found.</p>
-          )}
-          {events.map((event) => (
-            <div
-              key={event._id}
-              className="p-4 rounded-lg shadow bg-white flex flex-col md:flex-row gap-4"
-            >
-              <div className="flex flex-col flex-1">
-                <h3 className="text-lg font-semibold">{event.title}</h3>
-                <p>{event.location}</p>
-                {typeof event.distance === "number" && (
-                  <p className="text-sm text-gray-500">
-                    {event.distance.toFixed(1)} km away
-                  </p>
-                )}
-              </div>
-              <Button
-                label={"View Details"}
-                onClick={() => router.push(`/events/${event._id}`)}
-              />
-            </div>
-          ))}
-        </div>
       </div>
     </PageLayout>
   );
