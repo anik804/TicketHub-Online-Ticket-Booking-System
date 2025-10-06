@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { HiOutlineCurrencyBangladeshi } from "react-icons/hi";
 import { MdDateRange } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
+import Link from "next/link";
 
 export default function EventCard({ event }) {
   return (
@@ -33,9 +34,15 @@ export default function EventCard({ event }) {
           {event.category}
         </span>
 
-        <button className="absolute bottom-2 right-2 btn btn-ghost mt-auto inline-block text-xs px-2 py-1 bg-base-200 text-secondary rounded-md w-fit">
+        {/* <button className="absolute bottom-2 right-2 btn btn-ghost mt-auto inline-block text-xs px-2 py-1 bg-base-200 text-secondary rounded-md w-fit">
           View Details
-        </button>
+        </button> */}
+        <Link
+          href={`/browse-events/${event._id}`}
+          className="mt-3 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-center"
+        >
+          View Details
+        </Link>
       </div>
     </motion.div>
   );
