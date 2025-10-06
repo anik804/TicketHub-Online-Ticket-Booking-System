@@ -36,3 +36,6 @@ export default function EventDetails({ params }) {
     </section>
   );
 }
+
+
+// events/[category]/[id]/page
