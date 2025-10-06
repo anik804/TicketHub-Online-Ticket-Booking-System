@@ -13,7 +13,10 @@ export async function POST(req) {
   const body = await req.json();
 
   const tranId =
-    "TH_" + Math.random().toString(36).substring(2, 22).toUpperCase();
+    "TH_" +
+    Math.random().toString(36).substring(2, 14).toUpperCase() +
+    "_" +
+    Math.floor(100000 + Math.random() * 900000);
 
   try {
     const paymentTransactions = dbConnect("payment-transactions");
