@@ -17,7 +17,7 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="relative py-20 bg-gradient-to-b from-white to-gray-50">
+    <section className="relative py-20 bg-gradient-to-b from-white to-base-200">
       {/* Container */}
       <div className="max-w-7xl mx-auto  md:px-10 sm:px-4 px-6">
         {/* Section Title */}
@@ -29,8 +29,8 @@ export default function Newsletter() {
         >
           <h2
             className="text-4xl md:text-5xl font-extrabold 
-                       bg-gradient-to-r from-[#950101] to-[#FF0000]
-                       bg-clip-text text-transparent"
+                      bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
+                     bg-clip-text text-transparent drop-shadow-lg"
           >
             📰 Subscribe to Our Newsletter
           </h2>
@@ -62,7 +62,7 @@ export default function Newsletter() {
           {/* Right Content */}
           <motion.div
             className="text-center md:text-left space-y-6 
-                       bg-[#fff7ed] rounded-2xl p-10 shadow-lg border border-gray-200"
+                       bg-white rounded-2xl p-10 shadow-lg border border-gray-200"
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
