@@ -33,7 +33,9 @@ export default function HowItWorks() {
       <div className="max-w-7xl mx-auto px-6 text-center">
         {/* Title */}
         <motion.h2
-          className="text-4xl font-bold mb-14 text-[#FF4500] drop-shadow-md"
+          className="text-4xl md:text-5xl font-extrabold mb-4
+                     bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
+                     bg-clip-text text-transparent"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -55,7 +57,7 @@ export default function HowItWorks() {
               <div className="flex justify-center items-center mb-6 text-[#FF4500]">
                 {step.icon}
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">
+              <h3 className="text-xl font-semibold mb-3 text-[#FF0000]">
                 {step.title}
               </h3>
               <p className="text-gray-600 leading-relaxed">
