@@ -48,7 +48,7 @@ export default function WhyChooseUs() {
         </motion.h2>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {features.map((f, i) => (
             <motion.div
               key={i}
@@ -65,7 +65,7 @@ export default function WhyChooseUs() {
                 {f.icon}
               </div>
 
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{f.title}</h3>
+              <h3 className="text-xl font-bold text-[#FF4500] mb-2">{f.title}</h3>
               <p className="text-gray-600 leading-relaxed">{f.desc}</p>
 
               {/* Accent Line */}
