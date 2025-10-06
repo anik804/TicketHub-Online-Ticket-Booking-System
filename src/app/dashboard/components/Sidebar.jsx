@@ -18,7 +18,7 @@ const linksConfig = {
     { label: "Add Event", href: "add-event" },
     { label: "Manage Events", href: "Managements" },
     { label: "Organizer Reminder", href: "organizerReminder" },
-    { label: "Analytics", href: "analytics" },
+    { label: "Payment History", href: "paymentHistory" },
   ],
   admin: [
     { label: "Overview", href: "/" },
