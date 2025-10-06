@@ -11,7 +11,7 @@ export default function OrganizerEventsPage() {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const res = await fetch("http://localhost:5000/api/events?organizerId=123");
+        const res = await fetch("http://localhost:3000/api/events?organizerEmail=123");
         if (!res.ok) throw new Error("Failed to fetch events");
         const data = await res.json();
         setEvents(data);

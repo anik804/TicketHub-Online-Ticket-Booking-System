@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 export default function EventDetailsPage() {
-  const { id } = useParams(); // id এখানে পাওয়া যাবে ঠিকঠাক
+  const { id } = useParams(); 
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
