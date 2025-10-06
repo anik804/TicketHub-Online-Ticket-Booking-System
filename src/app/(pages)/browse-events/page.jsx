@@ -29,7 +29,7 @@ export default function BrowseEvents() {
   }, []);
 
   // Filtered events
-  const filteredEvents = events.filter(
+  const filteredEvents = events?.filter(
     (event) =>
       (event.title.toLowerCase().includes(search.toLowerCase()) ||
         event.category.toLowerCase().includes(search.toLowerCase())) &&
