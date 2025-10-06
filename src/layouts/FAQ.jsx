@@ -3,7 +3,8 @@ import React from 'react'
 export default function FAQ() {
   return (
  <section className="max-w-3xl mx-auto px-6 py-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
+      <h2 className="text-3xl md:text-4xl font-bold text-center bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
+                     bg-clip-text text-transparent drop-shadow-lg mb-8">
         ❓ Frequently Asked Questions
       </h2>
 
