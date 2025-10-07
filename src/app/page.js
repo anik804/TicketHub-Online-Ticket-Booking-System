@@ -6,6 +6,7 @@ import Partners from "@/layouts/Partners";
 import SpecialOffers from "@/components/home/SpecialOffers";
 import WhyChooseUs from "@/layouts/WhyChooseUs";
 import Newsletter from "@/layouts/Newsletter";
+import FAQ from "@/layouts/FAQ";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <WhyChooseUs></WhyChooseUs>
       <CustomerTestimonials />
       <Partners></Partners>
+      <FAQ></FAQ>
       <Newsletter></Newsletter>
     </main>
   );

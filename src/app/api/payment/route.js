@@ -1,41 +1,55 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await req.json();
 
-  try {
-    const transactionsCollection = dbConnect("seat-transactions");
+  const tranId =
+    "TH_" +
+    Math.random().toString(36).substring(2, 14).toUpperCase() +
+    "_" +
+    Math.floor(100000 + Math.random() * 900000);
 
-    const tran_id = `${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+  try {
+    const paymentTransactions = dbConnect("payment-transactions");
 
     // save transaction mapping
-    await transactionsCollection.insertOne({
-      tran_id,
+    await paymentTransactions.insertOne({
+      tranId,
       eventId: body.eventId,
       seat: body.seat,
-      amount: body.amount,
+      email: body.customerEmail,
+      amount: body.price,
+      currency: body.currency,
       status: "PENDING",
-      createdAt: new Date().toISOString(),
+      tranAt: new Date().toISOString(),
     });
 
     const payload = {
       store_id: process.env.SSLC_STORE_ID,
       store_passwd: process.env.SSLC_STORE_PASS,
-      total_amount: Number(body.amount),
-      currency: "BDT",
-      tran_id,
+      total_amount: Number(body.price),
+      currency: body.currency,
+      tran_id: tranId,
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/success`,
       fail_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/fail`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/cancel`,
-      product_category: "ecommerce",
-      product_name: body.productName,
-      product_profile: "event",
+      product_category: "ticket",
+      product_name: body.title,
+      product_profile: "ticket_hub",
       cus_name: body.customerName,
       cus_email: body.customerEmail,
       cus_phone: body.customerPhone,
-      cus_add1: "Dhaka",
-      cus_city: body.customerCity || "Dhaka",
+      cus_add1: body.location || "Not Set",
+      cus_city: body.customerCity || "Not Set",
       cus_country: "Bangladesh",
       shipping_method: "NO",
     };
@@ -50,6 +64,7 @@ export async function POST(req) {
     );
 
     const result = await response.json();
+    console.log(result);
     return NextResponse.json(result);
   } catch (err) {
     console.error("Payment initiation error:", err);
