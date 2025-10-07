@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { FaTicketAlt } from "react-icons/fa"; // 🎟️ Ticket Icon
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -18,7 +19,7 @@ export default function Navbar() {
     { href: "/browse-events", label: "Browse Events" },
     { href: "/categories", label: "Categories" },
     { href: "/about", label: "About" },
-    { href: "/contacts", label: "Contacts" },
+    { href: "/Contacts", label: "Contacts" },
   ];
 
   const navItems = () =>
@@ -75,14 +76,19 @@ export default function Navbar() {
               {navItems()}
             </ul>
           </div>
+
+          {/* Logo with Ticket Icon + Motion */}
           <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/assets/images (10).png"
-              alt="Logo"
-              width={36}
-              height={36}
-              className="rounded-md"
-            />
+            <motion.div
+              initial={{ rotate: -15, scale: 0.8, opacity: 0 }}
+              animate={{ rotate: 0, scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 10 }}
+              whileHover={{ scale: 1.2, rotate: 5 }}
+              whileTap={{ scale: 0.9 }}
+              className="text-red-600 text-3xl"
+            >
+              <FaTicketAlt />
+            </motion.div>
             <p className="text-gray-600 text-2xl font-bold">
               Ticket<span className="text-red-600">Hub</span>
             </p>
@@ -98,7 +104,7 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-1 rounded-md transition-all duration-200 ${
                     pathname === link.href
-                      ? "bg-red-600 text-white font-semibold"
+                      ? "text-red-600  font-semibold"
                       : "text-gray-600 hover:bg-red-100 hover:text-red-600"
                   }`}
                 >
@@ -121,12 +127,11 @@ export default function Navbar() {
           ) : (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  <Image
+                <div className="w-10 rounded-full overflow-hidden">
+                  <img
                     src={session.user?.image || "/images/placeholder-avatar.svg"}
                     alt="User Avatar"
-                    width={40}
-                    height={40}
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </div>
