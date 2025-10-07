@@ -2,12 +2,10 @@
 
 import React from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
 
 export default function PageLayout({ children, title }) {
   const { data: session, status } = useSession();
-  const router = useRouter();
 
   // Show loader while session state is being determined
   if (status === "loading") {
