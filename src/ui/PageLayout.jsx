@@ -1,20 +1,11 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
 
 export default function PageLayout({ children, title }) {
   const { data: session, status } = useSession();
-  const router = useRouter();
-
-  // Redirect unauthenticated users to login
-  useEffect(() => {
-    if (status !== "loading" && !session) {
-      router.replace("/auth/login");
-    }
-  }, [session, status, router]);
 
   // Show loader while session state is being determined
   if (status === "loading") {
@@ -27,15 +18,9 @@ export default function PageLayout({ children, title }) {
   return (
     <section className="min-h-screen flex justify-center items-center px-6 py-12 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
       <div className="w-full max-w-4xl bg-orange-50 dark:bg-gray-800 shadow-2xl rounded-3xl border border-orange-200 dark:border-gray-700 p-10 sm:p-12 transition-all duration-500">
-        
         {/* Title */}
         {title && (
-          <h1
-            className="text-4xl sm:text-5xl font-extrabold text-center mb-10 sm:mb-12
-                       bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
-                       dark:from-red-400 dark:via-orange-300 dark:to-yellow-300
-                       bg-clip-text text-transparent"
-          >
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-center mb-10 sm:mb-12 bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] bg-clip-text text-transparent">
             {title}
           </h1>
         )}
