@@ -2,115 +2,50 @@
 
 import PageLayout from "@/ui/PageLayout";
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
-import { QrCode, MapPinned, CalendarDays, Ticket } from "lucide-react";
-import CheckoutButton from "@/components/event/CheckoutButton";
-import { useSearchParams } from "next/navigation";
-import DownloadTicket from "@/components/event/DownloadTicket";
-import { QRCodeCanvas } from "qrcode.react";
+import React from "react";
+import { QrCode, MapPinned, CalendarDays, Ticket, Check } from "lucide-react";
+import Button from "@/ui/Button";
+import CheckoutButton from "@/components/CheckoutButton";
 
-export default function TicketDetails() {
-  const searchParams = useSearchParams();
-  const seat = searchParams.get("seat");
-  const eventID = searchParams.get("eventID");
+// Fake ticket data (used when no `ticket` prop is provided)
+const singleTicket = {
+  id: "TCKT-20250923-0001",
+  event: {
+    title: "Sunset Jazz Night",
+    eventAt: "2025-09-02T18:30:00.000Z",
+    venue: "Glasshouse Hall, Dhaka",
+  },
+  holder: {
+    name: "Ayesha Rahman",
+    email: "ayesha@example.com",
+    phone: "+8801712345678",
+  },
+  seat: {
+    section: "A",
+    row: "5",
+    number: "12",
+    type: "VIP",
+  },
+  price: 1500.0,
+  currency: "BDT",
+  qrPayload: "TCKT-20250923-0001|Sunset Jazz Night|AYESHA",
+  paymentStatus: "Panding",
+  purchaseDate: "",
+};
 
-  const [transactions, setTransactions] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default function TicketDetails({ ticket = null }) {
+  const t = ticket || singleTicket;
 
-  useEffect(() => {
-    if (!seat || !eventID) return;
-
-    const fetchTransaction = async () => {
-      try {
-        const res = await fetch(
-          `/api/payment/transactions?seat=${seat}&eventID=${eventID}`
-        );
-        const data = await res.json();
-
-        setTransactions(data[0]);
-      } catch (err) {
-        console.error("Failed to load transaction:", err);
-        setTransactions(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTransaction();
-  }, [seat, eventID]);
-
-  
-
-  if (!seat || !eventID) {
-    return (
-      <PageLayout>
-        <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-2xl font-bold text-red-500">
-            Invalid ticket details!
-          </h1>
-          <p className="text-sm opacity-80">
-            Please check your ticket details and try again.
-          </p>
-        </div>
-      </PageLayout>
-    );
-  }
-
-  if(loading){
-    return (
-      <PageLayout>
-        <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-2xl font-bold text-red-500">Loading...</h1>
-        </div>
-      </PageLayout>
-    );
-  }
-
-  const singleTicket = {
-    id: "TCKT-20250923-0001",
-    event: {
-      title: "Sunset Jazz Night",
-      eventAt: "2025-09-02T18:30:00.000Z",
-      venue: "Glasshouse Hall, Dhaka",
-    },
-    holder: {
-      name: "Ayesha Rahman",
-      email: "ayesha@example.com",
-      phone: "+8801712345678",
-    },
-    seat: seat,
-    payment: {
-      price: 1500.0,
-      currency: "BDT",
-      status: transactions ? transactions.status : "PENDING",
-      purchaseDate: "2025-09-01T10:00:00.000Z",
-      transactionId: "TXN123456",
-    },
-  };
-
-  // Date formatting
-  const eventDate = format(new Date(singleTicket.event.eventAt), "PPPP");
-  const eventTime = format(new Date(singleTicket.event.eventAt), "p");
-  const purchaseDate = singleTicket.payment.purchaseDate
-    ? "Purchased on " +
-      format(new Date(singleTicket.payment.purchaseDate), "PPPp")
-    : "Not Purchased Yet!";
-
-  // 👉 QR value = full ticket data as JSON
-  const qrValue = JSON.stringify({
-    id: singleTicket.id,
-    seat: singleTicket.seat,
-    holder: singleTicket.holder,
-    event: singleTicket.event,
-    payment: singleTicket.payment,
-  });
+  const eventDate = format(new Date(t.event.eventAt), "PPPP");
+  const eventTime = format(new Date(t.event.eventAt), "p");
+  const purchaseDate = t.purchaseDate ? "Purchased on "+ format(new Date(t.purchaseDate), "PPPp") : "Not Purchased Yet!";
 
   return (
     <PageLayout title="Ticket Details">
       {/* Header */}
       <div className="border border-base-300 p-4 text-center rounded-2xl mb-2">
-        <h1 className="text-2xl font-bold">{singleTicket.event.title}</h1>
-        <p className="text-sm opacity-80">{singleTicket.id}</p>
+        <h1 className="text-2xl font-bold">{t.event.title}</h1>
+        <p className="text-sm opacity-80">{t.id}</p>
       </div>
 
       {/* Event Details */}
@@ -118,52 +53,49 @@ export default function TicketDetails() {
         <h2 className="text-lg font-semibold">Event Details</h2>
         <p className="flex items-center gap-2">
           <MapPinned className="size-5 text-primary" />{" "}
-          <span className="font-medium">{singleTicket.event.venue}</span>
+          <span className="font-medium">{t.event.venue}</span>
         </p>
         <p className="flex items-center gap-2">
           <CalendarDays className="size-5 text-primary" /> {eventDate} at{" "}
           {eventTime}
         </p>
         <p className="flex items-center gap-2">
-          <Ticket className="size-5 text-primary" />
-          <span className="font-medium">{singleTicket.seat}</span>
+          <Ticket className="size-5 text-primary" />{" "}
+          <span className="badge badge-outline">{t.seat.type}</span> — Section{" "}
+          {t.seat.section}, Row {t.seat.row}, Seat {t.seat.number}
         </p>
       </div>
 
       {/* Ticket Holder */}
       <div className="px-6 py-4 border-t border-base-300">
         <h2 className="text-lg font-semibold mb-2">Ticket Holder</h2>
-        <p>{singleTicket.holder.name}</p>
-        <p className="text-sm opacity-80">{singleTicket.holder.email}</p>
-        <p className="text-sm opacity-80">{singleTicket.holder.phone}</p>
+        <p>{t.holder.name}</p>
+        <p className="text-sm opacity-80">{t.holder.email}</p>
+        <p className="text-sm opacity-80">{t.holder.phone}</p>
       </div>
 
       {/* Payment + Status */}
       <div className="px-6 py-4 border-t border-base-300 flex flex-col md:flex-row justify-between">
         <div>
           <p className="font-medium text-2xl mb-1">
-            PRICE : {singleTicket.payment.price} {singleTicket.payment.currency}
+            PRICE : {t.price} {t.currency}
           </p>
           <p className="text-sm opacity-80 mb-3">{purchaseDate}</p>
-          {singleTicket.payment.status === "PENDING" ? (
-            <span className="badge badge-warning">Pending</span>
+          {t.paymentStatus === "Panding" ? (
+            <span className="badge badge-warning">Panding</span>
           ) : (
             <span className="badge badge-success">Paid</span>
           )}
         </div>
-
         {/* QR and Button */}
         <div className="flex flex-col items-center gap-4">
-          {singleTicket.payment.status === "PENDING" ? (
+          {t.paymentStatus === "Panding" ? (
             <>
               <QrCode className="size-20 md:size-26 lg:size-32 opacity-80 border border-base-300 rounded-lg" />
-              <CheckoutButton seat={seat} eventID={eventID} />
+              <CheckoutButton />
             </>
           ) : (
-            <>
-              <QRCodeCanvas value={qrValue} className="size-20 md:size-26 lg:size-32" />
-              <DownloadTicket ticket={singleTicket} />
-            </>
+            <></>
           )}
         </div>
       </div>
