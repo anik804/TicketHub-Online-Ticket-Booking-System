@@ -11,13 +11,14 @@ const linksConfig = {
     { label: "Profile", href: "profile" },
     { label: "Settings", href: "settings" },
     { label: "User Reminder", href: "userReminder" },
+    { label: "Transactions", href: "transactions-history" },
   ],
   organizer: [
     { label: "Overview", href: "/" },
     { label: "Add Event", href: "add-event" },
     { label: "Manage Events", href: "Managements" },
     { label: "Organizer Reminder", href: "organizerReminder" },
-    { label: "Analytics", href: "analytics" },
+    { label: "Payment History", href: "paymentHistory" },
   ],
   admin: [
     { label: "Overview", href: "/" },
