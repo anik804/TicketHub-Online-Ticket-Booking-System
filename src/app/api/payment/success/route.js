@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
 import { ObjectId } from "mongodb";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function POST(req) {
   try {
@@ -13,7 +11,7 @@ export async function POST(req) {
     const payments = dbConnect("ticket-payments");
     const eventsCollection = dbConnect("events");
 
-    // Find transaction to get eventId
+    // Find transaction to get eventId and seats
     const trx = await transactions.findOne({ tranId });
     if (!trx) {
       return NextResponse.json(
@@ -22,11 +20,21 @@ export async function POST(req) {
       );
     }
 
-    // Decrease event seat
-    await eventsCollection.updateOne(
-      { _id: new ObjectId(trx.eventId), availableSeats: { $gt: 0 } },
-      { $inc: { availableSeats: -1 } }
+    const seatsPurchased = Array.isArray(trx.seats) ? trx.seats : [trx.seats];
+    const numberOfSeats = seatsPurchased.length;
+
+    // Decrease availableSeats in the event by number of seats purchased
+    const updateResult = await eventsCollection.updateOne(
+      { _id: new ObjectId(trx.eventId), availableSeats: { $gte: numberOfSeats } },
+      { $inc: { availableSeats: -numberOfSeats } }
     );
+
+    if (updateResult.modifiedCount === 0) {
+      return NextResponse.json(
+        { error: "Not enough seats available" },
+        { status: 400 }
+      );
+    }
 
     // Update transaction status
     await transactions.updateOne(
@@ -34,20 +42,24 @@ export async function POST(req) {
       { $set: { status: "SUCCESS", paidAt: new Date().toISOString() } }
     );
 
-    //add payment
+    // Add payment record
     await payments.insertOne({
       tranId,
       eventId: trx.eventId,
-      seat: trx.seat,
+      seats: seatsPurchased, // store all purchased seats
       paidBy: trx.email,
+      organizerEmail: trx.organizerEmail,
       amount: trx.amount,
       status: "PAID",
+      currency: trx.currency,
       paidAt: new Date().toISOString(),
     });
 
-    // 303 redirect ensures POST → GET
+    // Redirect to ticket details page
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/details?seat=${trx.seat}&eventId=${trx.eventId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/details?eventId=${trx.eventId}&seats=${encodeURIComponent(
+        JSON.stringify(seatsPurchased)
+      )}`,
       { status: 303 }
     );
   } catch (err) {

@@ -2,8 +2,8 @@
 
 import PageLayout from "@/ui/PageLayout";
 import { format, parseISO } from "date-fns";
-import React, { useEffect, useState } from "react";
-import { QrCode, Ticket } from "lucide-react";
+import React, { useEffect, useState, useMemo } from "react";
+import { QrCode, Ticket, MapPin, CalendarDays } from "lucide-react";
 import CheckoutButton from "@/components/ticket/CheckoutButton";
 import { useSearchParams } from "next/navigation";
 import DownloadTicket from "@/components/ticket/DownloadTicket";
@@ -15,144 +15,123 @@ import Link from "next/link";
 export default function TicketDetails() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
-  const seat = searchParams.get("seat");
+
+  const seatParam = searchParams.get("seats");
+  const seats = useMemo(() => {
+    if (!seatParam) return [];
+    return seatParam.startsWith("[")
+      ? JSON.parse(decodeURIComponent(seatParam))
+      : [seatParam];
+  }, [seatParam]);
+
   const eventId = searchParams.get("eventId");
 
-  const [transactions, setTransactions] = useState(null);
   const [event, setEvent] = useState(null);
-  const [ticket, setTicket] = useState({});
+  const [transaction, setTransaction] = useState(null);
+  const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [convertedPrice, setConvertedPrice] = useState(0);
   const [currency, setCurrency] = useState("BDT");
+  const [convertedPrice, setConvertedPrice] = useState(0);
   const [converting, setConverting] = useState(false);
   const currencies = ["BDT", "USD", "EUR", "GBP", "INR", "AUD", "CAD"];
 
   // Fetch Event
   useEffect(() => {
-    const fetchEvent = async () => {
-      if (!seat || !eventId) return;
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/browse-event/${eventId}`);
-        const data = await res.json();
-        setEvent(data);
-      } catch {
-        setEvent(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEvent();
-  }, [seat, eventId]);
+    if (!eventId) return;
+    setLoading(true);
+    fetch(`/api/browse-event/${eventId}`)
+      .then((res) => res.json())
+      .then((data) => setEvent(data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [eventId]);
 
   // Fetch Transaction
   useEffect(() => {
-    if (!seat || !eventId) return;
-    const fetchTransaction = async () => {
-      try {
-        const res = await fetch(
-          `/api/payment/transactions?seat=${seat}&eventId=${eventId}`
-        );
-        if (!res.ok) throw new Error("Failed to fetch transaction");
-        const data = await res.json();
-        setTransactions(data);
-      } catch {
-        setTransactions(null);
-      }
-    };
-    fetchTransaction();
-  }, [seat, eventId]);
+    if (!seats.length || !eventId) return;
+
+    fetch(
+      `/api/payment/transactions?eventId=${eventId}&seats=${encodeURIComponent(
+        JSON.stringify(seats)
+      )}`
+    )
+      .then((res) => res.json())
+      .then((data) => setTransaction(data || null))
+      .catch(() => setTransaction(null));
+  }, [seats, eventId]);
 
   // Currency Conversion
   useEffect(() => {
-    if (!event?.price || !currency) return;
-    const convertCurrency = async () => {
-      setConverting(true);
-      try {
-        const res = await fetch(
-          `https://v6.exchangerate-api.com/v6/5d75648c6024f50ca5e6c413/pair/BDT/${currency}/${event.price}`
-        );
-        const data = await res.json();
-        if (data.result === "success") {
-          setConvertedPrice(parseFloat(data.conversion_result).toFixed(2));
-        } else {
-          setConvertedPrice(event.price);
-        }
-      } catch {
-        setConvertedPrice(event.price);
-      } finally {
-        setConverting(false);
-      }
-    };
-    convertCurrency();
+    if (!event?.price) return;
+
+    setConverting(true);
+    fetch(
+      `https://v6.exchangerate-api.com/v6/5d75648c6024f50ca5e6c413/pair/BDT/${currency}/${event.price}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result === "success") setConvertedPrice(Number(data.conversion_result));
+        else setConvertedPrice(event.price);
+      })
+      .catch(() => setConvertedPrice(event.price))
+      .finally(() => setConverting(false));
   }, [currency, event?.price]);
 
-  const formattedEventDate = event?.date
-    ? format(parseISO(event?.date), "PPPPp")
-    : "Date unavailable";
+  console.log(convertedPrice);
 
-  // Setup Ticket Data
+  // Prepare Ticket Object
   useEffect(() => {
-    if (!event) return;
+    if (!event || !seats.length) return;
+
+    const eventDate = event?.date
+      ? format(parseISO(event.date), "PPPPp")
+      : "Date not available";
+
+    // ✅ Calculate total using convertedPrice
+    const totalPrice = convertedPrice * seats.length;
+
     setTicket({
-      id: `TICKETHUB_${eventId?.toUpperCase()}_${seat}`,
+      id: `TICKET_${eventId?.slice(0, 6)?.toUpperCase()}_${seats.join("-")}`,
       eventId,
-      tranId: transactions?.tranId,
+      tranId: transaction?.tranId || null,
       title: event?.title,
-      date: formattedEventDate,
+      date: eventDate,
       location: event?.location,
-      seat,
-      price: Number(convertedPrice),
+      seats,
+      price: totalPrice,
       currency,
       organizerEmail: event?.organizerEmail,
-      status: transactions?.status || "PENDING",
+      status: transaction?.status || "PENDING",
       customerName: session?.user?.name || "N/A",
       customerEmail: session?.user?.email || "N/A",
-      purchaseDate:
-        transactions?.status === "SUCCESS"
-          ? "Purchased on " + format(new Date(transactions.paidAt), "PPPp")
-          : "Not Purchased Yet",
+      purchaseDate: transaction?.paidAt
+        ? "Purchased on " + format(new Date(transaction.paidAt), "PPPp")
+        : "Not Purchased Yet",
     });
-  }, [event, seat, transactions, convertedPrice, currency]);
+  }, [event, transaction, seats, convertedPrice, currency, eventId, session?.user]);
 
-  if (!seat || !eventId) {
+  if (loading || status === "loading" || !ticket) {
+    return (
+      <PageLayout>
+        <div className="flex flex-col items-center justify-center h-screen text-center">
+          <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p className="text-gray-600">Loading ticket details...</p>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  if (!seats.length || !eventId || !event) {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center h-screen text-center">
           <h1 className="text-2xl font-bold text-red-500">
-            Invalid ticket details!
+            Invalid or missing ticket data
           </h1>
-          <p className="text-sm opacity-70">
-            Please check your ticket info and try again.
+          <p className="text-sm text-gray-500">
+            Please go back and select a valid seat.
           </p>
-        </div>
-      </PageLayout>
-    );
-  }
-
-  if (loading || status === "loading" || !event) {
-    return (
-      <PageLayout>
-        <div className="flex flex-col items-center justify-center h-screen text-lg">
-          <span className="loading loading-spinner loading-lg text-primary"></span>
-          Loading ticket details...
-        </div>
-      </PageLayout>
-    );
-  }
-
-  if (
-    transactions?.status === "SUCCESS" &&
-    transactions.email !== session?.user?.email
-  ) {
-    return (
-      <PageLayout>
-        <div className="flex flex-col items-center justify-center h-screen text-center">
-          <h1 className="text-2xl font-bold text-red-500">
-            The ticket is not available!
-          </h1>
-          <p className="text-sm opacity-70">Please try another one.</p>
         </div>
       </PageLayout>
     );
@@ -160,29 +139,33 @@ export default function TicketDetails() {
 
   return (
     <PageLayout title="Ticket Details">
-      {/* Banner */}
-      <div className="relative w-full h-60 rounded-2xl overflow-hidden shadow-md mb-5">
+      <div className="relative w-full h-64 rounded-2xl overflow-hidden shadow-lg mb-8">
         <Image
           src={event?.imageUrl}
           alt={event?.title}
           fill
-          className="object-cover w-full h-full brightness-90"
+          className="object-cover brightness-90"
         />
-        <div className="absolute bottom-0 left-0 w-full p-5 text-white drop-shadow-lg flex justify-between items-end">
+        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-6 flex justify-between items-end text-white">
           <div>
             <h1 className="text-3xl font-bold">{event?.title}</h1>
-            <p className="opacity-90">{event?.location}</p>
+            <p className="flex items-center gap-2">
+              <MapPin size={16} /> {event?.location}
+            </p>
+            <p className="flex items-center gap-2 opacity-90">
+              <CalendarDays size={16} /> {ticket.date}
+            </p>
           </div>
           <div className="flex gap-3">
             <Link
               href={`/ticket/seat?eventId=${eventId}`}
-              className="rounded-md shadow-sm bg-orange-400 hover:bg-orange-500 px-4 py-2 text-semibold text-sm text-white"
+              className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-md text-sm text-white"
             >
-              Other Seat
+              Other Seats
             </Link>
             <Link
               href={`/browse-events/${eventId}`}
-              className=" rounded-md shadow-sm bg-orange-400 hover:bg-orange-500 px-4 py-2 text-semibold text-sm text-white"
+              className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-md text-sm text-white"
             >
               View Details
             </Link>
@@ -190,52 +173,55 @@ export default function TicketDetails() {
         </div>
       </div>
 
-      {/* Info Section */}
-      <div className="bg-white rounded-xl shadow p-6 mb-6">
-        <h2 className="text-lg font-semibold mb-2 flex items-center gap-2">
-          <Ticket className="w-5 h-5 text-primary" /> Ticket Information
+      {/* Ticket Info */}
+      <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+        <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+          <Ticket className="text-orange-500" /> Ticket Information
         </h2>
-        <p className="text-sm mb-1">
-          Seat: <strong>{ticket.seat}</strong>
-        </p>
-        <p className="text-sm mb-1">
-          Date: <strong>{ticket.date}</strong>
-        </p>
-        <p className="text-sm mb-1">
-          Customer: <strong>{ticket.customerName}</strong>
-        </p>
-        <p className="text-sm">
-          Email: <strong>{ticket.customerEmail}</strong>
-        </p>
+        <div className="grid md:grid-cols-2 gap-2 text-sm">
+          <p>
+            <strong>Seats:</strong> {ticket.seats.join(", ")}
+          </p>
+          <p>
+            <strong>Date:</strong> {ticket.date}
+          </p>
+          <p>
+            <strong>Customer:</strong> {ticket.customerName}
+          </p>
+          <p>
+            <strong>Email:</strong> {ticket.customerEmail}
+          </p>
+        </div>
       </div>
 
-      {/* Payment Section */}
-      <div className="bg-white rounded-xl shadow p-6 mb-6">
+      {/* Payment & Status */}
+      <div className="bg-white rounded-xl shadow-md p-6">
         <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-          <QrCode className="w-5 h-5 text-primary" /> Payment & Status
+          <QrCode className="text-orange-500" /> Payment & Status
         </h2>
-
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div>
-            <p className="text-2xl font-bold mb-2">
+            <p className="text-2xl font-bold">
               {ticket.status === "SUCCESS"
-                ? `${transactions.amount} ${transactions.currency}`
+                ? `${transaction.amount} ${transaction.currency}`
                 : converting
                 ? "Converting..."
-                : `${convertedPrice} ${currency}`}
+                : `${ticket.price.toFixed(2)} ${currency}`}
             </p>
+
             {ticket.status !== "SUCCESS" && (
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
-                className="select border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-primary"
+                className="border rounded-md px-2 py-1 text-sm mt-2 focus:ring-2 focus:ring-orange-400"
               >
                 {currencies.map((cur) => (
                   <option key={cur}>{cur}</option>
                 ))}
               </select>
             )}
-            <p className="text-sm text-gray-500 mt-1">{ticket.purchaseDate}</p>
+
+            <p className="text-sm text-gray-500 mt-2">{ticket.purchaseDate}</p>
           </div>
 
           <div className="flex flex-col items-center gap-3 mt-4 md:mt-0">
@@ -248,7 +234,7 @@ export default function TicketDetails() {
                 <DownloadTicket ticket={ticket} />
               </>
             ) : (
-              converting || <CheckoutButton ticket={ticket} />
+              !converting && <CheckoutButton ticket={ticket} />
             )}
           </div>
         </div>
