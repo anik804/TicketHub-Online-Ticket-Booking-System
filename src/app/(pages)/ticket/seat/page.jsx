@@ -7,6 +7,7 @@ import Image from "next/image";
 import { parseISO, format } from "date-fns";
 import { Ticket, XCircle, MapPin, CalendarDays, DollarSign } from "lucide-react";
 import Link from "next/link";
+import { FaInfo } from "react-icons/fa";
 
 export default function SeatPage() {
   const searchParams = useSearchParams();
@@ -136,13 +137,13 @@ export default function SeatPage() {
         <div className="flex-1 text-center md:text-left">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">{event.title}</h1>
           <p className="flex items-center justify-center md:justify-start text-gray-600 dark:text-gray-300 gap-2 mb-1">
-            <MapPin className="w-5 h-5" /> {event.location}
+            <MapPin className="size-4" /> {event.location}
           </p>
           <p className="flex items-center justify-center md:justify-start text-gray-600 dark:text-gray-300 gap-2 mb-1">
-            <CalendarDays className="w-5 h-5" /> {format(parseISO(event.date), "PPPPp")}
+            <CalendarDays className="size-4" /> {format(parseISO(event?.date), "PPPPp")}
           </p>
           <p className="flex items-center justify-center md:justify-start text-gray-800 dark:text-gray-200 gap-2 mt-2 text-lg font-semibold mb-4">
-            <DollarSign className="size-5" /> {event.price} BDT
+            <DollarSign className="size-5" /> {event.price} BDT Per Ticket
           </p>
           <Link href={`/browse-events/${eventId}`} className="rounded-md shadow-sm bg-orange-400 hover:bg-orange-500 px-4 py-2 text-semibold text-sm text-white">
             View Details
@@ -163,7 +164,7 @@ export default function SeatPage() {
                 key={seat}
                 onClick={() => handleSelect(seat)}
                 disabled={isBooked}
-                className={`py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2
+                className={`py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer
                   ${isBooked
                     ? "bg-red-500 text-white cursor-not-allowed shadow-inner"
                     : isSelected
@@ -179,17 +180,17 @@ export default function SeatPage() {
         </div>
 
         {/* Legend */}
-        <div className="mt-10 flex items-center justify-center gap-8 text-gray-700 dark:text-gray-300">
+        <div className="mt-10 flex items-center justify-center gap-8 text-sm text-gray-700 dark:text-gray-300">
           <div className="flex items-center gap-2">
-            <span className="w-5 h-5 bg-green-500 rounded-sm"></span>
+            <span className="size-4 bg-green-500 rounded-sm"></span>
             <span className="flex items-center gap-1">Available</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-5 h-5 bg-yellow-400 rounded-sm"></span>
+            <span className="size-4 bg-yellow-400 rounded-sm"></span>
             <span className="flex items-center gap-1">Selected</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-5 h-5 bg-red-500 rounded-sm"></span>
+            <span className="size-4 bg-red-500 rounded-sm"></span>
             <span className="flex items-center gap-1">Booked</span>
           </div>
         </div>
@@ -199,7 +200,7 @@ export default function SeatPage() {
           <button
             onClick={handleProceed}
             disabled={selected.length === 0}
-            className={`px-6 py-3 rounded-lg text-white font-semibold transition-all ${
+            className={`px-6 py-3 rounded-lg text-white font-semibold transition-all cursor-pointer ${
               selected.length === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
