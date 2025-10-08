@@ -14,7 +14,7 @@ export async function GET(req) {
       );
     }
 
-    const paymentTransactions = dbConnect("payment-transactions");
+    const paymentTransactions = dbConnect("ticket-payments");
     const payment = await paymentTransactions.findOne({ tranId });
 
     if (!payment) {
