@@ -31,6 +31,7 @@ export async function POST(req) {
       currency: body.currency,
       status: "PENDING",
       tranAt: new Date().toISOString(),
+      organizerEmail: body.organizerEmail,
     });
 
     const payload = {
