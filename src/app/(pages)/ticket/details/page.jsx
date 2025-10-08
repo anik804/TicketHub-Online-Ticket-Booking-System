@@ -178,9 +178,19 @@ export default function TicketDetails() {
         <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
           <Ticket className="text-orange-500" /> Ticket Information
         </h2>
-        <div className="grid md:grid-cols-2 gap-2 text-sm">
-          <p>
-            <strong>Seats:</strong> {ticket.seats.join(", ")}
+        <div className="flex flex-col gap-2 text-sm">
+          <p className="space-x-2 mb-2">
+            <strong>Seats:</strong> {
+
+ticket.seats.map((seat) => (
+  <span
+    className="py-1 px-2 rounded-sm border text-green-800 bg-green-300 border-green-800"
+    key={seat}
+  >
+    {seat}
+  </span>
+))
+            }
           </p>
           <p>
             <strong>Date:</strong> {ticket.date}
