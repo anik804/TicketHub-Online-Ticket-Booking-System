@@ -3,18 +3,13 @@
 import PageLayout from "@/ui/PageLayout";
 import { format, parseISO } from "date-fns";
 import React, { useEffect, useState } from "react";
-import { QrCode, MapPinned, CalendarDays, Ticket, CheckCircle, Clock } from "lucide-react";
+import { QrCode, Ticket } from "lucide-react";
 import CheckoutButton from "@/components/ticket/CheckoutButton";
 import { useSearchParams } from "next/navigation";
 import DownloadTicket from "@/components/ticket/DownloadTicket";
 import { QRCodeCanvas } from "qrcode.react";
 import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
 
-const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
 
 const dummyEvent = {
   _id: "68df6fbcc712eb0ef7a6a98e",
