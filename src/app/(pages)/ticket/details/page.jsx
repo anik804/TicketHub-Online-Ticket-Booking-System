@@ -9,7 +9,8 @@ import { useSearchParams } from "next/navigation";
 import DownloadTicket from "@/components/ticket/DownloadTicket";
 import { QRCodeCanvas } from "qrcode.react";
 import { useSession } from "next-auth/react";
-
+import Image from "next/image";
+import Link from "next/link";
 
 export default function TicketDetails() {
   const { data: session, status } = useSession();
@@ -50,7 +51,9 @@ export default function TicketDetails() {
     if (!seat || !eventId) return;
     const fetchTransaction = async () => {
       try {
-        const res = await fetch(`/api/payment/transactions?seat=${seat}&eventId=${eventId}`);
+        const res = await fetch(
+          `/api/payment/transactions?seat=${seat}&eventId=${eventId}`
+        );
         if (!res.ok) throw new Error("Failed to fetch transaction");
         const data = await res.json();
         setTransactions(data);
@@ -86,8 +89,8 @@ export default function TicketDetails() {
   }, [currency, event?.price]);
 
   const formattedEventDate = event?.date
-  ? format(parseISO(event?.date), "PPPPp")
-  : "Date unavailable";
+    ? format(parseISO(event?.date), "PPPPp")
+    : "Date unavailable";
 
   // Setup Ticket Data
   useEffect(() => {
@@ -117,8 +120,12 @@ export default function TicketDetails() {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center h-screen text-center">
-          <h1 className="text-2xl font-bold text-red-500">Invalid ticket details!</h1>
-          <p className="text-sm opacity-70">Please check your ticket info and try again.</p>
+          <h1 className="text-2xl font-bold text-red-500">
+            Invalid ticket details!
+          </h1>
+          <p className="text-sm opacity-70">
+            Please check your ticket info and try again.
+          </p>
         </div>
       </PageLayout>
     );
@@ -135,11 +142,16 @@ export default function TicketDetails() {
     );
   }
 
-  if (transactions?.status === "SUCCESS" && transactions.email !== session?.user?.email) {
+  if (
+    transactions?.status === "SUCCESS" &&
+    transactions.email !== session?.user?.email
+  ) {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center h-screen text-center">
-          <h1 className="text-2xl font-bold text-red-500">The ticket is not available!</h1>
+          <h1 className="text-2xl font-bold text-red-500">
+            The ticket is not available!
+          </h1>
           <p className="text-sm opacity-70">Please try another one.</p>
         </div>
       </PageLayout>
@@ -150,14 +162,31 @@ export default function TicketDetails() {
     <PageLayout title="Ticket Details">
       {/* Banner */}
       <div className="relative w-full h-60 rounded-2xl overflow-hidden shadow-md mb-5">
-        <img
+        <Image
           src={event?.imageUrl}
           alt={event?.title}
+          fill
           className="object-cover w-full h-full brightness-90"
         />
-        <div className="absolute bottom-4 left-4 text-white drop-shadow-lg">
-          <h1 className="text-3xl font-bold">{event?.title}</h1>
-          <p className="opacity-90">{event?.location}</p>
+        <div className="absolute bottom-0 left-0 w-full p-5 text-white drop-shadow-lg flex justify-between items-end">
+          <div>
+            <h1 className="text-3xl font-bold">{event?.title}</h1>
+            <p className="opacity-90">{event?.location}</p>
+          </div>
+          <div className="flex gap-3">
+            <Link
+              href={`/ticket/seat?eventId=${eventId}`}
+              className="rounded-md shadow-sm bg-orange-400 hover:bg-orange-500 px-4 py-2 text-semibold text-sm text-white"
+            >
+              Other Seat
+            </Link>
+            <Link
+              href={`/browse-events/${eventId}`}
+              className=" rounded-md shadow-sm bg-orange-400 hover:bg-orange-500 px-4 py-2 text-semibold text-sm text-white"
+            >
+              View Details
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -166,10 +195,18 @@ export default function TicketDetails() {
         <h2 className="text-lg font-semibold mb-2 flex items-center gap-2">
           <Ticket className="w-5 h-5 text-primary" /> Ticket Information
         </h2>
-        <p className="text-sm mb-1">Seat: <strong>{ticket.seat}</strong></p>
-        <p className="text-sm mb-1">Date: <strong>{ticket.date}</strong></p>
-        <p className="text-sm mb-1">Customer: <strong>{ticket.customerName}</strong></p>
-        <p className="text-sm">Email: <strong>{ticket.customerEmail}</strong></p>
+        <p className="text-sm mb-1">
+          Seat: <strong>{ticket.seat}</strong>
+        </p>
+        <p className="text-sm mb-1">
+          Date: <strong>{ticket.date}</strong>
+        </p>
+        <p className="text-sm mb-1">
+          Customer: <strong>{ticket.customerName}</strong>
+        </p>
+        <p className="text-sm">
+          Email: <strong>{ticket.customerEmail}</strong>
+        </p>
       </div>
 
       {/* Payment Section */}
@@ -204,7 +241,10 @@ export default function TicketDetails() {
           <div className="flex flex-col items-center gap-3 mt-4 md:mt-0">
             {ticket.status === "SUCCESS" ? (
               <>
-                <QRCodeCanvas value={JSON.stringify(ticket)} className="size-28 border p-2 rounded-lg" />
+                <QRCodeCanvas
+                  value={JSON.stringify(ticket)}
+                  className="size-28 border p-2 rounded-lg"
+                />
                 <DownloadTicket ticket={ticket} />
               </>
             ) : (
@@ -213,11 +253,6 @@ export default function TicketDetails() {
           </div>
         </div>
       </div>
-
-      
     </PageLayout>
   );
 }
-
-
-

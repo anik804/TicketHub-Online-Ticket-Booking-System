@@ -17,7 +17,7 @@ export default function PageLayout({ children, title }) {
 
   return (
     <section className="min-h-screen flex justify-center items-center px-6 py-12 bg-gradient-to-b from-white to-gray-50 text-gray-900 transition-colors duration-500">
-      <div className="w-full max-w-4xl bg-orange-50 dark:bg-gray-800 shadow-2xl rounded-3xl border border-orange-200 p-10 sm:p-12 transition-all duration-500">
+      <div className="w-full max-w-4xl bg-orange-50 dark:bg-gray-800 shadow-2xl rounded-3xl border border-orange-200 p-5 md:p-8 lg:p-12 transition-all duration-500">
         {/* Title */}
         {title && (
           <h1 className="text-4xl sm:text-5xl font-extrabold text-center mb-10 sm:mb-12 bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] bg-clip-text text-transparent">
