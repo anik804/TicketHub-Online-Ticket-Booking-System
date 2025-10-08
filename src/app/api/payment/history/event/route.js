@@ -12,7 +12,7 @@ export async function POST(req) {
       return NextResponse.json({ error: "Event ID required" }, { status: 400 });
     }
 
-    const paymentTransactions = dbConnect("payment-transactions");
+    const paymentTransactions = dbConnect("ticket-payments");
     const transactions = await paymentTransactions.find({ eventId }).toArray();
 
     if (transactions.length === 0) {

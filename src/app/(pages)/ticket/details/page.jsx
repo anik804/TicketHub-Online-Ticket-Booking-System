@@ -107,7 +107,7 @@ export default function TicketDetails() {
       customerName: session?.user?.name || "N/A",
       customerEmail: session?.user?.email || "N/A",
       purchaseDate:
-        transactions?.status === "PAID"
+        transactions?.status === "SUCCESS"
           ? "Purchased on " + format(new Date(transactions.paidAt), "PPPp")
           : "Not Purchased Yet",
     });
@@ -135,7 +135,7 @@ export default function TicketDetails() {
     );
   }
 
-  if (transactions?.status === "PAID" && transactions.email !== session?.user?.email) {
+  if (transactions?.status === "SUCCESS" && transactions.email !== session?.user?.email) {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center h-screen text-center">
@@ -181,13 +181,13 @@ export default function TicketDetails() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div>
             <p className="text-2xl font-bold mb-2">
-              {ticket.status === "PAID"
+              {ticket.status === "SUCCESS"
                 ? `${transactions.amount} ${transactions.currency}`
                 : converting
                 ? "Converting..."
                 : `${convertedPrice} ${currency}`}
             </p>
-            {ticket.status !== "PAID" && (
+            {ticket.status !== "SUCCESS" && (
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
@@ -202,7 +202,7 @@ export default function TicketDetails() {
           </div>
 
           <div className="flex flex-col items-center gap-3 mt-4 md:mt-0">
-            {ticket.status === "PAID" ? (
+            {ticket.status === "SUCCESS" ? (
               <>
                 <QRCodeCanvas value={JSON.stringify(ticket)} className="size-28 border p-2 rounded-lg" />
                 <DownloadTicket ticket={ticket} />
