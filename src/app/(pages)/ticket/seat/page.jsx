@@ -5,7 +5,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import PageLayout from "@/ui/PageLayout";
 import Image from "next/image";
 import { parseISO, format } from "date-fns";
-import { Ticket, XCircle, MapPin, CalendarDays, DollarSign } from "lucide-react";
+import {
+  Ticket,
+  XCircle,
+  MapPin,
+  CalendarDays,
+  DollarSign,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function SeatPage() {
   const searchParams = useSearchParams();
@@ -60,7 +67,7 @@ export default function SeatPage() {
     fetchTransactions();
   }, [eventId]);
 
-  // 🔹 Generate seat layout (A1–Z10)
+  // 🔹 Generate seat layout (A1–Z20)
   const generateSeatLayout = (total) => {
     const layout = [];
     const rows = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -82,8 +89,6 @@ export default function SeatPage() {
     }
     router.push(`/ticket/details?seat=${seat}&eventId=${eventId}`);
   };
-
-  const formatDate = (isoDate) => format(parseISO(isoDate), "PPPPp");
 
   if (loading) {
     return (
@@ -129,28 +134,35 @@ export default function SeatPage() {
             <MapPin className="w-5 h-5" /> {event.location}
           </p>
           <p className="flex items-center justify-center md:justify-start text-gray-600 dark:text-gray-300 gap-2 mb-1">
-            <CalendarDays className="w-5 h-5" /> {formatDate(event.date)}
+            <CalendarDays className="w-5 h-5" />{" "}
+            {format(parseISO(event.date), "PPPPp")}
           </p>
-          <p className="flex items-center justify-center md:justify-start text-gray-800 dark:text-gray-200 gap-2 mt-2 text-lg font-semibold">
-            <DollarSign className="w-5 h-5" /> {event.price} BDT{" "}
+          <p className="flex items-center justify-center md:justify-start text-gray-800 dark:text-gray-200 gap-2 mt-2 text-lg font-semibold mb-4">
+            <DollarSign className="size-5" /> {event.price} BDT{" "}
             {event.discount ? `(Discount ${event.discount}%)` : ""}
           </p>
+          <Link
+              href={`/browse-events/${eventId}`}
+              className="rounded-md shadow-sm bg-orange-400 hover:bg-orange-500 px-4 py-2 text-semibold text-sm text-white"
+            >
+              View Details
+            </Link>
         </div>
       </div>
 
       {/* 🔹 Seat Selection */}
-      <div className="p-6 text-center">
+      <div className="p-2 text-center">
         <h2 className="text-2xl font-semibold mb-6">
           Select Your Seat ({event.availableSeats} Available)
         </h2>
 
-        <div className="grid grid-cols-10 gap-3 justify-center max-w-5xl mx-auto">
+        <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-3 justify-center w-full">
           {seats.map((seat) => (
             <button
               key={seat}
               onClick={() => handleSelect(seat)}
               disabled={booked.includes(seat)}
-              className={`p-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2
+              className={`py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2
                 ${
                   booked.includes(seat)
                     ? "bg-red-500 text-white cursor-not-allowed shadow-inner"
