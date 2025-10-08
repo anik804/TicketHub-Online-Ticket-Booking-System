@@ -11,23 +11,6 @@ import { QRCodeCanvas } from "qrcode.react";
 import { useSession } from "next-auth/react";
 
 
-const dummyEvent = {
-  _id: "68df6fbcc712eb0ef7a6a98e",
-  title: "Cricket Match",
-  date: "2025-09-26T16:08:41.672Z",
-  location: "Andorkilla, Chittagong",
-  price: 120,
-  desc: "Pakistan vs Bangladesh T20I Final Match",
-  category: "sports",
-  imageUrl: "https://i.ibb.co.com/5hzLny6Y/ai-rising.webp",
-  totalSeats: 200,
-  availableSeats: 200,
-  discount: 0,
-  organizerEmail: "pranoy@gmail.com",
-  lat: 22.3554568,
-  lng: 91.8397677,
-};
-
 export default function TicketDetails() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
@@ -52,9 +35,9 @@ export default function TicketDetails() {
         setLoading(true);
         const res = await fetch(`/api/browse-event/${eventId}`);
         const data = await res.json();
-        setEvent(data || dummyEvent);
+        setEvent(data);
       } catch {
-        setEvent(dummyEvent);
+        setEvent(null);
       } finally {
         setLoading(false);
       }
@@ -119,6 +102,7 @@ export default function TicketDetails() {
       seat,
       price: Number(convertedPrice),
       currency,
+      organizerEmail: event?.organizerEmail,
       status: transactions?.status || "PENDING",
       customerName: session?.user?.name || "N/A",
       customerEmail: session?.user?.email || "N/A",
@@ -224,7 +208,7 @@ export default function TicketDetails() {
                 <DownloadTicket ticket={ticket} />
               </>
             ) : (
-              <CheckoutButton converting={converting} ticket={ticket} />
+              converting || <CheckoutButton ticket={ticket} />
             )}
           </div>
         </div>
@@ -234,3 +218,6 @@ export default function TicketDetails() {
     </PageLayout>
   );
 }
+
+
+
