@@ -132,7 +132,7 @@ export default function TransactionsHistory() {
                       {Array.isArray(trx.seats) && trx.seats.length > 0
                         ? trx.seats.map((seat) => (
                             <span
-                              className="p-1 rounded-sm border border-gray-200"
+                              className="py-1 px-2 rounded-sm border border-gray-200"
                               key={seat}
                             >
                               {seat}
@@ -176,7 +176,7 @@ export default function TransactionsHistory() {
                       <button
                         onClick={() => handleDelete(trx.tranId)}
                         disabled={deletingId === trx.tranId}
-                        className={`size-8 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 text-white text-xl shadow transition-transform hover:scale-110 ${
+                        className={`size-8 flex items-center justify-center rounded-full bg-red-500 cursor-pointer hover:bg-red-600 text-white text-xl shadow transition-transform hover:scale-110 ${
                           deletingId === trx.tranId
                             ? "opacity-50 cursor-not-allowed"
                             : ""
