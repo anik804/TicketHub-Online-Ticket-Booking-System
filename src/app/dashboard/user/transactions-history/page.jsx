@@ -16,7 +16,7 @@ export default function TransactionsHistory() {
   const fetchTransHistory = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/payment/history`);
+      const res = await fetch(`/api/payment/history/user`);
       if (!res.ok) throw new Error("Failed to fetch transactions");
 
       const data = await res.json();
@@ -38,6 +38,8 @@ export default function TransactionsHistory() {
     fetchTransHistory();
   }, []);
 
+  console.log(transactions);
+
   // Delete a transaction
   const handleDelete = async (tranId) => {
     const confirm = await Swal.fire({
@@ -56,7 +58,7 @@ export default function TransactionsHistory() {
 
     setDeletingId(tranId);
     try {
-      const res = await fetch(`/api/payment/history?tranId=${tranId}`, {
+      const res = await fetch(`/api/payment/history/user?tranId=${tranId}`, {
         method: "DELETE",
       });
 
