@@ -1,10 +1,7 @@
-
 import { dbConnect } from "@/libs/dbConnect";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
- 
-
   try {
     const { eventId } = await req.json();
 
@@ -16,7 +13,10 @@ export async function POST(req) {
     const transactions = await paymentTransactions.find({ eventId }).toArray();
 
     if (transactions.length === 0) {
-      return NextResponse.json({ message: "No transactions found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "No transactions found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(transactions, { status: 200 });
