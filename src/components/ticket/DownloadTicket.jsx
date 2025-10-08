@@ -59,7 +59,7 @@ export default function DownloadTicket({ ticket }) {
         ["Title", ticket.title || "N/A"],
         ["Date & Time", ticket.date || "N/A"],
         ["Venue", ticket.location || "N/A"],
-        ["Seat", ticket.seat || "Not Assigned"],
+        ["Seat", ticket.seats || "Not Assigned"],
       ],
     });
 

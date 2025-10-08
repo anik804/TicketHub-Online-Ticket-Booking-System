@@ -25,7 +25,7 @@ export async function POST(req) {
     await transactions.insertOne({
       tranId,
       eventId: body.eventId,
-      seat: body.seat,
+      seats: body.seats,
       email: body.customerEmail,
       amount: body.price,
       currency: body.currency,

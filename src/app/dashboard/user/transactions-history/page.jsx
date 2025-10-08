@@ -38,8 +38,6 @@ export default function TransactionsHistory() {
     fetchTransHistory();
   }, []);
 
-  console.log(transactions);
-
   // Delete a transaction
   const handleDelete = async (tranId) => {
     const confirm = await Swal.fire({
@@ -109,7 +107,7 @@ export default function TransactionsHistory() {
               <thead className="bg-gray-100 dark:bg-gray-700">
                 <tr>
                   <th className="px-4 py-3 text-left">Transaction ID</th>
-                  <th className="px-4 py-3 text-left">Seat</th>
+                  <th className="px-4 py-3 text-left">Seats</th>
                   <th className="px-4 py-3 text-left">Amount</th>
                   <th className="px-4 py-3 text-left">Payment</th>
                   <th className="px-4 py-3 text-left">Date</th>
@@ -128,10 +126,25 @@ export default function TransactionsHistory() {
                     } hover:bg-gray-100 dark:hover:bg-gray-700 transition`}
                   >
                     <td className="px-4 py-3 font-medium">{trx.tranId}</td>
-                    <td className="px-4 py-3">{trx.seat || "N/A"}</td>
+
+                    {/* Seats safe handling */}
+                    <td className="px-4 py-3 space-x-2">
+                      {Array.isArray(trx.seats) && trx.seats.length > 0
+                        ? trx.seats.map((seat) => (
+                            <span
+                              className="p-1 rounded-sm border border-gray-200"
+                              key={seat}
+                            >
+                              {seat}
+                            </span>
+                          ))
+                        : "N/A"}
+                    </td>
+
                     <td className="px-4 py-3 text-sky-700">
                       {trx.amount} {trx.currency || "BDT"}
                     </td>
+
                     <td
                       className={`px-4 py-3 font-semibold ${
                         trx.status === "SUCCESS"
@@ -141,14 +154,20 @@ export default function TransactionsHistory() {
                     >
                       {trx.status}
                     </td>
+
                     <td className="px-4 py-3">
                       {trx.tranAt
                         ? new Date(trx.tranAt).toLocaleString()
                         : "N/A"}
                     </td>
+
                     <td className="px-4 py-3 text-center flex justify-center gap-3">
                       <Link
-                        href={`/ticket/details?seat=${trx.seat}&eventId=${trx.eventId}`}
+                        href={`/ticket/details?eventId=${
+                          trx.eventId || ""
+                        }&seats=${encodeURIComponent(
+                          JSON.stringify(trx.seats || [])
+                        )}`}
                         className="size-8 flex items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 text-white text-xl shadow transition-transform hover:scale-110"
                       >
                         <MdInfo />
