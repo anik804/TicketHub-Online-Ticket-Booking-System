@@ -25,14 +25,14 @@ export async function GET(req) {
       return NextResponse.json({ error: "Seat required" }, { status: 400 });
     }
 
-    const paymentTransactions = dbConnect("payment-transactions");
+    const ticketTransactions = dbConnect("ticket-transactions");
 
     // Build query object
     const query = {};
     if (seat) query.seat = seat;
     if (eventId) query.eventId = eventId;
 
-    const transactions = await paymentTransactions.find(query).toArray();
+    const transactions = await ticketTransactions.find(query).toArray();
 
     if (transactions.length === 0) {
       return NextResponse.json(

@@ -111,7 +111,7 @@ export default function TransactionsHistory() {
                   <th className="px-4 py-3 text-left">Transaction ID</th>
                   <th className="px-4 py-3 text-left">Seat</th>
                   <th className="px-4 py-3 text-left">Amount</th>
-                  <th className="px-4 py-3 text-left">Status</th>
+                  <th className="px-4 py-3 text-left">Payment</th>
                   <th className="px-4 py-3 text-left">Date</th>
                   <th className="px-4 py-3 text-center">Action</th>
                 </tr>
@@ -129,12 +129,12 @@ export default function TransactionsHistory() {
                   >
                     <td className="px-4 py-3 font-medium">{trx.tranId}</td>
                     <td className="px-4 py-3">{trx.seat || "N/A"}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 text-sky-700">
                       {trx.amount} {trx.currency || "BDT"}
                     </td>
                     <td
                       className={`px-4 py-3 font-semibold ${
-                        trx.status === "PAID"
+                        trx.status === "SUCCESS"
                           ? "text-green-600"
                           : "text-orange-600"
                       }`}

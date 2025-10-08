@@ -110,7 +110,7 @@ export default function DownloadTicket({ ticket }) {
       </div>
 
       <Button
-        className="w-40 md:w-48 lg:w-56"
+        className="w-40 md:w-45 lg:w-50"
         label="Download Ticket"
         onClick={handleDownload}
       />
