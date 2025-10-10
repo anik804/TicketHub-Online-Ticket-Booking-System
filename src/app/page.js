@@ -7,12 +7,14 @@ import SpecialOffers from "@/components/home/SpecialOffers";
 import WhyChooseUs from "@/layouts/WhyChooseUs";
 import Newsletter from "@/layouts/Newsletter";
 import FAQ from "@/layouts/FAQ";
+import MoviesNowPlaying from "@/components/home/MoviesNowPlaying";
 
 export default function Home() {
   return (
     <main>
       <Banner></Banner>
       <CategorySection></CategorySection>
+      <MoviesNowPlaying/> {/* New Section : Pranoy */}
       <HowItWorks></HowItWorks>
       <SpecialOffers />
       <WhyChooseUs></WhyChooseUs>
