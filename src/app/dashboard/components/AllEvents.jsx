@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Loader from "./shared/Loader";
 
 export default function AdminEventsPage() {
   const [events, setEvents] = useState([]);
@@ -47,7 +48,7 @@ export default function AdminEventsPage() {
     setFilteredEvents(updatedEvents);
   }, [searchTerm, priceFilter, events]);
 
-  if (loading) return <p className="text-center py-6">Loading events...</p>;
+  if (loading) return <Loader></Loader>;
 
   return (
     <section className="p-6">
