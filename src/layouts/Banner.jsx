@@ -97,8 +97,11 @@ export default function Banner() {
                 <Swiper
                   modules={[Autoplay]}
                   autoplay={{ delay: 2000 }}
-                  slidesPerView={2}
-                  smSlidesPerView={3}
+                  breakpoints={{
+                    400: { slidesPerView: 1 },
+                    770: { slidesPerView: 3 },
+                    1024: { slidesPerView: 4 },
+                  }}
                   spaceBetween={8}
                   loop
                   className="w-[200px] sm:w-[250px] md:w-[300px]"
