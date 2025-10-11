@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Loader from "./shared/Loader";
 
 export default function PaymentHistory() {
   const [payments, setPayments] = useState([]);
@@ -19,10 +20,7 @@ export default function PaymentHistory() {
       });
   }, []);
 
-  if (loading)
-    return (
-      <p className="text-center py-6 text-gray-500">Loading payments...</p>
-    );
+  if (loading) return<Loader></Loader>;
 
   return (
     <section className="p-6">
@@ -48,7 +46,11 @@ export default function PaymentHistory() {
                 <tr key={payment._id}>
                   <td>{index + 1}</td>
                   <td>{payment.paidBy}</td>
-                  <td>{payment.seat}</td>
+                  <td>
+                    {Array.isArray(payment.seats)
+                      ? payment.seats.join(", ")
+                      : payment.seats}
+                  </td>
                   <td className="font-mono text-sm text-gray-700">
                     {payment.tranId}
                   </td>

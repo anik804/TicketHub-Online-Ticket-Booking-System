@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Loader from "./shared/Loader";
 
 export default function OrganizerReminder() {
   const [reminders, setReminders] = useState([]);
@@ -14,7 +15,7 @@ export default function OrganizerReminder() {
     <section className="p-6">
       <h1 className="text-2xl font-bold">📅 Your Reminders</h1>
       {reminders.length === 0 ? (
-        <p className="text-gray-600 mt-4">No reminders yet.</p>
+        <Loader></Loader>
       ) : (
         <ul className="mt-4 space-y-3">
           {reminders.map((r) => (
