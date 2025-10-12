@@ -6,6 +6,7 @@ import WhyChooseUs from "@/layouts/WhyChooseUs";
 import MoviesNowPlaying from "@/components/home/MoviesNowPlaying";
 import RollingPartners from "@/components/home/RollingPartners";
 import GetAnswers from "@/layouts/GetAnswers";
+import PhotoGallery from "@/components/home/PhotoGallery";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       {/* New Section : Pranoy */}
       <MoviesNowPlaying />
       <RollingPartners />
+      <PhotoGallery/>
       <HowItWorks></HowItWorks>
       <WhyChooseUs></WhyChooseUs>
       <Partners></Partners>
