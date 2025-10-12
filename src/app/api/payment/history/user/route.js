@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 
 // GET Transactions History
 export async function GET(req) {
@@ -14,7 +14,7 @@ export async function GET(req) {
   try {
     const email = session?.user.email;
 
-    const paymentTransactions = dbConnect("payment-transactions");
+    const paymentTransactions = dbConnect("ticket-transactions");
 
     const transactions = await paymentTransactions.find({ email }).toArray();
 
@@ -55,7 +55,7 @@ export async function DELETE(req) {
       );
     }
 
-    const paymentTransactions = dbConnect("payment-transactions");
+    const paymentTransactions = dbConnect("ticket-transactions");
     const payment = await paymentTransactions.findOne({ tranId });
 
     if (!payment) {
