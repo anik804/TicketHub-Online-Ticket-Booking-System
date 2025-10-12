@@ -11,7 +11,7 @@ const nextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
     ],
-    domains: ["www.movieposters.com", "cdn.shopify.com"],
+    domains: ["www.movieposters.com", "cdn.shopify.com", "images.pexels.com", "i.pinimg.com", "img.freepik.com", "cdn.pixabay.com"],
   },
 };
 
