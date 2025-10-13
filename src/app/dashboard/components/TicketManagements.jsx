@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import Loader from "./shared/Loader";
 
 export default function ManageEvents() {
   const { data: session } = useSession();
@@ -48,7 +49,7 @@ export default function ManageEvents() {
     }
   };
 
-  if (loading) return <div className="text-center mt-10 text-gray-600">Loading events...</div>;
+  if (loading) return <Loader></Loader>;
 
   return (
     <div className="p-6 bg-gradient-to-br from-[#FF0000]/5 via-white to-[#3D0000]/5 rounded-2xl shadow-md mt-6">
