@@ -5,14 +5,16 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { FaTicketAlt } from "react-icons/fa"; // 🎟️ Ticket Icon
-import { motion } from "framer-motion";
+import { FaTicketAlt } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Menu } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
     { href: "/", label: "Home" },
@@ -21,22 +23,6 @@ export default function Navbar() {
     { href: "/about", label: "About" },
     { href: "/Contacts", label: "Contacts" },
   ];
-
-  const navItems = () =>
-    links.map((link) => (
-      <li key={link.href}>
-        <Link
-          href={link.href}
-          className={`${
-            pathname === link.href
-              ? "text-red-600 font-semibold"
-              : "text-gray-600 hover:text-red-500"
-          }`}
-        >
-          {link.label}
-        </Link>
-      </li>
-    ));
 
   const handleLogout = async () => {
     try {
@@ -56,35 +42,22 @@ export default function Navbar() {
     <div className="sticky top-0 z-50 w-full shadow-md bg-white">
       <div className="navbar px-6 py-3">
         {/* Navbar Start */}
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div tabIndex={0} className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-gray-700"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h8m-8 6h16" />
-              </svg>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 w-52 p-2 shadow-lg bg-white rounded-lg text-gray-700"
-            >
-              {navItems()}
-            </ul>
-          </div>
+        <div className="navbar-start flex items-center gap-2">
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="lg:hidden text-gray-700"
+          >
+            <Menu className="h-6 w-6" />
+          </button>
 
-          {/* Logo with Ticket Icon + Motion */}
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <motion.div
               initial={{ rotate: -15, scale: 0.8, opacity: 0 }}
               animate={{ rotate: 0, scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 200, damping: 10 }}
               whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
               className="text-red-600 text-3xl"
             >
               <FaTicketAlt />
@@ -95,7 +68,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Navbar Center */}
+        {/* Navbar Center (Desktop) */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 gap-3">
             {links.map((link) => (
@@ -116,7 +89,7 @@ export default function Navbar() {
         </div>
 
         {/* Navbar End */}
-        <div className="navbar-end flex items-center gap-3">
+        <div className="navbar-end">
           {status === "loading" ? null : !session ? (
             <Link
               href="/auth/login"
@@ -165,6 +138,54 @@ export default function Navbar() {
           )}
         </div>
       </div>
+
+      {/* 📱 Fullscreen Mobile Menu */}
+      <AnimatePresence>
+  {menuOpen && (
+    <motion.div
+      initial={{ x: "-100%" }}
+      animate={{ x: 0 }}
+      exit={{ x: "-100%" }}
+      transition={{ type: "tween", duration: 0.3 }}
+      className="fixed inset-0 z-50 flex backdrop-blur-sm bg-black/40"
+    >
+      {/* Sidebar */}
+      <div className="bg-white w-72 h-full p-6 shadow-xl">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-semibold text-[#d96c2c]">Menu</h2>
+          <button onClick={() => setMenuOpen(false)}>
+            <X className="h-6 w-6 text-gray-700" />
+          </button>
+        </div>
+
+        <ul className="space-y-4">
+          {links.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className={`block text-lg font-medium ${
+                  pathname === link.href
+                    ? "text-[#d96c2c]"
+                    : "text-gray-700 hover:text-[#d96c2c]"
+                }`}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Overlay area (click outside to close) */}
+      <div
+        className="flex-1 cursor-pointer"
+        onClick={() => setMenuOpen(false)}
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
+
     </div>
   );
 }
