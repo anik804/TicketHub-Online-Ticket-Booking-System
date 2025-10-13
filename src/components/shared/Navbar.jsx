@@ -39,7 +39,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full shadow-md bg-white">
+    <div className="sticky top-0 z-50 w-full shadow-md bg-black">
       <div className="navbar px-6 py-3">
         {/* Navbar Start */}
         <div className="navbar-start flex items-center gap-2">
@@ -52,18 +52,18 @@ export default function Navbar() {
           </button>
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex p-5 items-center gap-2">
             <motion.div
               initial={{ rotate: -15, scale: 0.8, opacity: 0 }}
               animate={{ rotate: 0, scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 200, damping: 10 }}
               whileHover={{ scale: 1.2, rotate: 5 }}
-              className="text-red-600 text-3xl"
+              className="text-[#d96c2c] text-3xl"
             >
               <FaTicketAlt />
             </motion.div>
             <p className="text-gray-600 text-2xl font-bold">
-              Ticket<span className="text-red-600">Hub</span>
+              Ticket<span className="text-[#d96c2c]">Hub</span>
             </p>
           </Link>
         </div>
@@ -77,8 +77,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-1 rounded-md transition-all duration-200 ${
                     pathname === link.href
-                      ? "text-red-600  font-semibold"
-                      : "text-gray-600 hover:bg-red-100 hover:text-red-600"
+                      ? "text-[#d96c2c]  font-semibold"
+                      : "text-gray-300  hover:text-[#d96c2c]"
                   }`}
                 >
                   {link.label}
@@ -93,9 +93,9 @@ export default function Navbar() {
           {status === "loading" ? null : !session ? (
             <Link
               href="/auth/login"
-              className="btn rounded-md bg-gradient-to-r from-[#950101] to-[#FF0000] font-semibold hover:opacity-95 transition text-white"
+              className="px-3 py-1 rounded-md  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
             >
-              Login
+              Join Us
             </Link>
           ) : (
             <div className="dropdown dropdown-end">
@@ -108,16 +108,16 @@ export default function Navbar() {
                   />
                 </div>
               </div>
-              <ul className="menu dropdown-content mt-3 w-52 shadow-lg bg-white rounded-lg p-2 text-gray-700">
+              <ul className="menu dropdown-content mt-3 w-52 shadow-lg bg-black rounded-lg p-2 text-gray-300">
                 <li>
-                  <Link href="/profile" className="hover:bg-gray-100 rounded-md">
+                  <Link href="/profile" className="hover:text-gray-500 rounded-md">
                     Profile
                   </Link>
                 </li>
                 <li>
                   <Link
                     href={`/dashboard/${session.user.role.toLowerCase()}`}
-                    className="hover:bg-gray-100 rounded-md"
+                    className="hover:text-gray-500 rounded-md"
                   >
                     Dashboard
                   </Link>
@@ -126,7 +126,7 @@ export default function Navbar() {
                   <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className={`w-full text-red-600 hover:bg-red-100 rounded-md px-3 py-1 transition-all ${
+                    className={`w-full text-[#d96c2c] hover:text-gray-500 rounded-md px-3 py-1 transition-all ${
                       isLoggingOut ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                   >
@@ -150,7 +150,7 @@ export default function Navbar() {
       className="fixed inset-0 z-50 flex backdrop-blur-sm bg-black/40"
     >
       {/* Sidebar */}
-      <div className="bg-white w-72 h-full p-6 shadow-xl">
+      <div className="bg-black w-72 h-full p-6 shadow-xl">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-[#d96c2c]">Menu</h2>
           <button onClick={() => setMenuOpen(false)}>
@@ -167,7 +167,7 @@ export default function Navbar() {
                 className={`block text-lg font-medium ${
                   pathname === link.href
                     ? "text-[#d96c2c]"
-                    : "text-gray-700 hover:text-[#d96c2c]"
+                    : "text-gray-300 hover:text-gray-500"
                 }`}
               >
                 {link.label}
