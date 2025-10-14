@@ -2,6 +2,7 @@
   "name": "tickethub",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
@@ -24,7 +25,7 @@
     "next": "15.5.3",
     "next-auth": "^4.24.11",
     "next-themes": "^0.4.6",
-    "nodemailer": "^6.10.1",
+    "nodemailer": "^7.0.9",
     "qrcode.react": "^4.2.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
