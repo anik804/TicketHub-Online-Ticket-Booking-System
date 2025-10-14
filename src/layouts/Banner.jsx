@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/autoplay";
+import Link from "next/link";
 
 export default function Banner() {
   const slides = [
@@ -79,12 +80,12 @@ export default function Banner() {
                 <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
                   {slide.title}
                 </h1>
-                <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-6">
+                <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-6">
                   {slide.desc}
                 </p>
-                <button className="bg-white btn lg:text-lg text-black mb-10 hover:bg-[#d96c2c] text-base sm:text-sm px-5 sm:px-6 py-2 sm:py-3 rounded-md font-semibold shadow-md transition duration-300">
+                <Link href={'/browse-events'} className="bg-white btn lg:text-lg hover:scale-105 text-black mb-20  hover:bg-[#d96c2c] text-base sm:text-sm px-5 sm:px-6 py-2 sm:py-3 rounded font-semibold shadow-md transition duration-300">
                   Browse Events
-                </button>
+                </Link>
               </motion.div>
 
               {/* Thumbnail Slider */}
@@ -92,15 +93,16 @@ export default function Banner() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.3 }}
-                className="absolute bottom-4 sm:bottom-6 md:bottom-10 right-4 sm:right-6 md:right-10 bg-black/40 p-2 sm:p-4 rounded-lg backdrop-blur-md"
+                className="absolute bottom-4  sm:bottom-6 md:bottom-10 right-4 sm:right-6 md:right-10 bg-black/40 p-2 sm:p-4 rounded-lg backdrop-blur-md"
               >
                 <Swiper
                   modules={[Autoplay]}
                   autoplay={{ delay: 2000 }}
+                  slidesPerView={3}
                   breakpoints={{
-                    400: { slidesPerView: 1 },
-                    770: { slidesPerView: 3 },
-                    1024: { slidesPerView: 4 },
+                    640: { slidesPerView: 1 }, // sm
+                    768: { slidesPerView: 2 }, // md
+                    1024: { slidesPerView: 3 }, // lg
                   }}
                   spaceBetween={8}
                   loop

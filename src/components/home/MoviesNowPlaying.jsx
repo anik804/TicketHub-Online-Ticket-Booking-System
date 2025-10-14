@@ -69,7 +69,7 @@ export default function MoviesNowPlaying() {
       <div className="px-5 md:px-10 lg:px-15">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
-          spaceBetween={20}
+          spaceBetween={25}
           pagination={{ clickable: true }}
           loop={true}
           className="w-full h-112 lg:h-122"
@@ -96,11 +96,11 @@ export const MovieCard = ({ movie, index }) => {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      className="w-full h-100 lg:h-110 p-[5px] bg-transparent hover:bg-orange-700/80 transition-all duration-600 ease-in-out rounded hover:shadow-md"
+      className="group w-full h-100 lg:h-110 p-1 bg-green hover:bg-primary transition-all duration-600 ease-in-out rounded hover:shadow-md overflow-hidden"
     >
       <Link
         href={`/movies/${movie.title}`}
-        className="w-full h-full bg-black flex items-end pb-5 lg:pb-8 rounded relative group overflow-hidden"
+        className="w-full h-full flex items-end pb-5 lg:pb-8 rounded relative overflow-hidden"
       >
         <Image
           src={movie.imageUrl}

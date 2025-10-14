@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import HomeLayer from "@/ui/HomeLayer";
-import { MdLocalMovies } from "react-icons/md";
 import { motion } from "motion/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -52,7 +51,7 @@ export default function RollingPartners() {
       <div className="px-5 md:px-10 lg:px-15">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
-          spaceBetween={20}
+          spaceBetween={25}
           loop={true}
           autoplay={{ delay: 1500 }}
           className="w-full"
@@ -64,7 +63,7 @@ export default function RollingPartners() {
         >
           {partners.map((partner, index) => (
             <SwiperSlide key={index} className="w-full py-1">
-              <PartnerCard partner={partner} index={index} />
+              <PartnerCard partner={partner} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -73,13 +72,13 @@ export default function RollingPartners() {
   );
 }
 
-export const PartnerCard = ({ partner, index }) => {
+export const PartnerCard = ({ partner }) => {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.6 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="w-full h-auto py-10 px-5 border border-gray-200 rounded flex flex-col items-center justify-between shadow-xs"
+      className="w-full h-auto py-10 px-5 border border-primary/10 rounded flex flex-col items-center justify-between shadow-xs"
     >
       <Image
         src={partner.imgUrl}
