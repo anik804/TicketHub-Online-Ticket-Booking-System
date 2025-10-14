@@ -46,7 +46,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setMenuOpen(true)}
-            className="lg:hidden text-gray-700"
+            className="lg:hidden text-gray-300"
           >
             <Menu className="h-6 w-6" />
           </button>
@@ -62,7 +62,7 @@ export default function Navbar() {
             >
               <FaTicketAlt />
             </motion.div>
-            <p className="text-gray-600 text-2xl font-bold">
+            <p className="text-gray-300 text-2xl font-bold">
               Ticket<span className="text-[#d96c2c]">Hub</span>
             </p>
           </Link>
@@ -93,7 +93,7 @@ export default function Navbar() {
           {status === "loading" ? null : !session ? (
             <Link
               href="/auth/login"
-              className="px-3 py-1 rounded-md  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
+              className="px-3 py-1 rounded  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
             >
               Join Us
             </Link>
@@ -179,7 +179,7 @@ export default function Navbar() {
 
       {/* Overlay area (click outside to close) */}
       <div
-        className="flex-1 cursor-pointer"
+        className="flex-1  cursor-pointer"
         onClick={() => setMenuOpen(false)}
       />
     </motion.div>

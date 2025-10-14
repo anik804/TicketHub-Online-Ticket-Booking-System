@@ -18,50 +18,64 @@ export default function Footer() {
   return (
     <div>
       <footer className="footer sm:footer-horizontal bg-[#000000] text-base-content p-10">
+        
         {/* Services */}
-        <nav>
-          <h6 className="footer-title text-gray-400">Services</h6>
-          <p className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
-            Online Ticket Booking
-          </p>
-          <p className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
-            Real-time Seat Selection
-          </p>
-          <p className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
-            Secure Payment
-          </p>
-          <p className="text-gray-400 hover:text-[#FF0000] transition-colors cursor-pointer">
-            E-Ticket with QR Code
-          </p>
-        </nav>
+      <nav>
+  <h6 className="footer-title text-[#d96c2c]">Services</h6>
+
+  {[
+    "Online Ticket Booking",
+    "Real-time Seat Selection",
+    "Secure Payment",
+    "E-Ticket with QR Code",
+  ].map((service, index) => (
+    <p
+      key={index}
+      className="relative text-gray-400 hover:text-[#d96c2c] transition-colors cursor-pointer group mt-1"
+    >
+      {service}
+      <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[#d96c2c] transition-all duration-300 ease-in-out group-hover:w-full"></span>
+    </p>
+  ))}
+      </nav>
+
 
         {/* Company */}
-        <nav>
-          <h6 className="footer-title text-gray-400">Company</h6>
-          {companyLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`block mt-1 ${
-                pathname === link.href
-                  ? "text-[#FF0000] font-semibold"
-                  : "text-gray-400 hover:text-[#FF0000] transition-colors"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+     <nav>
+  <h6 className="footer-title text-[#d96c2c]">Company</h6>
+
+  {companyLinks.map((link) => (
+    <Link
+      key={link.href}
+      href={link.href}
+      className={`relative block mt-1 group transition-colors ${
+        pathname === link.href
+          ? "text-[#d96c2c] font-semibold"
+          : "text-gray-400 hover:text-[#d96c2c]"
+      }`}
+    >
+      {link.label}
+      <span
+        className={`absolute left-0 bottom-0 h-[1px] transition-all duration-300 ease-in-out ${
+          pathname === link.href
+            ? "w-full bg-[#d96c2c]"
+            : "w-0 bg-[#d96c2c] group-hover:w-full"
+        }`}
+      ></span>
+    </Link>
+  ))}
+     </nav>
+
 
         {/* Social */}
         <nav>
-  <h6 className="footer-title text-gray-400 mb-2">Social</h6>
+  <h6 className="footer-title text-[#d96c2c]  mb-2">Social</h6>
   <div className="flex gap-4 mt-2">
     <a
       href="https://www.facebook.com/TicketHubDemo"
       target="_blank"
       rel="noopener noreferrer"
-      className="text-gray-400 hover:text-[#FF0000] transition-colors"
+      className="text-gray-400 hover:text-[#d96c2c] transition-colors"
       aria-label="Facebook"
     >
       <Facebook size={24} />
@@ -70,7 +84,7 @@ export default function Footer() {
       href="https://twitter.com/TicketHubDemo"
       target="_blank"
       rel="noopener noreferrer"
-      className="text-gray-400 hover:text-[#FF0000] transition-colors"
+      className="text-gray-400 hover:text-[#d96c2c] transition-colors"
       aria-label="Twitter"
     >
       <Twitter size={24} />
@@ -79,7 +93,7 @@ export default function Footer() {
       href="https://www.instagram.com/TicketHubDemo"
       target="_blank"
       rel="noopener noreferrer"
-      className="text-gray-400 hover:text-[#FF0000] transition-colors"
+      className="text-gray-400 hover:text-[#d96c2c] transition-colors"
       aria-label="Instagram"
     >
       <Instagram size={24} />
