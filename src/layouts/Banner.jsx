@@ -80,10 +80,10 @@ export default function Banner() {
                 <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
                   {slide.title}
                 </h1>
-                <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-6">
+                <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-6">
                   {slide.desc}
                 </p>
-                <Link href={'/browse-events'} className="bg-white btn lg:text-lg hover:scale-105 text-black mb-20  hover:bg-[#d96c2c] text-base sm:text-sm px-5 sm:px-6 py-2 sm:py-3 rounded-md font-semibold shadow-md transition duration-300">
+                <Link href={'/browse-events'} className="bg-white btn lg:text-lg hover:scale-105 text-black mb-20  hover:bg-[#d96c2c] text-base sm:text-sm px-5 sm:px-6 py-2 sm:py-3 rounded font-semibold shadow-md transition duration-300">
                   Browse Events
                 </Link>
               </motion.div>

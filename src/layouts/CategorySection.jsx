@@ -18,8 +18,7 @@ export default function CategorySection() {
         {/* Title */}
           <motion.h2
           className="text-4xl md:text-5xl font-extrabold mb-4
-                     bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
-                     bg-clip-text text-transparent"
+                    text-gray-800"
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -29,7 +28,7 @@ export default function CategorySection() {
 
         {/* Subtitle */}
         <motion.p
-          className="text-[#3D0000] font-bold mb-16 text-lg md:text-xl"
+          className="text-gray-800 font-bold mb-16 text-lg md:text-xl"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -59,7 +58,7 @@ export default function CategorySection() {
               </div>
 
               <div className="p-6 text-left">
-                <h3 className="text-xl font-semibold text-[#FF0000]">{category.title}</h3>
+                <h3 className="text-xl font-semibold text-[#d96c2c]">{category.title}</h3>
                 <p className="text-gray-500 mt-2">{category.desc}</p>
               </div>
             </motion.div>
