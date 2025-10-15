@@ -7,16 +7,19 @@ import MoviesNowPlaying from "@/components/home/MoviesNowPlaying";
 import RollingPartners from "@/components/home/RollingPartners";
 import GetAnswers from "@/layouts/GetAnswers";
 import PhotoGallery from "@/components/home/PhotoGallery";
+import FeedbackSection from "@/layouts/FeedbackSection";
+
 
 export default function Home() {
   return (
-    <main>
+    <main >
       <Banner></Banner>
       <CategorySection></CategorySection>
       {/* New Section : Pranoy */}
       <MoviesNowPlaying />
       <RollingPartners />
       <PhotoGallery/>
+       <FeedbackSection/>
       <HowItWorks></HowItWorks>
       <WhyChooseUs></WhyChooseUs>
       <Partners></Partners>
