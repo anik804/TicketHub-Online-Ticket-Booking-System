@@ -131,7 +131,7 @@ export default function Register() {
             onChange={handleChange}
             placeholder="Enter your full name"
             required
-            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -146,7 +146,7 @@ export default function Register() {
             onChange={handleChange}
             placeholder="Enter your email"
             required
-            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -161,7 +161,7 @@ export default function Register() {
             onChange={handleChange}
             placeholder="Create a password"
             required
-            className={`mt-2 w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 ${
+            className={`mt-2 w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 ${
               passwordError
                 ? "border-red-500 focus:ring-primary"
                 : "border-gray-300 focus:ring-primary"
@@ -183,7 +183,7 @@ export default function Register() {
             onChange={handleChange}
             placeholder="Confirm password"
             required
-            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -198,7 +198,7 @@ export default function Register() {
             onChange={handleChange}
             placeholder="Enter your phone number"
             required
-            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -214,7 +214,7 @@ export default function Register() {
             value={formData.photo}
             onChange={handleChange}
             placeholder="Photo URL"
-            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -226,14 +226,14 @@ export default function Register() {
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="User">User</option>
             <option value="Organizer">Organizer</option>
           </select>
         </div>
 
-        <div className="flex items-center space-x-2 col-span-2 my-2">
+        <div className="flex items-center space-x-2 md:col-span-2 my-2">
           <input
             name="terms"
             type="checkbox"
@@ -254,7 +254,7 @@ export default function Register() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           type="submit"
-          className="w-full py-3 rounded-md bg-gradient-to-r from-primary to-[#FF0000] font-semibold hover:opacity-95 transition text-white cursor-pointer col-span-2"
+          className="w-full py-3 rounded-md bg-gradient-to-r from-primary to-[#FF0000] font-semibold hover:opacity-95 transition text-white cursor-pointer md:col-span-2"
         >
           Register
         </motion.button>
