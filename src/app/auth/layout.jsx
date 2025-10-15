@@ -12,7 +12,7 @@ export default function AuthLayout({children}) {
         { name: "Register", href: "/auth/register" },
     ]
   return (
-    <main className=" w-full min-h-dvh relative py-20">
+    <main className=" w-full min-h-dvh relative py-20 px-5">
         <Toaster position="top-right" />
       <div
         className="absolute inset-0 -z-1"
