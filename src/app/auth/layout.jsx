@@ -26,10 +26,10 @@ export default function AuthLayout({children}) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
       className="z-1 justify-center items-center h-full w-full max-w-xl mx-auto bg-base-100 rounded-lg overflow-hidden">
-        <nav className="h-20 w-full items-center grid grid-cols-2 gap-0 shadow mb-3">
+        <nav className="h-20 w-full items-center flex gap-0 shadow mb-3">
         {
         authLinks.map((link) => (
-        <Link key={link.name} href={link.href} className={`w-full h-full text-2xl md:text-3xl font-semibold flex items-center justify-center border-b-4 border-primary ${pathname === link.href ? "bg-primary text-white" : "text-primary bg-base-100 hover:bg-base-200"}`} >{link.name}</Link>
+        <Link key={link.name} href={link.href} className={`h-full text-2xl md:text-3xl font-semibold flex items-center justify-center border-b-4 border-primary ${pathname === link.href ? "w-full bg-primary text-white" : "w-4/5 text-primary bg-base-100 hover:bg-base-200"} transition-all duration-900 ease-in-out`} >{link.name}</Link>
         ))
         }
             
