@@ -1,30 +1,33 @@
-import { dbConnect } from "@/lib/dbConnect";
+import { dbConnect } from "@/libs/dbConnect";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const collection = dbConnect("review");
-    const feedbacks = await collection.find().sort({ _id: -1 }).toArray();
-
-    return Response.json(feedbacks);
-  } catch (error) {
-    console.error("Error fetching reviews:", error);
-    return new Response(JSON.stringify({ message: "Failed to fetch reviews" }), { status: 500 });
+    const collection = await dbConnect("review");
+    // Recent 6 feedbacks
+    const feedbacks = await collection.find().sort({ createdAt: -1 }).limit(6).toArray();
+    return NextResponse.json(feedbacks);
+  } catch (err) {
+    console.error("Error fetching reviews:", err);
+    return NextResponse.json({ message: "Failed to fetch reviews" }, { status: 500 });
   }
 }
 
-export async function POST(request) {
+export async function POST(req) {
   try {
-    const data = await request.json();
-    const collection = dbConnect("review");
+    const data = await req.json();
+    const collection = await dbConnect("review");
 
-    await collection.insertOne({
+    // Save login user info if provided
+    const result = await collection.insertOne({
       ...data,
       createdAt: new Date(),
     });
 
-    return Response.json({ success: true });
-  } catch (error) {
-    console.error("Error saving review:", error);
-    return new Response(JSON.stringify({ message: "Failed to save review" }), { status: 500 });
+    // Return saved object
+    return NextResponse.json({ _id: result.insertedId, ...data });
+  } catch (err) {
+    console.error("Error saving review:", err);
+    return NextResponse.json({ message: "Failed to save review" }, { status: 500 });
   }
 }
