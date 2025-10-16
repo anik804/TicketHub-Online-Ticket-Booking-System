@@ -1,26 +1,25 @@
 "use client";
-
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaTicketAlt, FaCheckCircle } from "react-icons/fa";
 
 const steps = [
   {
     id: 1,
-    icon: <FaSearch size={34} />,
+    icon: <FaSearch size={28} />,
     title: "Search Events",
     description:
       "Find concerts, movies, and shows effortlessly with our smart search feature.",
   },
   {
     id: 2,
-    icon: <FaTicketAlt size={34} />,
+    icon: <FaTicketAlt size={28} />,
     title: "Book Your Ticket",
     description:
       "Choose seats, pay securely, and get instant confirmation in seconds.",
   },
   {
     id: 3,
-    icon: <FaCheckCircle size={34} />,
+    icon: <FaCheckCircle size={28} />,
     title: "Enjoy the Event",
     description:
       "Show your e-ticket at the venue and enjoy an unforgettable experience.",
@@ -29,16 +28,17 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-24 bg-[#FFF8F3] text-gray-800">
-      <div className="max-w-7xl mx-auto px-6 text-center">
-        {/* Title */}
+    <section
+      className="relative py-32 bg-gray-50"
+      style={{ fontFamily: "var(--font-roboto)" }}
+    >
+      <div className="max-w-7xl mx-auto px-6 text-center z-10">
+        {/* Section Header */}
         <motion.h2
-          className="text-4xl md:text-5xl font-extrabold mb-4
-                     bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000]
-                     bg-clip-text text-transparent"
+          className="text-4xl text-black md:text-5xl font-bold mb-16   drop-shadow-md"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
         >
           How It Works
         </motion.h2>
@@ -46,31 +46,39 @@ export default function HowItWorks() {
         {/* Steps */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {steps.map((step, index) => (
-            <motion.div
-              key={step.id}
-              className="relative rounded-3xl bg-base-200 p-10 border border-[#FFD1B3] shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              whileHover={{ y: -8 }}
-            >
-              <div className="flex justify-center items-center mb-6 text-[#FF4500]">
-                {step.icon}
-              </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#FF0000]">
-                {step.title}
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {step.description}
-              </p>
-
-              {/* Animated Accent Line */}
+            <AnimatePresence key={step.id}>
               <motion.div
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-[#FF7F50] rounded-full"
-                whileHover={{ width: "40%" }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.div>
+                className="relative bg-white border-4 border-[#d96c2c] rounded shadow-lg p-10 flex flex-col items-center text-center transition-all duration-300 hover:shadow-2xl hover:scale-105"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                whileHover={{ y: -5 }}
+              >
+                {/* Icon */}
+                <div className="flex justify-center items-center w-20 h-20 rounded-full bg-gradient-to-br from-[#FFEEE6] to-[#FFD1B3] text-[#d96c2c] mb-6 shadow-md">
+                  {step.icon}
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-[#d96c2c] mb-3">
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-gray-600 leading-relaxed max-w-xs">
+                  {step.description}
+                </p>
+
+                {/* Optional Floating Accent Icon */}
+                <motion.div
+                  className="absolute -bottom-6 right-6 w-14 h-14 bg-[#FF7F50] rounded-full flex items-center justify-center shadow-md"
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {step.icon}
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
           ))}
         </div>
       </div>
