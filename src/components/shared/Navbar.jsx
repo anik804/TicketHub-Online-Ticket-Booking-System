@@ -19,7 +19,8 @@ export default function Navbar() {
   const links = [
     { href: "/", label: "Home" },
     { href: "/browse-events", label: "Browse Events" },
-    { href: "/categories", label: "Categories" },
+    { href: "/movies", label: "Movies" },
+    { href: "/blog", label: "Blog" },
     { href: "/about", label: "About" },
     { href: "/Contacts", label: "Contacts" },
   ];

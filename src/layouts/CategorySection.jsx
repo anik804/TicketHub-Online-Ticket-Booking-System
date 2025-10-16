@@ -52,10 +52,10 @@ const categories = [
 export default function CategorySection() {
   return (
     <section className="relative py-20 overflow-hidden">
-      {/* 🎬 Background like “Movies Now Playing” */}
+      {/* 🎬 Background  */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/exploreCategories.jpg" // 🔹 use a light dotted/filmstrip style background
+          src="/exploreCategories.jpg" 
           alt="Background pattern"
           fill
           className="object-cover opacity-20"
@@ -66,7 +66,7 @@ export default function CategorySection() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Title */}
         <div className="text-center mb-14">
-          <p className="text-orange-600 font-medium uppercase tracking-wide">
+          <p className="text-[#d96c2c] font-medium uppercase tracking-wide">
             Discover More
           </p>
           <motion.h2
@@ -99,7 +99,7 @@ export default function CategorySection() {
                 className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
 
-              {/* Overlay (similar to movie cards) */}
+              {/* Overlay  */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
               {/* Content */}
@@ -113,7 +113,7 @@ export default function CategorySection() {
                 <p className="text-gray-200 text-sm mb-5">{category.desc}</p>
 
                 <Link href={`/categories/${category.title.toLowerCase()}`}>
-                  <button className="px-6 py-2 text-sm font-semibold bg-white text-gray-900 rounded shadow hover:bg-orange-600 hover:text-white transition-all duration-300">
+                  <button className="px-6 py-2 text-sm font-semibold bg-white text-gray-900 rounded shadow hover:bg-[#d96c2c] hover:text-white transition-all duration-300">
                     Explore Now
                   </button>
                 </Link>
