@@ -5,7 +5,14 @@ import { useRouter } from "next/navigation";
 import PageLayout from "@/ui/PageLayout";
 import Button from "@/ui/Button";
 import dynamic from "next/dynamic";
-import { Loader2, LocateFixed, MapPin, CalendarDays, Clock, Map } from "lucide-react";
+import {
+  Loader2,
+  LocateFixed,
+  MapPin,
+  CalendarDays,
+  Clock,
+  Map,
+} from "lucide-react";
 import { format, parseISO } from "date-fns";
 
 // Dynamically import Leaflet map
@@ -86,10 +93,8 @@ export default function NearbyEvents() {
 
   if (loading) {
     return (
-      <PageLayout>
-        <div className="flex justify-center items-center py-20 text-gray-600 gap-2">
-          <Loader2 className="animate-spin" /> Loading Nearby Events...
-        </div>
+      <PageLayout className={"flex h-[50vh] justify-center items-center"}>
+        <Loader2 className="animate-spin" /> Loading Nearby Events...
       </PageLayout>
     );
   }
@@ -97,7 +102,6 @@ export default function NearbyEvents() {
   return (
     <PageLayout title="Nearby Events">
       <div className="flex flex-col gap-6">
-
         {/* Event Cards */}
         <div className="flex flex-col gap-4">
           {events.length === 0 && (
@@ -106,7 +110,7 @@ export default function NearbyEvents() {
           {events.map((event) => (
             <div
               key={event._id}
-              className="p-4 rounded-lg shadow-md bg-white flex flex-col md:flex-row justify-between items-center md:items-end gap-4 hover:shadow-xl transition"
+              className="p-4 rounded-md shadow-md bg-base-100 flex flex-col md:flex-row justify-between items-center md:items-end gap-4 hover:shadow-lg transition"
             >
               <div className="flex-1 flex flex-col gap-1">
                 <h3 className="text-xl font-semibold flex items-center gap-2">
@@ -116,11 +120,13 @@ export default function NearbyEvents() {
                   <MapPin className="size-4" /> {event.location}
                 </p>
                 <p className="flex items-center gap-1 text-gray-600 ml-2">
-                  <CalendarDays className="size-4" /> {format(parseISO(event.date), "PPPPp")}
+                  <CalendarDays className="size-4" />{" "}
+                  {format(parseISO(event.date), "PPPPp")}
                 </p>
                 {typeof event.distance === "number" && (
                   <p className="flex items-center gap-1 text-sm text-gray-500 ml-2">
-                    <Clock className="size-4" /> {event.distance.toFixed(1)} km away
+                    <Clock className="size-4" /> {event.distance.toFixed(1)} km
+                    away
                   </p>
                 )}
               </div>
@@ -133,7 +139,7 @@ export default function NearbyEvents() {
         </div>
 
         {/* Map Section */}
-        <div className="relative h-[400px] w-full rounded-xl overflow-hidden shadow">
+        <div className="relative h-[400px] w-full rounded-md overflow-hidden shadow-sm border border-primary/20">
           {mapLoading && (
             <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
               <Map className="size-12 text-gray-400 animate-bounce" />
