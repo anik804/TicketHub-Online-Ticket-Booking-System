@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24">
-    <g fill="none" stroke="#d53838" stroke-linecap="round" stroke-linejoin="round"
-        stroke-width="2">
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24">
+    <g fill="none" stroke="#d96c2c" stroke-linecap="round" stroke-linejoin="round"
+        stroke-width="1.5">
         <path stroke-dasharray="16" stroke-dashoffset="16" d="M12 3c4.97 0 9 4.03 9 9">
             <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="16;0" />
             <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite"

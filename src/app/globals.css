@@ -22,7 +22,7 @@
 
 @plugin "daisyui/theme" {
   name: "dark";
-  --color-primary: #3d0000;
+  --color-primary: #d96c2c;
   --color-secondary: #950101;
   --color-accent: #fcfaf2;
 }

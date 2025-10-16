@@ -14,9 +14,12 @@ export async function middleware(req) {
 
   // If someone visits plain /dashboard → redirect them to their own dashboard
   if (url === "/dashboard" || url === "/dashboard/") {
-    if (role === "user") return NextResponse.redirect(new URL("/dashboard/user", req.url));
-    if (role === "organizer") return NextResponse.redirect(new URL("/dashboard/organizer", req.url));
-    if (role === "admin") return NextResponse.redirect(new URL("/dashboard/admin", req.url));
+    if (role === "user")
+      return NextResponse.redirect(new URL("/dashboard/user", req.url));
+    if (role === "organizer")
+      return NextResponse.redirect(new URL("/dashboard/organizer", req.url));
+    if (role === "admin")
+      return NextResponse.redirect(new URL("/dashboard/admin", req.url));
   }
 
   // Role-specific protection

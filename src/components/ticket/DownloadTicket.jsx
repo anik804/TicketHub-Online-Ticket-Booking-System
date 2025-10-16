@@ -54,7 +54,7 @@ export default function DownloadTicket({ ticket }) {
       startY: 150,
       theme: "grid",
       head: [[{ content: "Event Details", colSpan: 2 }]],
-      headStyles: { halign: "center", fillColor: [231, 0, 11], textSize: 14 },
+      headStyles: { halign: "center", fillColor: [217, 108, 44], textSize: 14 },
       body: [
         ["Title", ticket.title || "N/A"],
         ["Date & Time", ticket.date || "N/A"],
@@ -68,7 +68,7 @@ export default function DownloadTicket({ ticket }) {
       startY: doc.lastAutoTable.finalY + 20,
       theme: "grid",
       head: [[{ content: "Ticket Holder", colSpan: 2 }]],
-      headStyles: { halign: "center", fillColor: [231, 0, 11], textSize: 14 },
+      headStyles: { halign: "center", fillColor: [217, 108, 44], textSize: 14 },
       body: [
         ["Name", ticket.customerName || "N/A"],
         ["Email", ticket.customerEmail || "N/A"],
@@ -81,7 +81,7 @@ export default function DownloadTicket({ ticket }) {
       startY: doc.lastAutoTable.finalY + 20,
       theme: "grid",
       head: [[{ content: "Payment Info", colSpan: 2 }]],
-      headStyles: { halign: "center", fillColor: [231, 0, 11], textSize: 14 },
+      headStyles: { halign: "center", fillColor: [217, 108, 44], textSize: 14 },
       body: [
         ["Amount", `${ticket.price || 0} ${ticket.currency || "BDT"}`],
         ["Status", ticket.status || "Pending"],
