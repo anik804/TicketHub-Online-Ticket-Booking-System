@@ -20,9 +20,11 @@ export default function Home() {
       <RollingPartners />
       <PhotoGallery/>
        <FeedbackSection/>
-      <HowItWorks></HowItWorks>
+      
       <WhyChooseUs></WhyChooseUs>
+      <HowItWorks></HowItWorks>
       <Partners></Partners>
+
       <GetAnswers></GetAnswers>
     </main>
   );
