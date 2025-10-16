@@ -28,7 +28,7 @@ export default function Navbar() {
     try {
       setIsLoggingOut(true);
       await signOut({ redirect: false });
-      toast.success("Successfully logged out 👋");
+      toast.success("F out 👋");
       router.push("/");
     } catch (error) {
       toast.error("Logout failed 😢");
@@ -102,7 +102,9 @@ export default function Navbar() {
               <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full overflow-hidden">
                   <img
-                    src={session.user?.image || "/images/placeholder-avatar.svg"}
+                    src={
+                      session.user?.image || "/images/placeholder-avatar.svg"
+                    }
                     alt="User Avatar"
                     className="w-full h-full object-cover"
                   />
@@ -110,7 +112,10 @@ export default function Navbar() {
               </div>
               <ul className="menu dropdown-content mt-3 w-52 shadow-lg bg-black rounded-lg p-2 text-gray-300">
                 <li>
-                  <Link href="/profile" className="hover:text-gray-500 rounded-md">
+                  <Link
+                    href="/profile"
+                    className="hover:text-gray-500 rounded-md"
+                  >
                     Profile
                   </Link>
                 </li>
@@ -141,51 +146,50 @@ export default function Navbar() {
 
       {/* 📱 Fullscreen Mobile Menu */}
       <AnimatePresence>
-  {menuOpen && (
-    <motion.div
-      initial={{ x: "-100%" }}
-      animate={{ x: 0 }}
-      exit={{ x: "-100%" }}
-      transition={{ type: "tween", duration: 0.3 }}
-      className="fixed inset-0 z-50 flex backdrop-blur-sm bg-black/40"
-    >
-      {/* Sidebar */}
-      <div className="bg-black w-72 h-full p-6 shadow-xl">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-[#d96c2c]">Menu</h2>
-          <button onClick={() => setMenuOpen(false)}>
-            <X className="h-6 w-6 text-gray-700" />
-          </button>
-        </div>
+        {menuOpen && (
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="fixed inset-0 z-50 flex backdrop-blur-sm bg-black/40"
+          >
+            {/* Sidebar */}
+            <div className="bg-black w-72 h-full p-6 shadow-xl">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-semibold text-[#d96c2c]">Menu</h2>
+                <button onClick={() => setMenuOpen(false)}>
+                  <X className="h-6 w-6 text-gray-700" />
+                </button>
+              </div>
 
-        <ul className="space-y-4">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className={`block text-lg font-medium ${
-                  pathname === link.href
-                    ? "text-[#d96c2c]"
-                    : "text-gray-300 hover:text-gray-500"
-                }`}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+              <ul className="space-y-4">
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`block text-lg font-medium ${
+                        pathname === link.href
+                          ? "text-[#d96c2c]"
+                          : "text-gray-300 hover:text-gray-500"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-      {/* Overlay area (click outside to close) */}
-      <div
-        className="flex-1  cursor-pointer"
-        onClick={() => setMenuOpen(false)}
-      />
-    </motion.div>
-  )}
-</AnimatePresence>
-
+            {/* Overlay area (click outside to close) */}
+            <div
+              className="flex-1  cursor-pointer"
+              onClick={() => setMenuOpen(false)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
