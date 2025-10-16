@@ -52,10 +52,10 @@ const categories = [
 export default function CategorySection() {
   return (
     <section className="relative py-20 overflow-hidden">
-      {/* 🎬 Background like “Movies Now Playing” */}
+      {/* 🎬 Background  */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/exploreCategories.jpg" // 🔹 use a light dotted/filmstrip style background
+          src="/exploreCategories.jpg" 
           alt="Background pattern"
           fill
           className="object-cover opacity-20"
@@ -99,7 +99,7 @@ export default function CategorySection() {
                 className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
 
-              {/* Overlay (similar to movie cards) */}
+              {/* Overlay  */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
               {/* Content */}
