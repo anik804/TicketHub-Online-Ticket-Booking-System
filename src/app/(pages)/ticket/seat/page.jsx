@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FaInfo } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 export default function SeatPage() {
   const searchParams = useSearchParams();
@@ -97,7 +98,7 @@ export default function SeatPage() {
   // 🔹 Handle seat selection
   const handleSelect = (seat) => {
     if (booked.includes(seat)) {
-      alert("❌ This seat is already booked!");
+      toast.error("This seat is already booked!");
       return;
     }
     setSelected((prev) =>
@@ -108,7 +109,7 @@ export default function SeatPage() {
   // 🔹 Proceed to ticket details
   const handleProceed = () => {
     if (selected.length === 0) {
-      alert("Please select at least one seat.");
+      toast("Please select at least one seat.");
       return;
     }
     router.push(
@@ -122,7 +123,7 @@ export default function SeatPage() {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center min-h-screen text-center">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
           <p className="text-lg text-gray-600">Loading seat map...</p>
         </div>
       </PageLayout>
@@ -142,10 +143,14 @@ export default function SeatPage() {
   }
 
   return (
-    <PageLayout>
+    <PageLayout
+      className={"grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8"}
+      imageURL={event?.imageUrl}
+      title={event.title}
+    >
       {/* Event Info */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-8 flex flex-col md:flex-row items-center gap-6 border border-gray-200 dark:border-gray-700">
-        <div className="relative w-full md:w-1/3 h-52 rounded-xl overflow-hidden shadow-md">
+      <div className="bg-base-100 rounded-md shadow-lg p-6 mb-8 flex flex-col md:flex-row items-center gap-6 border border-primary/20 h-fit">
+        <div className="relative w-full md:w-1/3 h-52 rounded-md overflow-hidden shadow-md">
           <Image
             src={event.imageUrl}
             alt={event.title}
@@ -165,7 +170,7 @@ export default function SeatPage() {
             {format(parseISO(event?.date), "PPPPp")}
           </p>
           <p className="flex items-center justify-center md:justify-start text-gray-800 dark:text-gray-200 gap-2 mt-2 text-lg font-semibold">
-            <CircleDollarSign className="size-5" /> {event.price} BDT Per Ticket
+            <CircleDollarSign className="size-5" /> {event.price} BDT Per Seat
           </p>
           <p className="flex items-center text-xs text-gray-400 gap-2 mt-2 mb-4">
             <FaInfo className="size-[14px] p-[3px] border border-gray-200 rounded-full" />{" "}
@@ -181,10 +186,46 @@ export default function SeatPage() {
       </div>
 
       {/* Seat Selection */}
-      <div className="p-2 text-center">
-        <h2 className="text-2xl font-semibold mb-6">
-          Select Your Seats ({event.availableSeats} Available)
-        </h2>
+      <div className="bg-base-100 rounded-md shadow-lg p-6 mb-8 flex flex-col items-center gap-6 border border-primary/20 h-fit">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5 w-full">
+          <div>
+            <h2 className="text-2xl font-semibold">Select Your Seats</h2>
+            <p className="text-gray-600"> ({event.availableSeats} Available)</p>
+          </div>
+
+          <div>
+            {/* Legend */}
+            <div className="flex items-center justify-center gap-8 text-sm text-gray-700 dark:text-gray-300">
+              <div className="flex items-center gap-2">
+                <span className="size-4 bg-green-500 rounded-sm"></span>
+                <span className="flex items-center gap-1">Available</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="size-4 bg-yellow-400 rounded-sm"></span>
+                <span className="flex items-center gap-1">Selected</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="size-4 bg-red-500 rounded-sm"></span>
+                <span className="flex items-center gap-1">Booked</span>
+              </div>
+            </div>
+
+            {/* Proceed Button */}
+            <div className="mt-10">
+              <button
+                onClick={handleProceed}
+                disabled={selected.length === 0}
+                className={`w-full px-6 py-3 rounded-lg text-white font-semibold transition-all cursor-pointer ${
+                  selected.length === 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
+              >
+                Proceed to Ticket ({selected.length})
+              </button>
+            </div>
+          </div>
+        </div>
 
         <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-3 justify-center w-full">
           {seats.map((seat) => {
@@ -213,37 +254,6 @@ export default function SeatPage() {
               </button>
             );
           })}
-        </div>
-
-        {/* Legend */}
-        <div className="mt-10 flex items-center justify-center gap-8 text-sm text-gray-700 dark:text-gray-300">
-          <div className="flex items-center gap-2">
-            <span className="size-4 bg-green-500 rounded-sm"></span>
-            <span className="flex items-center gap-1">Available</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="size-4 bg-yellow-400 rounded-sm"></span>
-            <span className="flex items-center gap-1">Selected</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="size-4 bg-red-500 rounded-sm"></span>
-            <span className="flex items-center gap-1">Booked</span>
-          </div>
-        </div>
-
-        {/* Proceed Button */}
-        <div className="mt-10">
-          <button
-            onClick={handleProceed}
-            disabled={selected.length === 0}
-            className={`px-6 py-3 rounded-lg text-white font-semibold transition-all cursor-pointer ${
-              selected.length === 0
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            Proceed to Ticket ({selected.length})
-          </button>
         </div>
       </div>
     </PageLayout>

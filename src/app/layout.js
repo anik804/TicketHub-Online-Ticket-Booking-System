@@ -1,4 +1,4 @@
-// app/layout.jsx
+// app/layout.jsx  (server component)
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
@@ -7,10 +7,9 @@ import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
 import BackToTop from "./dashboard/components/shared/BackToTop";
 
-// Configure Roboto font
 const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["400", "500", "700"], // Normal, Medium, Bold
+  weight: ["400", "500", "700"],
   variable: "--font-roboto",
 });
 
@@ -24,8 +23,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="light">
-      <body className={`${roboto.variable} antialiased`}>
+    <html lang="en" data-theme="light" className={roboto.variable}>
+      <body>
+        {/* Wrap only the client-side providers */}
         <Providers>
           <Navbar />
           {children}

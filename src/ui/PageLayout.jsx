@@ -3,8 +3,10 @@
 import React from "react";
 import { useSession } from "next-auth/react";
 import Loading from "@/app/loading";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
-export default function PageLayout({ children, title }) {
+export default function PageLayout({ className, children, title, imageURL }) {
   const { data: session, status } = useSession();
 
   // Show loader while session state is being determined
@@ -16,18 +18,29 @@ export default function PageLayout({ children, title }) {
   if (!session) return null;
 
   return (
-    <section className="min-h-screen flex justify-center items-center px-6 py-12 bg-gradient-to-b from-white to-gray-50 text-gray-900 transition-colors duration-500">
-      <div className="w-full max-w-4xl bg-orange-50 dark:bg-gray-800 shadow-2xl rounded-3xl border border-orange-200 p-5 md:p-8 lg:p-12 transition-all duration-500">
-        {/* Title */}
-        {title && (
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-center mb-10 sm:mb-12 bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] bg-clip-text text-transparent">
-            {title}
-          </h1>
-        )}
+    <section className="min-h-dvh w-full bg-base-100 relative overflow-hidden">
+      <motion.div 
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }} 
+      className="w-full h-50 md:h-72 pb-3 border-b-10 md:border-b-14 border-dashed border-black relative flex items-center justify-center">
+        <Image src={imageURL || null} width={500} height={500} alt="background"  className="h-[97%] w-full object-cover absolute top-0 left-0 z-0 bg-black"/>
+        <div className="w-full h-[97%] absolute top-0 left-0 z-1 bg-gradient-to-b from-black/50 via-transparent to-black/50"/>
+        <p className="relative z-10 text-3xl md:text-4xl lg:text-7xl font-bold text-shadow-xs text-white">
+        {title}
+        </p>
+      </motion.div>
 
-        {/* Main Content */}
-        <div className="animate-fadeIn">{children}</div>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className={`px-5 py-20 md:px-8 lg:px-10 relative z-10 ${className}`}
+      >
+      {children}
+      </motion.div>
+
+
     </section>
   );
 }
