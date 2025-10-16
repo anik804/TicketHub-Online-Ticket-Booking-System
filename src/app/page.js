@@ -15,7 +15,6 @@ export default function Home() {
     <main >
       <Banner></Banner>
       <CategorySection></CategorySection>
-      {/* New Section : Pranoy */}
       <MoviesNowPlaying />
       <RollingPartners />
       <PhotoGallery/>
