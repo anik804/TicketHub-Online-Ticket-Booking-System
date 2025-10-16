@@ -27,7 +27,7 @@ export async function POST(req) {
       phone,
       password: hashedPassword,
       photo: photo || "",
-      role: role || "User",
+      role: role || "user",
       createdAt: new Date(),
     };
 

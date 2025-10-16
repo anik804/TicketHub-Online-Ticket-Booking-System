@@ -19,7 +19,7 @@ export default function Register() {
     password: "",
     confirmPassword: "",
     photo: "",
-    role: "User",
+    role: "user",
     terms: false,
   });
 
@@ -119,7 +119,10 @@ export default function Register() {
         Access exclusive features with your account.
       </motion.p>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
         <div>
           <label className="block text-sm font-medium text-gray-600">
             Full Name
@@ -202,8 +205,6 @@ export default function Register() {
           />
         </div>
 
-        
-
         <div>
           <label className="block text-sm font-medium text-gray-600">
             Photo URL
@@ -228,7 +229,7 @@ export default function Register() {
             onChange={handleChange}
             className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           >
-            <option value="User">User</option>
+            <option value="user">user</option>
             <option value="Organizer">Organizer</option>
           </select>
         </div>

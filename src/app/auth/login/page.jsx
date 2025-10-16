@@ -26,7 +26,7 @@ export default function Login() {
       if (res?.error) {
         toast.error(res.error || "Invalid credentials");
       } else {
-        toast.success("🎉 Login successful!");
+        toast.success("🎉 Login successful!", { duration: 1000 });
 
         setTimeout(() => {
           if (document.referrer && document.referrer !== window.location.href) {
@@ -34,7 +34,7 @@ export default function Login() {
           } else {
             router.push("/");
           }
-        }, 1000);
+        }, 800);
       }
     } catch (err) {
       console.error(err);
