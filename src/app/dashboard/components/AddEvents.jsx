@@ -180,7 +180,7 @@ export default function AddEventPage() {
         <button
           type="submit"
           disabled={loading}
-          className="px-5 py-2 rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-60"
+          className="px-5 py-2 btn rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-60"
         >
           {loading ? "Saving..." : "Create Event"}
         </button>

@@ -19,9 +19,11 @@ export default function ManageEvents() {
 
     const fetchEvents = async () => {
       try {
-        const res = await fetch(`/api/organizer/events?email=${session.user.email}`);
+        const res = await fetch(
+          `/api/organizer/events?email=${session.user.email}`
+        );
         const data = await res.json();
-        setEvents(data.map(e => ({ ...e, _id: e._id.toString() })));
+        setEvents(data.map((e) => ({ ...e, _id: e._id.toString() })));
       } catch (err) {
         toast.error("❌ Failed to fetch events");
       } finally {
@@ -42,7 +44,9 @@ export default function ManageEvents() {
       });
       const data = await res.json();
 
-      setEvents(prev => prev.map(e => (e._id === data._id ? { ...data } : e)));
+      setEvents((prev) =>
+        prev.map((e) => (e._id === data._id ? { ...data } : e))
+      );
       toast.success("✅ Event updated successfully!");
     } catch (err) {
       toast.error("❌ Update failed");
@@ -57,21 +61,29 @@ export default function ManageEvents() {
         Manage Your Events
       </h2>
 
-      {events.length === 0 && <p className="text-center text-gray-600">No events found.</p>}
+      {events.length === 0 && (
+        <p className="text-center text-gray-600">No events found.</p>
+      )}
 
       <div className="space-y-4">
-        {events.map(event => (
+        {events.map((event) => (
           <div
             key={event._id}
             className="flex justify-between items-center border border-[#950101]/30 bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition"
           >
             <div>
-              <h3 className="font-semibold text-lg text-[#3D0000]">{event.title}</h3>
+              <h3 className="font-semibold text-lg text-[#3D0000]">
+                {event.title}
+              </h3>
               <p className="text-sm text-gray-700">
-                Seats: <span className="font-medium">{event.availableSeats}/{event.totalSeats}</span>
+                Seats:{" "}
+                <span className="font-medium">
+                  {event.availableSeats}/{event.totalSeats}
+                </span>
               </p>
               <p className="text-sm text-gray-700">
-                Price: <span className="font-medium">${event.price}</span> | Discount: {event.discount}%
+                Price: <span className="font-medium">${event.price}</span> |
+                Discount: {event.discount}%
               </p>
             </div>
 
@@ -79,7 +91,9 @@ export default function ManageEvents() {
               {/* +5 Seats */}
               <button
                 className="px-3 py-1 rounded-lg text-white bg-gradient-to-r from-[#950101] to-[#FF0000] hover:from-[#FF0000] hover:to-[#950101] shadow-md transition"
-                onClick={() => handleUpdate(event._id, { totalSeats: event.totalSeats + 5 })}
+                onClick={() =>
+                  handleUpdate(event._id, { totalSeats: event.totalSeats + 5 })
+                }
               >
                 +5 Seats
               </button>
@@ -95,7 +109,10 @@ export default function ManageEvents() {
               {/* Edit Price */}
               <button
                 className="px-3 py-1 rounded-lg border border-[#950101] text-[#950101] bg-white hover:bg-[#950101] hover:text-white transition"
-                onClick={() => { setEditPriceEvent(event); setNewPrice(event.price); }}
+                onClick={() => {
+                  setEditPriceEvent(event);
+                  setNewPrice(event.price);
+                }}
               >
                 Edit Price
               </button>
@@ -109,16 +126,25 @@ export default function ManageEvents() {
         {decreaseSeatEvent && (
           <motion.div
             className="fixed inset-0 flex items-center justify-center bg-black/40 z-50"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
             <motion.div
               className="bg-white rounded-xl p-6 shadow-xl w-96"
-              initial={{ scale: 0.8 }} animate={{ scale: 1 }} exit={{ scale: 0.8 }}
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
               transition={{ duration: 0.2 }}
             >
-              <h3 className="text-lg font-bold text-[#3D0000] mb-4">{decreaseSeatEvent.title}</h3>
+              <h3 className="text-lg font-bold text-[#3D0000] mb-4">
+                {decreaseSeatEvent.title}
+              </h3>
               <p className="text-gray-700 mb-6">
-                Current Available Seats: <span className="font-semibold">{decreaseSeatEvent.availableSeats}</span>
+                Current Available Seats:{" "}
+                <span className="font-semibold">
+                  {decreaseSeatEvent.availableSeats}
+                </span>
               </p>
               <p className="text-gray-700 mb-6">
                 Are you sure you want to decrease <b>1 seat</b> from this event?
@@ -135,7 +161,9 @@ export default function ManageEvents() {
                   onClick={async () => {
                     const availableSeats = decreaseSeatEvent.availableSeats;
                     if (availableSeats > 0) {
-                      await handleUpdate(decreaseSeatEvent._id, { availableSeats: availableSeats - 1 });
+                      await handleUpdate(decreaseSeatEvent._id, {
+                        availableSeats: availableSeats - 1,
+                      });
                       toast.success("➖ 1 seat removed");
                     } else {
                       toast.error("❌ No seats left to decrease");
@@ -154,14 +182,20 @@ export default function ManageEvents() {
         {editPriceEvent && (
           <motion.div
             className="fixed inset-0 flex items-center justify-center bg-black/40 z-50"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
             <motion.div
               className="bg-white rounded-xl p-6 shadow-xl w-96"
-              initial={{ scale: 0.8 }} animate={{ scale: 1 }} exit={{ scale: 0.8 }}
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
               transition={{ duration: 0.2 }}
             >
-              <h3 className="text-lg font-bold text-[#3D0000] mb-4">Edit Price</h3>
+              <h3 className="text-lg font-bold text-[#3D0000] mb-4">
+                Edit Price
+              </h3>
               <input
                 type="number"
                 value={newPrice}
@@ -179,7 +213,10 @@ export default function ManageEvents() {
                   className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#950101] to-[#FF0000] text-white hover:opacity-90 transition"
                   onClick={async () => {
                     const priceValue = parseFloat(newPrice);
-                    if (!isNaN(priceValue)) await handleUpdate(editPriceEvent._id, { price: priceValue });
+                    if (!isNaN(priceValue))
+                      await handleUpdate(editPriceEvent._id, {
+                        price: priceValue,
+                      });
                     setEditPriceEvent(null);
                   }}
                 >
