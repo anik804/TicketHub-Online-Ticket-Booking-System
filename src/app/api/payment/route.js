@@ -19,18 +19,19 @@ export async function POST(req) {
     Math.floor(100000 + Math.random() * 900000);
 
   try {
-    const paymentTransactions = dbConnect("payment-transactions");
+    const transactions = dbConnect("ticket-transactions");
 
     // save transaction mapping
-    await paymentTransactions.insertOne({
+    await transactions.insertOne({
       tranId,
       eventId: body.eventId,
-      seat: body.seat,
+      seats: body.seats,
       email: body.customerEmail,
       amount: body.price,
       currency: body.currency,
       status: "PENDING",
       tranAt: new Date().toISOString(),
+      organizerEmail: body.organizerEmail,
     });
 
     const payload = {

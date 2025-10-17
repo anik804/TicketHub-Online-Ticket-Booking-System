@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const linksConfig = {
   user: [
     { label: "Overview", href: "/" },
-    { label: "My Tickets", href: "tickets" },
+    { label: "My Tickets", href: "myTickets" },
     { label: "Profile", href: "profile" },
     { label: "Settings", href: "settings" },
     { label: "User Reminder", href: "userReminder" },
@@ -23,7 +23,8 @@ const linksConfig = {
   admin: [
     { label: "Overview", href: "/" },
     { label: "All Users", href: "users" },
-    { label: "All Events", href: "events" },
+    // { label: "All Users", href: "users" },
+    { label: "Make Organizer", href: "makeOrganizer" },
     { label: "Events Reminder", href: "eventsReminder" },
   ],
 };

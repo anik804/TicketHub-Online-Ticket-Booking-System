@@ -9,7 +9,7 @@ export default function Loading() {
         width={500}
         height={500}
         alt="Loading..."
-        className="size-20 md:size-26 lg:size-32"
+        className="size-18 md:size-22 lg:size-28"
       />
     </main>
   );
