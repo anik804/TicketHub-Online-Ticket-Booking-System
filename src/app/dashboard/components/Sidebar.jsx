@@ -23,7 +23,8 @@ const linksConfig = {
   admin: [
     { label: "Overview", href: "/" },
     { label: "All Users", href: "users" },
-    { label: "All Events", href: "events" },
+    { label: "All Users", href: "users" },
+    { label: "Make Organizer", href: "makeOrganizer" },
     { label: "Events Reminder", href: "eventsReminder" },
   ],
 };
