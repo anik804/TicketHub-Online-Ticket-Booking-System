@@ -99,7 +99,7 @@ export const MovieCard = ({ movie, index }) => {
       className="group w-full h-100 lg:h-110 p-1 bg-green hover:bg-primary transition-all duration-600 ease-in-out rounded hover:shadow-md overflow-hidden"
     >
       <Link
-        href={`/movies/${movie.title}`}
+        href={`/`}
         className="w-full h-full flex items-end pb-5 lg:pb-8 rounded relative overflow-hidden"
       >
         <Image
@@ -121,7 +121,7 @@ export const MovieCard = ({ movie, index }) => {
             {movie.title}
           </p>
 
-          <button className="h-10 px-5 text-sm font-semibold bg-white group-hover:bg-primary text-gray-600 group-hover:text-white transition-all duration-700 ease-in-out rounded text-shadow-2xs">
+          <button className="h-10 px-5 text-sm font-semibold bg-white group-hover:bg-primary text-gray-600 group-hover:text-white transition-all duration-300 ease-in-out rounded">
             Get Ticket
           </button>
         </div>
