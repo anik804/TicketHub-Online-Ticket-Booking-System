@@ -24,8 +24,11 @@ export default function PageLayout({ className, children, title, imageURL }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }} 
       className="w-full h-50 md:h-72 pb-3 border-b-10 md:border-b-14 border-dashed border-black relative flex items-center justify-center">
-        <Image src={imageURL || null} width={500} height={500} alt="background"  className="h-[97%] w-full object-cover absolute top-0 left-0 z-0 bg-black"/>
-        <div className="w-full h-[97%] absolute top-0 left-0 z-1 bg-gradient-to-b from-black/50 via-transparent to-black/50"/>
+        <div className="w-full h-[97%] absolute top-0 left-0 z-0 bg-black"/>
+        {
+          imageURL && (<Image src={imageURL || null} width={500} height={500} alt="background"  className="h-[97%] w-full object-cover absolute top-0 left-0 z-1 bg-black"/>)
+        }
+        <div className="w-full h-[97%] absolute top-0 left-0 z-2 bg-gradient-to-b from-black/50 via-transparent to-black/50"/>
         <p className="relative z-10 text-3xl md:text-4xl lg:text-7xl font-bold text-shadow-xs text-white">
         {title}
         </p>

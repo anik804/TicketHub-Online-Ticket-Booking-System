@@ -12,9 +12,10 @@ import {
   CalendarDays,
   CircleDollarSign,
 } from "lucide-react";
-import Link from "next/link";
+import {motion} from "framer-motion";
 import { FaInfo } from "react-icons/fa";
 import toast from "react-hot-toast";
+import Button from "@/ui/Button";
 
 export default function SeatPage() {
   const searchParams = useSearchParams();
@@ -176,12 +177,12 @@ export default function SeatPage() {
             <FaInfo className="size-[14px] p-[3px] border border-gray-200 rounded-full" />{" "}
             You can change currency in ticket details page.
           </p>
-          <Link
-            href={`/browse-events/${eventId}`}
-            className="rounded-md shadow-sm bg-orange-400 hover:bg-orange-500 px-4 py-2 text-semibold text-sm text-white"
-          >
-            View Details
-          </Link>
+
+          <Button
+          label={"View Details"}
+            onClick={() => router.push(`/browse-events/${eventId}`)}
+            />
+         
         </div>
       </div>
 
@@ -197,7 +198,7 @@ export default function SeatPage() {
             {/* Legend */}
             <div className="flex items-center justify-center gap-8 text-sm text-gray-700 dark:text-gray-300">
               <div className="flex items-center gap-2">
-                <span className="size-4 bg-green-500 rounded-sm"></span>
+                <span className="size-4 bg-black rounded-sm"></span>
                 <span className="flex items-center gap-1">Available</span>
               </div>
               <div className="flex items-center gap-2">
@@ -212,17 +213,13 @@ export default function SeatPage() {
 
             {/* Proceed Button */}
             <div className="mt-10">
-              <button
-                onClick={handleProceed}
-                disabled={selected.length === 0}
-                className={`w-full px-6 py-3 rounded-lg text-white font-semibold transition-all cursor-pointer ${
-                  selected.length === 0
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
-                }`}
-              >
-                Proceed to Ticket ({selected.length})
-              </button>
+
+              <Button
+              className={"w-full"}
+              onClick={handleProceed}
+              label={`Proceed to Ticket (${selected.length})`}
+              disabled={selected.length === 0}/>
+             
             </div>
           </div>
         </div>
@@ -232,26 +229,24 @@ export default function SeatPage() {
             const isBooked = booked.includes(seat);
             const isSelected = selected.includes(seat);
             return (
-              <button
+              <motion.button
+                initial={{ scale: 1 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.9 }}
                 key={seat}
                 onClick={() => handleSelect(seat)}
                 disabled={isBooked}
-                className={`py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer
+                className={`py-3 rounded-lg font-semibold transition-all duration-500 flex items-center justify-center cursor-pointer
                   ${
                     isBooked
                       ? "bg-red-500 text-white cursor-not-allowed shadow-inner"
                       : isSelected
                       ? "bg-yellow-400 text-black hover:bg-yellow-500"
-                      : "bg-green-500 hover:bg-green-600 text-white"
+                      : "bg-black/80 hover:bg-black text-white"
                   }`}
               >
-                {isBooked ? (
-                  <XCircle className="w-4 h-4" />
-                ) : (
-                  <Ticket className="w-4 h-4" />
-                )}
                 {seat}
-              </button>
+              </motion.button>
             );
           })}
         </div>

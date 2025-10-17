@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import PageLayout from "@/ui/PageLayout";
 import Button from "@/ui/Button";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import {
   Loader2,
@@ -103,16 +104,19 @@ export default function NearbyEvents() {
     <PageLayout title="Nearby Events">
       <div className="flex flex-col gap-6">
         {/* Event Cards */}
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {events.length === 0 && (
-            <p className="text-center text-gray-500">No nearby events found.</p>
+            <div className="text-center text-primary py-10 md:col-span-2">No nearby events found.</div>
           )}
-          {events.map((event) => (
-            <div
-              key={event._id}
-              className="p-4 rounded-md shadow-md bg-base-100 flex flex-col md:flex-row justify-between items-center md:items-end gap-4 hover:shadow-lg transition"
+          {events.map((event, index) => (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.5 }}
+              key={index}
+              className="p-4 rounded-md shadow-md bg-base-100 flex flex-col md:flex-row justify-between items-center md:items-end gap-4 hover:shadow-lg transition border border-primary/30"
             >
-              <div className="flex-1 flex flex-col gap-1">
+              <div className="flex-1 flex flex-col gap-1 ">
                 <h3 className="text-xl font-semibold flex items-center gap-2">
                   {event.title}
                 </h3>
@@ -134,7 +138,7 @@ export default function NearbyEvents() {
                 label={"View Details"}
                 onClick={() => router.push(`/browse-events/${event._id}`)}
               />
-            </div>
+            </motion.div>
           ))}
         </div>
 
