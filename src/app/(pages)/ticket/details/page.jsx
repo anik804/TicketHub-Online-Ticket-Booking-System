@@ -2,240 +2,278 @@
 
 import PageLayout from "@/ui/PageLayout";
 import { format, parseISO } from "date-fns";
-import React, { useEffect, useState } from "react";
-import { QrCode, MapPinned, CalendarDays, Ticket, CheckCircle, Clock } from "lucide-react";
+import React, { useEffect, useState, useMemo } from "react";
+import {
+  QrCode,
+  Ticket,
+  MapPin,
+  CalendarDays,
+  CircleDollarSign,
+} from "lucide-react";
 import CheckoutButton from "@/components/ticket/CheckoutButton";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import DownloadTicket from "@/components/ticket/DownloadTicket";
 import { QRCodeCanvas } from "qrcode.react";
 import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
-
-const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
-
-const dummyEvent = {
-  _id: "68df6fbcc712eb0ef7a6a98e",
-  title: "Cricket Match",
-  date: "2025-09-26T16:08:41.672Z",
-  location: "Andorkilla, Chittagong",
-  price: 120,
-  desc: "Pakistan vs Bangladesh T20I Final Match",
-  category: "sports",
-  imageUrl: "https://i.ibb.co.com/5hzLny6Y/ai-rising.webp",
-  totalSeats: 200,
-  availableSeats: 200,
-  discount: 0,
-  organizerEmail: "pranoy@gmail.com",
-  lat: 22.3554568,
-  lng: 91.8397677,
-};
+import Image from "next/image";
+import Link from "next/link";
+import { FaInfo, FaRegUserCircle } from "react-icons/fa";
+import { MdEmail, MdEventSeat } from "react-icons/md";
+import Button from "@/ui/Button";
 
 export default function TicketDetails() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
-  const seat = searchParams.get("seat");
+
+  const seatParam = searchParams.get("seats");
+  const seats = useMemo(() => {
+    if (!seatParam) return [];
+    return seatParam.startsWith("[")
+      ? JSON.parse(decodeURIComponent(seatParam))
+      : [seatParam];
+  }, [seatParam]);
+
   const eventId = searchParams.get("eventId");
 
-  const [transactions, setTransactions] = useState(null);
+  const router = useRouter();
+
   const [event, setEvent] = useState(null);
-  const [ticket, setTicket] = useState({});
+  const [transaction, setTransaction] = useState(null);
+  const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [convertedPrice, setConvertedPrice] = useState(0);
   const [currency, setCurrency] = useState("BDT");
+  const [convertedPrice, setConvertedPrice] = useState(0);
   const [converting, setConverting] = useState(false);
   const currencies = ["BDT", "USD", "EUR", "GBP", "INR", "AUD", "CAD"];
 
   // Fetch Event
   useEffect(() => {
-    const fetchEvent = async () => {
-      if (!seat || !eventId) return;
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/browse-event/${eventId}`);
-        const data = await res.json();
-        setEvent(data || dummyEvent);
-      } catch {
-        setEvent(dummyEvent);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEvent();
-  }, [seat, eventId]);
+    if (!eventId) return;
+    setLoading(true);
+    fetch(`/api/browse-event/${eventId}`)
+      .then((res) => res.json())
+      .then((data) => setEvent(data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [eventId]);
 
   // Fetch Transaction
   useEffect(() => {
-    if (!seat || !eventId) return;
-    const fetchTransaction = async () => {
-      try {
-        const res = await fetch(`/api/payment/transactions?seat=${seat}&eventId=${eventId}`);
-        if (!res.ok) throw new Error("Failed to fetch transaction");
-        const data = await res.json();
-        setTransactions(data);
-      } catch {
-        setTransactions(null);
-      }
-    };
-    fetchTransaction();
-  }, [seat, eventId]);
+    if (!seats.length || !eventId) return;
+
+    fetch(
+      `/api/payment/transactions?eventId=${eventId}&seats=${encodeURIComponent(
+        JSON.stringify(seats)
+      )}`
+    )
+      .then((res) => res.json())
+      .then((data) => setTransaction(data || null))
+      .catch(() => setTransaction(null));
+  }, [seats, eventId]);
 
   // Currency Conversion
   useEffect(() => {
-    if (!event?.price || !currency) return;
-    const convertCurrency = async () => {
-      setConverting(true);
-      try {
-        const res = await fetch(
-          `https://v6.exchangerate-api.com/v6/5d75648c6024f50ca5e6c413/pair/BDT/${currency}/${event.price}`
-        );
-        const data = await res.json();
-        if (data.result === "success") {
-          setConvertedPrice(parseFloat(data.conversion_result).toFixed(2));
-        } else {
-          setConvertedPrice(event.price);
-        }
-      } catch {
-        setConvertedPrice(event.price);
-      } finally {
-        setConverting(false);
-      }
-    };
-    convertCurrency();
+    if (!event?.price) return;
+
+    setConverting(true);
+    fetch(
+      `https://v6.exchangerate-api.com/v6/5d75648c6024f50ca5e6c413/pair/BDT/${currency}/${event.price}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result === "success")
+          setConvertedPrice(Number(data.conversion_result));
+        else setConvertedPrice(event.price);
+      })
+      .catch(() => setConvertedPrice(event.price))
+      .finally(() => setConverting(false));
   }, [currency, event?.price]);
 
-  const formattedEventDate = event?.date
-  ? format(parseISO(event?.date), "PPPPp")
-  : "Date unavailable";
+  console.log(convertedPrice);
 
-  // Setup Ticket Data
+  // Prepare Ticket Object
   useEffect(() => {
-    if (!event) return;
+    if (!event || !seats.length) return;
+
+    const eventDate = event?.date
+      ? format(parseISO(event.date), "PPPPp")
+      : "Date not available";
+
+    // ✅ Calculate total using convertedPrice
+    const totalPrice = convertedPrice * seats.length;
+
     setTicket({
-      id: `TICKETHUB_${eventId?.toUpperCase()}_${seat}`,
+      id: `TICKET_${eventId?.slice(0, 6)?.toUpperCase()}_${seats.join("-")}`,
       eventId,
-      tranId: transactions?.tranId,
+      tranId: transaction?.tranId || null,
       title: event?.title,
-      date: formattedEventDate,
+      imageUrl: event?.imageUrl,
+      date: eventDate,
       location: event?.location,
-      seat,
-      price: Number(convertedPrice),
+      seats,
+      price: totalPrice,
       currency,
-      status: transactions?.status || "PENDING",
+      organizerEmail: event?.organizerEmail,
+      status: transaction?.status || "PENDING",
       customerName: session?.user?.name || "N/A",
       customerEmail: session?.user?.email || "N/A",
-      purchaseDate:
-        transactions?.status === "PAID"
-          ? "Purchased on " + format(new Date(transactions.paidAt), "PPPp")
-          : "Not Purchased Yet",
+      purchaseDate: transaction?.paidAt
+        ? "Purchased on " + format(new Date(transaction.paidAt), "PPPp")
+        : "Not Purchased Yet",
     });
-  }, [event, seat, transactions, convertedPrice, currency]);
+  }, [
+    event,
+    transaction,
+    seats,
+    convertedPrice,
+    currency,
+    eventId,
+    session?.user,
+  ]);
 
-  if (!seat || !eventId) {
+  if (loading || status === "loading" || !ticket) {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center h-screen text-center">
-          <h1 className="text-2xl font-bold text-red-500">Invalid ticket details!</h1>
-          <p className="text-sm opacity-70">Please check your ticket info and try again.</p>
+          <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p className="text-gray-600">Loading ticket details...</p>
         </div>
       </PageLayout>
     );
   }
 
-  if (loading || status === "loading" || !event) {
-    return (
-      <PageLayout>
-        <div className="flex flex-col items-center justify-center h-screen text-lg">
-          <span className="loading loading-spinner loading-lg text-primary"></span>
-          Loading ticket details...
-        </div>
-      </PageLayout>
-    );
-  }
-
-  if (transactions?.status === "PAID" && transactions.email !== session?.user?.email) {
+  if (!seats.length || !eventId || !event) {
     return (
       <PageLayout>
         <div className="flex flex-col items-center justify-center h-screen text-center">
-          <h1 className="text-2xl font-bold text-red-500">The ticket is not available!</h1>
-          <p className="text-sm opacity-70">Please try another one.</p>
+          <h1 className="text-2xl font-bold text-red-500">
+            Invalid or missing ticket data
+          </h1>
+          <p className="text-sm text-gray-500">
+            Please go back and select a valid seat.
+          </p>
         </div>
       </PageLayout>
     );
   }
 
   return (
-    <PageLayout title="Ticket Details">
-      {/* Banner */}
-      <div className="relative w-full h-60 rounded-2xl overflow-hidden shadow-md mb-5">
-        <img
-          src={event?.imageUrl}
-          alt={event?.title}
-          className="object-cover w-full h-full brightness-90"
-        />
-        <div className="absolute bottom-4 left-4 text-white drop-shadow-lg">
-          <h1 className="text-3xl font-bold">{event?.title}</h1>
-          <p className="opacity-90">{event?.location}</p>
+    <PageLayout
+      className={"grid grid-cols-1 md:grid-cols-2 gap-6"}
+      title="Ticket Details"
+      imageURL={event?.imageUrl}
+    >
+      {/* Event Info */}
+      <div className="bg-base-100 rounded-md shadow-lg p-6 mb-8 flex flex-col md:flex-row items-center md:items-start gap-6 border border-primary/20">
+        <div className="relative w-full md:w-1/3 h-52 rounded-md overflow-hidden shadow-md">
+          <Image
+            src={ticket.imageUrl}
+            alt={ticket.title}
+            fill
+            className="object-cover"
+          />
         </div>
-      </div>
+        <div className="flex-1 flex flex-col gap-1 text-center md:text-left">
+          <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+            <Ticket className="text-primary" /> Ticket Information
+          </h2>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {ticket.title}
+          </h1>
+          <p className="flex items-center justify-center md:justify-start text-gray-600 dark:text-gray-300 gap-2">
+            <MapPin className="size-4" /> {ticket.location}
+          </p>
+          <p className="flex items-center justify-center md:justify-start text-gray-600 dark:text-gray-300 gap-2">
+            <CalendarDays className="size-4" />{" "}
+            {ticket.date || "Date not available"}
+          </p>
+          <p className="flex items-center justify-center md:justify-start text-gray-600 dark:text-gray-300 gap-2">
+            <FaRegUserCircle className="size-4" />{" "}
+            {ticket.customerName || "N/A"}
+          </p>
 
-      {/* Info Section */}
-      <div className="bg-white rounded-xl shadow p-6 mb-6">
-        <h2 className="text-lg font-semibold mb-2 flex items-center gap-2">
-          <Ticket className="w-5 h-5 text-primary" /> Ticket Information
-        </h2>
-        <p className="text-sm mb-1">Seat: <strong>{ticket.seat}</strong></p>
-        <p className="text-sm mb-1">Date: <strong>{ticket.date}</strong></p>
-        <p className="text-sm mb-1">Customer: <strong>{ticket.customerName}</strong></p>
-        <p className="text-sm">Email: <strong>{ticket.customerEmail}</strong></p>
-      </div>
+          <p className="flex items-center justify-center md:justify-start text-gray-600 dark:text-gray-300 gap-2">
+            <MdEmail className="size-4" /> {ticket.customerEmail || "N/A"}
+          </p>
 
-      {/* Payment Section */}
-      <div className="bg-white rounded-xl shadow p-6 mb-6">
-        <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-          <QrCode className="w-5 h-5 text-primary" /> Payment & Status
-        </h2>
-
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div>
-            <p className="text-2xl font-bold mb-2">
-              {ticket.status === "PAID"
-                ? `${transactions.amount} ${transactions.currency}`
-                : converting
-                ? "Converting..."
-                : `${convertedPrice} ${currency}`}
-            </p>
-            {ticket.status !== "PAID" && (
-              <select
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-                className="select border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-primary"
+          <p className="flex items-center justify-center md:justify-start text-gray-600 dark:text-gray-300 gap-2 my-3">
+            <MdEventSeat className="size-4" />{" "}
+            {ticket.seats.map((seat) => (
+              <span
+                className="py-1 px-2 rounded-sm border text-green-800 bg-green-300 border-green-800"
+                key={seat}
               >
-                {currencies.map((cur) => (
-                  <option key={cur}>{cur}</option>
-                ))}
-              </select>
-            )}
-            <p className="text-sm text-gray-500 mt-1">{ticket.purchaseDate}</p>
-          </div>
+                {seat}
+              </span>
+            ))}
+          </p>
 
-          <div className="flex flex-col items-center gap-3 mt-4 md:mt-0">
-            {ticket.status === "PAID" ? (
-              <>
-                <QRCodeCanvas value={JSON.stringify(ticket)} className="size-28 border p-2 rounded-lg" />
-                <DownloadTicket ticket={ticket} />
-              </>
-            ) : (
-              <CheckoutButton converting={converting} ticket={ticket} />
-            )}
+          <div className="flex justify-end gap-3 mt-2">
+            <Button
+              label={"Other Seats"}
+              onClick={() => router.push(`/ticket/seat?eventId=${eventId}`)}
+            />
+
+            <Button
+              label={"View Details"}
+              onClick={() => router.push(`/browse-events/${eventId}`)}
+            />
           </div>
         </div>
       </div>
 
-      
+      {/* Payment & Status */}
+      <div className="bg-base-100 rounded-md shadow-lg p-6 mb-8 flex flex-col items-center md:items-start gap-6 border border-primary/20">
+        <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+          <QrCode className="text-primary" /> Payment & Status
+        </h2>
+
+        <div className="w-full h-full flex flex-col md:flex-row justify-between items-center md:items-start ">
+          <div className="flex flex-col h-full mb-4">
+            <div className="flex-1">
+              <p className="text-2xl font-bold">
+                {ticket.status === "SUCCESS"
+                  ? `${transaction.amount} ${transaction.currency}`
+                  : converting
+                  ? "Converting..."
+                  : `${ticket.price.toFixed(2)} ${currency}`}
+              </p>
+
+              {ticket.status !== "SUCCESS" && (
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="select select-bordered select-primary focus-within:ring-1 mt-2"
+                >
+                  {currencies.map((cur) => (
+                    <option key={cur}>{cur}</option>
+                  ))}
+                </select>
+              )}
+
+              <p className="text-sm text-gray-500 mt-2">
+                {ticket.purchaseDate}
+              </p>
+            </div>
+
+            <div>
+              {ticket.status === "SUCCESS" ? (
+                <DownloadTicket ticket={ticket} />
+              ) : (
+                !converting && <CheckoutButton ticket={ticket} />
+              )}
+            </div>
+          </div>
+
+          {ticket.status === "SUCCESS" && (
+            <QRCodeCanvas
+              value={JSON.stringify(ticket)}
+              className="size-28 md:size-40 border border-primary/30 p-2 rounded-md shadow"
+            />
+          )}
+        </div>
+      </div>
     </PageLayout>
   );
 }

@@ -7,10 +7,10 @@ export async function POST(req) {
     const form = await req.formData();
     const tranId = form.get("tran_id");
 
-    const paymentTransactions = dbConnect("payment-transactions");
+    const transactions = dbConnect("ticket-transactions");
 
     // find transaction before deleting (to use in redirect)
-    const trx = await paymentTransactions.findOne({ tranId });
+    const trx = await transactions.findOne({ tranId });
     if (!trx) {
       return NextResponse.json(
         { error: "Transaction not found" },

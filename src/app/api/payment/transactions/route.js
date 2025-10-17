@@ -1,53 +1,45 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 
-// GET transactions (with optional filters: seat & eventId)
 export async function GET(req) {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
     const { searchParams } = new URL(req.url);
-
-    const seat = searchParams.get("seat");
     const eventId = searchParams.get("eventId");
+    const seatParam = searchParams.get("seats");
 
-    if (!eventId) {
-      return NextResponse.json({ error: "Event ID required" }, { status: 400 });
-    }
-
-    if (!seat) {
-      return NextResponse.json({ error: "Seat required" }, { status: 400 });
-    }
-
-    const paymentTransactions = dbConnect("payment-transactions");
-
-    // Build query object
-    const query = {};
-    if (seat) query.seat = seat;
-    if (eventId) query.eventId = eventId;
-
-    const transactions = await paymentTransactions.find(query).toArray();
-
-    if (transactions.length === 0) {
+    if (!eventId || !seatParam) {
       return NextResponse.json(
-        { status: "Transactions not found" },
-        { status: 404 }
+        { error: "Event ID and seats required" },
+        { status: 400 }
       );
     }
 
-    return NextResponse.json(transactions[transactions.length - 1], {
-      status: 200,
-    });
+    const seats = seatParam.startsWith("[")
+      ? JSON.parse(decodeURIComponent(seatParam))
+      : [seatParam];
+
+    const transactions = dbConnect("ticket-transactions");
+    if (!transactions) {
+      return NextResponse.json(
+        { error: "Failed to connect to database" },
+        { status: 500 }
+      );
+    }
+
+    const result = await transactions
+      .find({
+        eventId,
+        seats: { $in: seats },
+        status: "SUCCESS",
+      })
+      .toArray();
+
+    // সবশেষ successful transaction (seat-wise) return
+    return NextResponse.json(result[result.length - 1] || null, { status: 200 });
   } catch (err) {
-    console.error("Fetch failed:", err);
+    console.error(err);
     return NextResponse.json(
-      { error: "Failed to fetch transactions" },
+      { error: "Failed to fetch transaction" },
       { status: 500 }
     );
   }
