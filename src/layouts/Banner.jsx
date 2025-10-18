@@ -1,126 +1,75 @@
 "use client";
-
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade } from "swiper/modules";
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/pagination";
 import "swiper/css/effect-fade";
-import "swiper/css/autoplay";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function Banner() {
   const slides = [
     {
-      id: 1,
-      bg: "https://images.unsplash.com/photo-1652018440238-1aeb20a803a7?w=1600&auto=format&fit=crop&q=60",
-      title: "🎟️ Book Your Tickets Anytime",
-      desc: "Hassle-free online ticket booking with instant confirmation.",
-      thumbs: [
-        "https://images.unsplash.com/photo-1531686264889-56fdcabd163f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODB8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
-        "https://images.unsplash.com/photo-1642784353782-91bfdd65920c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODZ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
-        "https://images.unsplash.com/photo-1498192467103-290f567eb3a3?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE0fHxldmVudHN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500",
-      ],
+      title: "Discover & Book Events Instantly",
+      desc: "Experience seamless ticket booking with live event updates — anytime, anywhere.",
+      bg: "https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?w=1400&auto=format&fit=crop&q=80",
     },
     {
-      id: 2,
-      bg: "https://images.unsplash.com/photo-1612733374229-51b4b6bd1960?w=1600&auto=format&fit=crop&q=60",
-      title: "💸 Exclusive Offers",
-      desc: "Save big with our seasonal discounts and flash sales!",
-      thumbs: [
-        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
-        "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
-        "https://images.unsplash.com/photo-1601601392622-5d18104a78fe?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjJ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
-      ],
+      title: "Real-Time Ticket Availability",
+      desc: "Get live seat updates and instant confirmations for your favorite shows.",
+      bg: "https://images.unsplash.com/photo-1611550082883-a65b37a8ea89?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHRpY2tldCUyMGF2YWlsYWJpbGl0eXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
     },
     {
-      id: 3,
-      bg: "https://images.unsplash.com/photo-1617976166080-c8f997ccc237?w=1600&auto=format&fit=crop&q=60",
-      title: "🔒 Fast & Secure Checkout",
-      desc: "Enjoy a smooth booking experience with secure payments.",
-      thumbs: [
-        "https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
-        "https://images.unsplash.com/photo-1478147427282-58a87a120781?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
-        "https://images.unsplash.com/photo-1670028514318-0ac718c0590d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
-      ],
+      title: "Join Exciting Concerts & Festivals",
+      desc: "From music nights to sports events — book and enjoy the experience live.",
+      bg: "https://images.unsplash.com/photo-1619229724813-32decfc1c345?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGZlc3RpdmFscyUyMGFuZCUyMGNvbmNlcnRzfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=6000",
     },
   ];
 
   return (
-    <section className="relative w-full h-[80vh] sm:h-[85vh] md:h-[90vh] overflow-hidden">
-      {/* Main Background Slider */}
+    <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden">
       <Swiper
-        modules={[Autoplay, EffectFade]}
+        modules={[Autoplay, Pagination, EffectFade]}
         effect="fade"
-        loop
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        loop={true}
         className="h-full"
       >
-        {slides.map((slide) => (
-          <SwiperSlide key={slide.id}>
-            <div className="absolute inset-0">
-              <Image
-                src={slide.bg}
-                alt="Background"
-                fill
-                priority
-                className="object-cover brightness-50"
-              />
-            </div>
+        {slides.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <div
+              className="relative w-full h-full bg-cover bg-center flex items-center justify-center"
+              style={{ backgroundImage: `url(${slide.bg})` }}
+            >
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
 
-            {/* Content Container */}
-            <div className="relative w-full h-full flex flex-col justify-center items-center text-center px-4 sm:px-8 md:px-16 text-white">
-              {/* Main Text */}
+              {/* Live Time Badge */}
+              <div className="absolute top-6 right-6 bg-[#d96c2c] text-white px-4 py-2 rounded-md text-xs sm:text-sm font-medium shadow-md z-10">
+                Live Updated •{" "}
+                {new Date().toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </div>
+
+              {/* Content */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="max-w-lg"
+                className="relative z-10 text-center text-white px-4 sm:px-8 md:px-16 max-w-3xl"
               >
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 leading-tight drop-shadow-md">
                   {slide.title}
                 </h1>
-                <p className="text-base sm:text-lg md:text-xl text-gray-500 mb-6">
+                <p className="text-base sm:text-lg md:text-xl mb-8 text-white/90 leading-relaxed">
                   {slide.desc}
                 </p>
-                <Link href={'/browse-events'} className="bg-white btn lg:text-lg hover:scale-105 text-black mb-20  hover:bg-[#d96c2c] text-base sm:text-sm px-5 sm:px-6 py-2 sm:py-3 rounded font-semibold shadow-md transition duration-300">
+                <Link href={'browse-events'} className="px-6 sm:px-8 py-3 bg-[#d96c2c] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[#b45720] transition-all duration-300 shadow-lg">
                   Browse Events
                 </Link>
-              </motion.div>
-
-              {/* Thumbnail Slider */}
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.3 }}
-                className="absolute bottom-4  sm:bottom-6 md:bottom-10 right-4 sm:right-6 md:right-10 bg-black/40 p-2 sm:p-4 rounded-lg backdrop-blur-md"
-              >
-                <Swiper
-                  modules={[Autoplay]}
-                  autoplay={{ delay: 2000 }}
-                  slidesPerView={3}
-                  breakpoints={{
-                    640: { slidesPerView: 1 }, // sm
-                    768: { slidesPerView: 2 }, // md
-                    1024: { slidesPerView: 3 }, // lg
-                  }}
-                  spaceBetween={8}
-                  loop
-                  className="w-[200px] sm:w-[250px] md:w-[300px]"
-                >
-                  {slide.thumbs.map((thumb, i) => (
-                    <SwiperSlide key={i}>
-                      <div className="relative w-[70px] sm:w-[80px] md:w-[90px] h-[50px] sm:h-[60px] md:h-[70px] overflow-hidden rounded-md">
-                        <Image
-                          src={thumb}
-                          alt="thumb"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
               </motion.div>
             </div>
           </SwiperSlide>
