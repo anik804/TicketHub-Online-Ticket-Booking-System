@@ -57,9 +57,7 @@ export async function POST(req) {
 
     // Redirect to ticket details page
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/details?eventId=${trx.eventId}&seats=${encodeURIComponent(
-        JSON.stringify(seatsPurchased)
-      )}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/status?tranId=${tranId}`,
       { status: 303 }
     );
   } catch (err) {

@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const linksConfig = {
   user: [
     { label: "Overview", href: "/" },
-    { label: "My Tickets", href: "myTickets" },
+    { label: "My Tickets", href: "my-tickets" },
     { label: "Profile", href: "profile" },
     { label: "Settings", href: "settings" },
     { label: "User Reminder", href: "userReminder" },
