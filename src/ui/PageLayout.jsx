@@ -42,7 +42,7 @@ export default function PageLayout({ className, children, title, imageURL }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className={`px-5 py-20 md:px-8 lg:px-10 relative z-10 ${className}`}
+        className={`w-full mx-auto my-10 px-5 py-20 md:px-8 lg:px-10 ${className}`}
       >
         {children}
       </motion.div>

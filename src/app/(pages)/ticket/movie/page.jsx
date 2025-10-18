@@ -13,9 +13,9 @@ import Button from "@/ui/Button";
 import SeatProceedButton from "@/components/ticket/MovieSeatProceed";
 import { useMovieData } from "@/hooks/useMovieData";
 
-export default function SeatPage() {
+export default function MovieTicketPage() {
   const searchParams = useSearchParams();
-  const eventId = searchParams.get("eventId");
+  const id = searchParams.get("id");
   const router = useRouter();
 
   const [seats, setSeats] = useState([]);
@@ -23,7 +23,7 @@ export default function SeatPage() {
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { movieData, movieLoading, movieError } = useMovieData({ eventId });
+  const { movieData, movieLoading, movieError } = useMovieData({ id });
 
   // 🔹 Generate A–Z seat layout (20 per row)
   const generateSeatLayout = (total = 100) => {
@@ -41,14 +41,14 @@ export default function SeatPage() {
 
   // 🔹 Load transactions periodically
   useEffect(() => {
-    if (!eventId) return;
+    if (!id) return;
 
     async function loadTransactions() {
       try {
-        const res = await fetch("/api/payment/history/event", {
+        const res = await fetch("/api/payment/history", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ eventId }),
+          body: JSON.stringify({ eventId: id }),
         });
 
         const data = await res.json();
@@ -72,7 +72,7 @@ export default function SeatPage() {
     setSeats(generateSeatLayout(movieData?.totalSeats || 100));
 
     return () => clearInterval(interval);
-  }, [eventId, movieData?.totalSeats]);
+  }, [id, movieData?.totalSeats]);
 
   // 🔹 Seat selection handler
   const toggleSeat = (seat) => {
@@ -86,7 +86,7 @@ export default function SeatPage() {
   const handleProceed = () => {
     if (selected.length === 0) return toast("Please select at least one seat.");
     router.push(
-      `/ticket/details?eventId=${eventId}&seats=${encodeURIComponent(
+      `/ticket/details?eventId=${id}&seats=${encodeURIComponent(
         JSON.stringify(selected)
       )}`
     );
@@ -157,7 +157,7 @@ export default function SeatPage() {
 
           <Button
             label="View Details"
-            onClick={() => router.push(`/browse-events/${eventId}`)}
+            onClick={() => router.push(`/browse-events/${id}`)}
             className="mt-3 w-fit"
           />
         </div>
@@ -189,7 +189,7 @@ export default function SeatPage() {
               ? "bg-red-500 text-white cursor-not-allowed"
               : isSelected
               ? "bg-yellow-400 text-black"
-              : "bg-black text-white hover:bg-gray-900";
+              : "bg-black text-white hover:bg-gray-900 cursor-pointer";
 
             return (
               <motion.button
@@ -208,7 +208,7 @@ export default function SeatPage() {
 
         <SeatProceedButton
           seatLength={selected.length}
-          eventId={eventId}
+          eventId={id}
           seats={selected}
           onClick={handleProceed}
         />

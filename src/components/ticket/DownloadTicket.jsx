@@ -38,7 +38,7 @@ export default function DownloadTicket({ ticket }) {
 
     // ====== Ticket ID (under logo) ======
     doc.setFontSize(12);
-    doc.text(`Ticket ID: ${ticket.id || ticket.ticketId}`, 40, 90);
+    doc.text(`Ticket ID: ${ticket.id}`, 40, 90);
 
     // ====== QR Code (top-right) ======
     if (qrRef.current) {
