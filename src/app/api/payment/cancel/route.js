@@ -24,7 +24,7 @@ export async function POST(req) {
 
     // redirect to cancel page with seat & eventId
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/details?seat=${trx.seat}&eventId=${trx.eventId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/movie?id=${trx.eventId}`,
       { status: 303 }
     );
   } catch (err) {

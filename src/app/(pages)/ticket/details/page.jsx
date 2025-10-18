@@ -8,7 +8,6 @@ import {
   Ticket,
   MapPin,
   CalendarDays,
-  CircleDollarSign,
 } from "lucide-react";
 import CheckoutButton from "@/components/ticket/CheckoutButton";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -16,10 +15,10 @@ import DownloadTicket from "@/components/ticket/DownloadTicket";
 import { QRCodeCanvas } from "qrcode.react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { FaInfo, FaRegUserCircle } from "react-icons/fa";
 import { MdEmail, MdEventSeat } from "react-icons/md";
 import Button from "@/ui/Button";
+import { useMovieTicket } from "@/hooks/useMovieTicket";
 
 export default function TicketDetails() {
   const { data: session, status } = useSession();
@@ -91,6 +90,15 @@ export default function TicketDetails() {
   }, [currency, event?.price]);
 
   console.log(convertedPrice);
+
+  const { movieTicket, ticketLoading, ticketError, movieError } = useMovieTicket({
+      eventId,
+      seats,
+      currency,
+      convertedPrice,
+    });
+
+    console.log(movieTicket);
 
   // Prepare Ticket Object
   useEffect(() => {
@@ -261,7 +269,7 @@ export default function TicketDetails() {
               {ticket.status === "SUCCESS" ? (
                 <DownloadTicket ticket={ticket} />
               ) : (
-                !converting && <CheckoutButton ticket={ticket} />
+                !converting && <CheckoutButton ticket={movieTicket} />
               )}
             </div>
           </div>
