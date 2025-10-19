@@ -1,0 +1,69 @@
+import { NextResponse } from "next/server";
+import { dbConnect } from "@/libs/dbConnect";
+import { ObjectId } from "mongodb";
+
+export async function POST(req) {
+  try {
+    const form = await req.formData();
+    const tranId = form.get("tran_id");
+
+    const transactions = dbConnect("event-transactions");
+    const payments = dbConnect("event-payments");
+    const eventsCollection = dbConnect("events");
+
+    // Find transaction to get eventId and seats
+    const trx = await transactions.findOne({ tranId });
+    if (!trx) {
+      return NextResponse.json(
+        { error: "Transaction not found" },
+        { status: 404 }
+      );
+    }
+    
+    console.log("seat", trx.seatQuantity);
+
+    // Decrease availableSeats in the event by number of seats purchased
+    const updateResult = await eventsCollection.updateOne(
+      { _id: new ObjectId(trx.eventId), availableSeats: { $gte: trx.seatQuantity } },
+      { $inc: { availableSeats: -trx.seatQuantity } }
+    );
+
+    if (updateResult.modifiedCount === 0) {
+      return NextResponse.json(
+        { error: "Not enough seats available" },
+        { status: 400 }
+      );
+    }
+
+    // Update transaction status
+    await transactions.updateOne(
+      { tranId },
+      { $set: { status: "SUCCESS", paidAt: new Date().toISOString() } }
+    );
+
+    // Add payment record
+    await payments.insertOne({
+      tranId,
+      eventId: trx.eventId,
+      seatQuantity : trx.seatQuantity,
+      paidBy: trx.email,
+      organizerEmail: trx.organizerEmail,
+      amount: trx.amount,
+      status: "PAID",
+      currency: trx.currency,
+      paidAt: new Date().toISOString(),
+    });
+
+    // Redirect to ticket details page
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/event/success?tranId=${tranId}`,
+      { status: 303 }
+    );
+  } catch (err) {
+    console.error("Payment success error:", err);
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
+  }
+}

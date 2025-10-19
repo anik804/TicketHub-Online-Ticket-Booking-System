@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "../../auth/[...nextauth]/route";
+
 
 export async function POST(req) {
   const session = await getServerSession(authOptions);
@@ -19,15 +20,15 @@ export async function POST(req) {
     Math.floor(100000 + Math.random() * 900000);
 
   try {
-    const transactions = dbConnect("ticket-transactions");
+    const transactions = dbConnect("movie-transactions");
 
     // save transaction mapping
     await transactions.insertOne({
       tranId,
-      eventId: body.eventId,
+      movieId: body.movieId,
       seats: body.seats,
       email: body.customerEmail,
-      amount: body.price,
+      amount: body.amount,
       currency: body.currency,
       status: "PENDING",
       tranAt: new Date().toISOString(),
@@ -37,22 +38,22 @@ export async function POST(req) {
     const payload = {
       store_id: process.env.SSLC_STORE_ID,
       store_passwd: process.env.SSLC_STORE_PASS,
-      total_amount: Number(body.price),
+      total_amount: Number(body.amount),
       currency: body.currency,
       tran_id: tranId,
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/success`,
-      fail_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/fail`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/cancel`,
-      product_category: "ticket",
+      product_category: "movie_ticket",
       product_name: body.title,
       product_profile: "ticket_hub",
       cus_name: body.customerName,
       cus_email: body.customerEmail,
       cus_phone: body.customerPhone,
-      cus_add1: body.location || "Not Set",
-      cus_city: body.customerCity || "Not Set",
+      cus_add1: body.location || "N/A",
+      cus_city: body.customerCity || "N/A",
       cus_country: "Bangladesh",
       shipping_method: "NO",
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/movie/success`,
+      fail_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/unsuccess?ticket=movie`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/unsuccess?ticket=movie`,
     };
 
     const response = await fetch(

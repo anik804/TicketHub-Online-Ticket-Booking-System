@@ -7,8 +7,8 @@ export async function POST(req) {
     const form = await req.formData();
     const tranId = form.get("tran_id");
 
-    const transactions = dbConnect("ticket-transactions");
-    const payments = dbConnect("ticket-payments");
+    const transactions = dbConnect("movie-transactions");
+    const payments = dbConnect("movie-payments");
     const eventsCollection = dbConnect("events");
 
     // Find transaction to get eventId and seats
@@ -25,7 +25,7 @@ export async function POST(req) {
 
     // Decrease availableSeats in the event by number of seats purchased
     const updateResult = await eventsCollection.updateOne(
-      { _id: new ObjectId(trx.eventId), availableSeats: { $gte: numberOfSeats } },
+      { _id: new ObjectId(trx.movieId), availableSeats: { $gte: numberOfSeats } },
       { $inc: { availableSeats: -numberOfSeats } }
     );
 
@@ -45,7 +45,7 @@ export async function POST(req) {
     // Add payment record
     await payments.insertOne({
       tranId,
-      eventId: trx.eventId,
+      movieId: trx.movieId,
       seats: seatsPurchased, // store all purchased seats
       paidBy: trx.email,
       organizerEmail: trx.organizerEmail,
@@ -57,7 +57,7 @@ export async function POST(req) {
 
     // Redirect to ticket details page
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/status?tranId=${tranId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/movie/success?tranId=${tranId}`,
       { status: 303 }
     );
   } catch (err) {
