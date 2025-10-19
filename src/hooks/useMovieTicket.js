@@ -1,55 +1,48 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+
+import { useMemo } from "react";
 import { useMovieData } from "./useMovieData";
 import { format, parseISO } from "date-fns";
 import { useSession } from "next-auth/react";
 
-export const useMovieTicket = ({
-  eventId,
-  seats = [],
-  currency,
-  totalPrice,
-}) => {
+export const useMovieTicket = ({ movieId, seats = [], currency, totalPrice = 0 }) => {
   const { data: session, status: sessionStatus } = useSession();
-  const { movieData, movieLoading, movieError } = useMovieData({ id: eventId });
+  const { movieData, movieLoading, movieError, refetch: refetchMovie } =
+    useMovieData(movieId);
 
-  const [ticketLoading, setTicketLoading] = useState(true);
-  const [ticketError, setTicketError] = useState(null);
+  // ✅ ticketLoading should consider both movie loading and session loading
+  const ticketLoading = movieLoading || sessionStatus === "loading";
 
-  useEffect(() => {
-    if (!eventId || !seats.length) {
-      console.warn("⚠️ Missing eventId or seats");
-      setTicketLoading(false);
-      setTicketError("Missing eventId or seats");
-      return;
-    }
+  // ✅ ticketError if movie error or missing seats/id
+  const ticketError =
+    movieError ||
+    (!movieId ? "Missing event ID" : null) ||
+    (!seats?.length ? "No seats selected" : null);
 
-    if (sessionStatus === "loading") return; // wait for auth
-    if (movieLoading) return;
-  }, [eventId, seats, sessionStatus, movieLoading]);
-
+  // ✅ Construct the movieTicket object
   const movieTicket = useMemo(() => {
-    if (!movieData) return null;
+    if (!movieData || !seats?.length || ticketError) return null;
 
-    const formattedDate = movieData?.date
+    const formattedDate = movieData.date
       ? format(parseISO(movieData.date), "PPPPp")
       : "Date not available";
 
     return {
-      id: `TICKET_${eventId?.slice(0, 6)?.toUpperCase()}_${seats.join("-")}`,
-      eventId,
-      title: movieData?.title || "Untitled Event",
-      imageUrl: movieData?.imageUrl || null,
+      id: `TICKET_${movieId?.slice(0, 6)?.toUpperCase()}_${seats.join("-")}`,
+      movieId,
+      title: movieData.title || "N/A",
+      imageUrl: movieData.imageUrl || null,
       date: formattedDate,
-      location: movieData?.location || "Location unavailable",
+      location: movieData.location || "N/A",
       seats,
-      price: totalPrice,
-      currency,
-      organizerEmail: movieData?.organizerEmail || "organizer@example",
-      customerName: session?.user?.name || "Guest User",
-      customerEmail: session?.user?.email || "guest@example.com",
+      amount: totalPrice || 0,
+      price: movieData.price || 0,
+      currency: currency || "N/A",
+      organizerEmail: movieData.organizerEmail || "N/A",
+      customerName: session?.user?.name || "N/A",
+      customerEmail: session?.user?.email || "N/A",
     };
-  }, [movieData, seats, totalPrice, currency, eventId, session?.user]);
+  }, [movieData, seats, totalPrice, currency, movieId, session?.user, ticketError]);
 
-  return { movieTicket, ticketLoading, ticketError, movieLoading, movieError };
+  return { movieTicket, ticketLoading, ticketError, refetchMovie };
 };
