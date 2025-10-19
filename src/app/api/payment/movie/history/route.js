@@ -4,12 +4,12 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { eventId, seats = [], user, organizer, tranId } = body;
+    const { movieId, seats = [], user, organizer, tranId } = body;
 
     // ✅ Build dynamic query object
     const query = {};
 
-    if (eventId) query.eventId = eventId;
+    if (movieId) query.movieId = movieId;
     if (user) query.paidBy = user;
     if (organizer) query.organizerEmail = organizer;
     if (tranId) query.tranId = tranId;
@@ -30,7 +30,7 @@ export async function POST(req) {
       );
     }
 
-    const paymentTransactions = dbConnect("ticket-payments");
+    const paymentTransactions = dbConnect("movie-payments");
     const transactions = await paymentTransactions.find(query).toArray();
 
     if (!transactions.length) {

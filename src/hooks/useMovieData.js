@@ -1,30 +1,26 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-export const useMovieData = ({ id }) => {
-  const [movieData, setMovieData] = useState(null);
-  const [movieLoading, setMovieLoading] = useState(true);
-  const [movieError, setMovieError] = useState(null);
+export const useMovieData = (id) => {
+  const {
+    data: movieData,
+    isLoading: movieLoading,
+    error: movieError,
+    refetch, // ✅ Allows manual re-fetching
+  } = useQuery({
+    queryKey: ["movie", id],
+    queryFn: async () => {
+      if (!id) return null;
+      const res = await fetch(`/api/browse-event/${id}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Event fetch failed: ${res.statusText}`);
+      const data = await res.json();
+      return data;
+    },
+    enabled: !!id,
+    retry: 1,
+    refetchInterval: 1000,
+    refetchIntervalInBackground: true,
+  });
 
-  useEffect(() => {
-    if (!id) return;
-    const fetchMovie = async () => {
-      try {
-        console.log("🎬 Fetching movie for eventId:", id);
-        const res = await fetch(`/api/browse-event/${id}`, { cache: "no-store" });
-        if (!res.ok) throw new Error(`Event fetch failed: ${res.statusText}`);
-        const data = await res.json();
-        console.log("✅ Movie Data Loaded:", data);
-        setMovieData(data);
-      } catch (err) {
-        console.error("❌ Movie fetch error:", err);
-        setMovieError(err.message);
-      } finally {
-        setMovieLoading(false);
-      }
-    };
-    fetchMovie();
-  }, [id]);
-
-  return { movieData, movieLoading, movieError };
+  return { movieData, movieLoading, movieError, refetch };
 };
