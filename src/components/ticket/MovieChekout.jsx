@@ -3,16 +3,16 @@
 import Button from "@/ui/Button";
 import { useState } from "react";
 
-export default function CheckoutButton({ ticket }) {
+export default function MovieCheckout({ movieTicket }) {
   const [loading, setLoading] = useState(false);
 
   async function handlePayment() {
     setLoading(true);
     try {
-      const res = await fetch("/api/payment", {
+      const res = await fetch("/api/payment/movie", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(ticket),
+        body: JSON.stringify(movieTicket),
       });
 
       const text = await res.text();

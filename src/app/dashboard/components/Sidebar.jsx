@@ -11,7 +11,8 @@ const linksConfig = {
     { label: "Profile", href: "profile" },
     { label: "Settings", href: "settings" },
     { label: "User Reminder", href: "userReminder" },
-    { label: "Transactions", href: "transactions-history" },
+    { label: "Movies Payments", href: "movies-payments" },
+    { label: "Events Payments", href: "events-payments" },
   ],
   organizer: [
     { label: "Overview", href: "/" },

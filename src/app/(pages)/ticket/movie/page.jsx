@@ -10,8 +10,10 @@ import { motion } from "framer-motion";
 import { FaInfoCircle } from "react-icons/fa";
 import toast from "react-hot-toast";
 import Button from "@/ui/Button";
-import SeatProceedButton from "@/components/ticket/MovieSeatProceed";
+
 import { useMovieData } from "@/hooks/useMovieData";
+import MovieSeatProceed from "@/components/ticket/MovieSeatProceed";
+import { useMoviePayment } from "@/hooks/useMoviePayment";
 
 export default function MovieTicketPage() {
   const searchParams = useSearchParams();
@@ -23,7 +25,7 @@ export default function MovieTicketPage() {
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { movieData, movieLoading, movieError } = useMovieData({ id });
+  const { movieData, movieLoading, movieError } = useMovieData(id);
 
   // 🔹 Generate A–Z seat layout (20 per row)
   const generateSeatLayout = (total = 100) => {
@@ -39,22 +41,17 @@ export default function MovieTicketPage() {
     return layout;
   };
 
+  const { paymentHistory } = useMoviePayment({ movieId: id });
+
   // 🔹 Load transactions periodically
   useEffect(() => {
     if (!id) return;
 
     async function loadTransactions() {
       try {
-        const res = await fetch("/api/payment/history", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ eventId: id }),
-        });
+        setLoading(true);
 
-        const data = await res.json();
-        const transactions = Array.isArray(data) ? data : [];
-
-        const paidSeats = transactions
+        const paidSeats = paymentHistory
           .filter((t) => t?.status === "PAID")
           .flatMap((t) => t?.seats || []);
 
@@ -72,23 +69,13 @@ export default function MovieTicketPage() {
     setSeats(generateSeatLayout(movieData?.totalSeats || 100));
 
     return () => clearInterval(interval);
-  }, [id, movieData?.totalSeats]);
+  }, [paymentHistory, movieData?.totalSeats]);
 
   // 🔹 Seat selection handler
   const toggleSeat = (seat) => {
     if (booked.includes(seat)) return toast.error("Seat already booked!");
     setSelected((prev) =>
       prev.includes(seat) ? prev.filter((s) => s !== seat) : [...prev, seat]
-    );
-  };
-
-  // 🔹 Proceed to next page
-  const handleProceed = () => {
-    if (selected.length === 0) return toast("Please select at least one seat.");
-    router.push(
-      `/ticket/details?eventId=${id}&seats=${encodeURIComponent(
-        JSON.stringify(selected)
-      )}`
     );
   };
 
@@ -99,7 +86,7 @@ export default function MovieTicketPage() {
         <div className="flex flex-col items-center justify-center min-h-[70vh] text-center space-y-4">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
           <p className="text-lg text-gray-600">
-            Loading seats and event details...
+            Loading seats and movie details...
           </p>
         </div>
       </PageLayout>
@@ -170,8 +157,12 @@ export default function MovieTicketPage() {
         {/* Legend */}
         <div className="flex flex-wrap justify-center gap-4 text-sm bg-primary/10 rounded-md px-6 py-3">
           <Legend
+            color="bg-primary"
+            label={`Total (${movieData.totalSeats || 0})`}
+          />
+          <Legend
             color="bg-black"
-            label={`Available (${seats.length - booked.length})`}
+            label={`Available (${movieData.availableSeats || 0})`}
           />
           <Legend
             color="bg-yellow-400"
@@ -206,11 +197,10 @@ export default function MovieTicketPage() {
           })}
         </div>
 
-        <SeatProceedButton
+        <MovieSeatProceed
+          movieId={id}
           seatLength={selected.length}
-          eventId={id}
           seats={selected}
-          onClick={handleProceed}
         />
       </div>
     </PageLayout>

@@ -1,29 +1,49 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import Button from "@/ui/Button";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useMovieTicket } from "@/hooks/useMovieTicket";
-import { MdEmail, MdEventSeat } from "react-icons/md";
-import { FaRegUserCircle } from "react-icons/fa";
-import { CalendarDays, Film, MapPin, MoveIcon, Ticket } from "lucide-react";
-import CheckoutButton from "./CheckoutButton";
+import { MdEventSeat } from "react-icons/md";
 
-export default function MovieSeatProceed({ seatLength, eventId, seats }) {
+import { CalendarDays, Film, MapPin } from "lucide-react";
+import MovieCheckout from "./MovieChekout";
+
+export default function MovieSeatProceed({ seatLength, movieId, seats }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const currency = "USD";
-  const convertedPrice = 10;
+  const [currency, setCurrency] = useState("BDT");
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [converting, setConverting] = useState(false);
+  const currencies = ["BDT", "USD", "EUR", "GBP", "INR", "AUD", "CAD"];
 
   const { movieTicket, ticketLoading, ticketError, movieError } =
     useMovieTicket({
-      eventId,
+      movieId,
       seats,
       currency,
-      convertedPrice,
+      totalPrice,
     });
+
+  // Currency Conversion
+  useEffect(() => {
+    if (!movieTicket?.price) return;
+
+    setConverting(true);
+    fetch(
+      `https://v6.exchangerate-api.com/v6/5d75648c6024f50ca5e6c413/pair/BDT/${currency}/${movieTicket.price}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result === "success")
+          setTotalPrice(Number(data.conversion_result) * seatLength);
+        else setTotalPrice(movieTicket.price * seatLength);
+      })
+      .catch(() => setTotalPrice(movieTicket.price * seatLength))
+      .finally(() => setConverting(false));
+  }, [currency, movieTicket?.price, seatLength]);
 
   return (
     <>
@@ -56,6 +76,7 @@ export default function MovieSeatProceed({ seatLength, eventId, seats }) {
               <AiOutlineClose size={18} />
             </button>
             {/* Content*/}
+
             <Image
               className="w-full h-50 object-cover rounded-lg mb-6"
               width={500}
@@ -92,8 +113,26 @@ export default function MovieSeatProceed({ seatLength, eventId, seats }) {
                 ))}
               </p>
 
+              <div className="flex items-center justify-between gap-2 mt-4 mb-2">
+                <p className="text-lg">
+                  Total Price :{" "}
+                  {converting
+                    ? "Converting..."
+                    : `${currency} ${totalPrice.toFixed(2)}`}
+                </p>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="border border-primary/20 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:outline-none"
+                >
+                  {currencies.map((cur) => (
+                    <option key={cur}>{cur}</option>
+                  ))}
+                </select>
+              </div>
+
               <div className="flex items-center justify-center">
-              <CheckoutButton ticket={movieTicket} />
+                <MovieCheckout movieTicket={movieTicket} />
               </div>
             </div>
           </motion.div>
