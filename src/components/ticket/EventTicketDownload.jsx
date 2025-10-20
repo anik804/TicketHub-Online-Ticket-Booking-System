@@ -1,12 +1,13 @@
 "use client";
 
 import Button from "@/ui/Button";
+import { format, parseISO } from "date-fns";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { QRCodeCanvas } from "qrcode.react";
 import { useRef } from "react";
 
-export default function DownloadTicket({ ticket }) {
+export default function EventTicketDownload({ eventTicket, paymentHistory }) {
   const qrRef = useRef();
   const titleRef = useRef();
 
@@ -38,7 +39,7 @@ export default function DownloadTicket({ ticket }) {
 
     // ====== Ticket ID (under logo) ======
     doc.setFontSize(12);
-    doc.text(`Ticket ID: ${ticket.id || ticket.ticketId}`, 40, 90);
+    doc.text(`Ticket ID: ${eventTicket.id}`, 40, 90);
 
     // ====== QR Code (top-right) ======
     if (qrRef.current) {
@@ -56,10 +57,10 @@ export default function DownloadTicket({ ticket }) {
       head: [[{ content: "Event Details", colSpan: 2 }]],
       headStyles: { halign: "center", fillColor: [217, 108, 44], textSize: 14 },
       body: [
-        ["Title", ticket.title || "N/A"],
-        ["Date & Time", ticket.date || "N/A"],
-        ["Venue", ticket.location || "N/A"],
-        ["Seat", ticket.seats || "Not Assigned"],
+        ["Title", eventTicket.title || "N/A"],
+        ["Date & Time", eventTicket.date || "N/A"],
+        ["Venue", eventTicket.location || "N/A"],
+        ["Seat Quantity", eventTicket.seatQuantity || "Not Assigned"],
       ],
     });
 
@@ -70,9 +71,9 @@ export default function DownloadTicket({ ticket }) {
       head: [[{ content: "Ticket Holder", colSpan: 2 }]],
       headStyles: { halign: "center", fillColor: [217, 108, 44], textSize: 14 },
       body: [
-        ["Name", ticket.customerName || "N/A"],
-        ["Email", ticket.customerEmail || "N/A"],
-        ["Phone", ticket.customerPhone || "N/A"],
+        ["Name", eventTicket.customerName || "N/A"],
+        ["Email", eventTicket.customerEmail || "N/A"],
+        ["Phone", eventTicket.customerPhone || "N/A"],
       ],
     });
 
@@ -83,15 +84,21 @@ export default function DownloadTicket({ ticket }) {
       head: [[{ content: "Payment Info", colSpan: 2 }]],
       headStyles: { halign: "center", fillColor: [217, 108, 44], textSize: 14 },
       body: [
-        ["Amount", `${ticket.price || 0} ${ticket.currency || "BDT"}`],
-        ["Status", ticket.status || "Pending"],
-        ["Transaction ID", ticket.tranId || "N/A"],
-        ["Purchase Date", ticket.purchaseDate || "N/A"],
+        [
+          "Amount",
+          `${paymentHistory.amount || 0} ${paymentHistory.currency || "BDT"}`,
+        ],
+        ["Status", paymentHistory.status || "Pending"],
+        ["Transaction ID", paymentHistory.tranId || "N/A"],
+        [
+          "Purchase Date",
+          format(parseISO(paymentHistory.paidAt), "PPPPp") || "N/A",
+        ],
       ],
     });
 
     // Save PDF
-    doc.save(`${ticket.ticketId || ticket.id}.pdf`);
+    doc.save(`${eventTicket.id}.pdf`);
   };
 
   return (
@@ -104,7 +111,7 @@ export default function DownloadTicket({ ticket }) {
       {/* Hidden QR */}
       <div ref={qrRef} style={{ display: "none" }}>
         <QRCodeCanvas
-          value={`${process.env.NEXT_PUBLIC_BASE_URL}/ticket/verify?tranId=${ticket.tranId}`}
+          value={`${process.env.NEXT_PUBLIC_BASE_URL}/ticket/verify?ticket=event&tranId=${paymentHistory.tranId}`}
           size={100}
         />
       </div>
