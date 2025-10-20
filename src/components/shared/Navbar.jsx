@@ -17,7 +17,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // 🔸 Detect scroll position
+  // Detect scroll position
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) setScrolled(true);
@@ -32,7 +32,7 @@ export default function Navbar() {
     { href: "/browse-events", label: "Browse Events" },
     { href: "/movies", label: "Movies" },
     { href: "/blog", label: "Blog" },
-    { href: "/about", label: "About" },
+    // { href: "/about", label: "About" },
     { href: "/Contacts", label: "Contacts" },
   ];
 
