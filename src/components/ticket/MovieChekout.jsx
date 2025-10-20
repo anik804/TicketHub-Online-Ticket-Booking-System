@@ -3,7 +3,7 @@
 import Button from "@/ui/Button";
 import { useState } from "react";
 
-export default function MovieCheckout({ movieTicket }) {
+export default function MovieCheckout({ movieTicket, disabled }) {
   const [loading, setLoading] = useState(false);
 
   async function handlePayment() {
@@ -37,7 +37,7 @@ export default function MovieCheckout({ movieTicket }) {
     <Button
       className={`min-w-32 ${loading ? "pointer-events-none" : ""}`}
       onClick={handlePayment}
-      disabled={loading}
+      disabled={loading || disabled}
       label={loading ? "Processing..." : "Pay Now"}
     />
   );

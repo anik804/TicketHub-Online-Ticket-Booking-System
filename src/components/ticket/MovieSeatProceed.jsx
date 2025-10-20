@@ -132,7 +132,7 @@ export default function MovieSeatProceed({ seatLength, movieId, seats }) {
               </div>
 
               <div className="flex items-center justify-center">
-                <MovieCheckout movieTicket={movieTicket} />
+                <MovieCheckout movieTicket={movieTicket} disabled={converting} />
               </div>
             </div>
           </motion.div>
