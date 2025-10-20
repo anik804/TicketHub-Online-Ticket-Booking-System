@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,13 +15,24 @@ export default function Navbar() {
   const { data: session, status } = useSession();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Detect scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) setScrolled(true);
+      else setScrolled(false);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const links = [
     { href: "/", label: "Home" },
     { href: "/browse-events", label: "Browse Events" },
     { href: "/movies", label: "Movies" },
     { href: "/blog", label: "Blog" },
-    { href: "/about", label: "About" },
+    // { href: "/about", label: "About" },
     { href: "/Contacts", label: "Contacts" },
   ];
 
@@ -29,7 +40,7 @@ export default function Navbar() {
     try {
       setIsLoggingOut(true);
       await signOut({ redirect: false });
-      toast.success("F out 👋");
+      toast.success("Logged out 👋");
       router.push("/");
     } catch (error) {
       toast.error("Logout failed 😢");
@@ -40,7 +51,13 @@ export default function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full shadow-md bg-black">
+    <div
+      className={`fixed top-0 z-50 w-full transition-all duration-500 ${
+        scrolled
+          ? "bg-black shadow-lg backdrop-blur-md"
+          : "bg-transparent"
+      }`}
+    >
       <div className="navbar px-6 py-3">
         {/* Navbar Start */}
         <div className="navbar-start flex items-center gap-2">
@@ -78,8 +95,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-1 rounded-md transition-all duration-200 ${
                     pathname === link.href
-                      ? "text-[#d96c2c]  font-semibold"
-                      : "text-gray-300  hover:text-[#d96c2c]"
+                      ? "text-[#d96c2c] font-semibold"
+                      : "text-gray-300 hover:text-[#d96c2c]"
                   }`}
                 >
                   {link.label}
@@ -94,7 +111,7 @@ export default function Navbar() {
           {status === "loading" ? null : !session ? (
             <Link
               href="/auth/login"
-              className="px-3 py-1 rounded  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
+              className="px-3 py-1 rounded font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
             >
               Join Us
             </Link>
@@ -144,53 +161,6 @@ export default function Navbar() {
           )}
         </div>
       </div>
-
-      {/* 📱 Fullscreen Mobile Menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
-            transition={{ type: "tween", duration: 0.3 }}
-            className="fixed inset-0 z-50 flex backdrop-blur-sm bg-black/40"
-          >
-            {/* Sidebar */}
-            <div className="bg-black w-72 h-full p-6 shadow-xl">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-semibold text-[#d96c2c]">Menu</h2>
-                <button onClick={() => setMenuOpen(false)}>
-                  <X className="h-6 w-6 text-gray-700" />
-                </button>
-              </div>
-
-              <ul className="space-y-4">
-                {links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={() => setMenuOpen(false)}
-                      className={`block text-lg font-medium ${
-                        pathname === link.href
-                          ? "text-[#d96c2c]"
-                          : "text-gray-300 hover:text-gray-500"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Overlay area (click outside to close) */}
-            <div
-              className="flex-1  cursor-pointer"
-              onClick={() => setMenuOpen(false)}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
