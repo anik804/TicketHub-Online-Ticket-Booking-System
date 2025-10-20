@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
 import { ObjectId } from "mongodb";
+import nodemailer from "nodemailer";
 
 export async function POST(req) {
   try {
@@ -25,7 +26,10 @@ export async function POST(req) {
 
     // Decrease availableSeats in the event by number of seats purchased
     const updateResult = await eventsCollection.updateOne(
-      { _id: new ObjectId(trx.movieId), availableSeats: { $gte: numberOfSeats } },
+      {
+        _id: new ObjectId(trx.movieId),
+        availableSeats: { $gte: numberOfSeats },
+      },
       { $inc: { availableSeats: -numberOfSeats } }
     );
 
@@ -55,7 +59,50 @@ export async function POST(req) {
       paidAt: new Date().toISOString(),
     });
 
-    // Redirect to ticket details page
+    // --------------- Send Success Email ----------------
+
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: trx.email,
+        subject: `Ticket Hub Movie Payment Successful`,
+        html: `
+              <div style="font-family:Arial,sans-serif;line-height:1.6">
+                <h2 style="color:#d96c2c;">Payment Successful!</h2>
+                <p>Hello Dear,</p>
+                <p>Your payment has been successfully processed for Movie:</p>
+                <ul>
+                  <li><b>Transaction ID:</b> ${tranId}</li>
+                  <li><b>Movie ID:</b> ${trx.movieId}</li>
+                  <li><b>Total Seats:</b> ${trx.seats
+                    .map((seat) => seat)
+                    .join(", ")}</li>
+                  <li><b>Amount:</b> ${trx.amount.toFixed(2)} ${
+          trx.currency
+        }</li>
+                  <li><b>Date:</b> ${trx.paidAt}</li>
+                </ul>
+                <p>Thank you for your purchase! 🎉</p>
+              </div>
+            `,
+      };
+      Date().toLocaleString("bn-BD");
+
+      await transporter.sendMail(mailOptions);
+      console.log(`✅ Success email sent to ${trx.email}`);
+    } catch (mailErr) {
+      console.error("❌ Email sending failed:", mailErr);
+    }
+
+    // --------------- Redirect user ----------------
     return NextResponse.redirect(
       `${process.env.NEXT_PUBLIC_BASE_URL}/ticket/movie/success?tranId=${tranId}`,
       { status: 303 }
