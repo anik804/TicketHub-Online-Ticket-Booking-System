@@ -179,7 +179,7 @@ export default function EventTicketPage() {
             {isAvailable && (
               <EventCheckout
                 eventTicket={eventTicket}
-                disabled={!isAvailable}
+                disabled={!isAvailable || converting}
               />
             )}
           </div>

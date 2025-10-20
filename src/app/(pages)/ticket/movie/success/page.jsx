@@ -3,15 +3,19 @@
 import DownloadTicket from "@/components/ticket/MovieTicketDownload";
 import { useMoviePayment } from "@/hooks/useMoviePayment";
 import { useMovieTicket } from "@/hooks/useMovieTicket";
+import Button from "@/ui/Button";
 import PageLayout from "@/ui/PageLayout";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { QRCodeCanvas } from "qrcode.react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 export default function MovieSuccessPage() {
   const searchParams = useSearchParams();
   const tranId = searchParams.get("tranId");
+
+  const router = useRouter();
 
   const { paymentHistory, paymentLoading } = useMoviePayment({ tranId });
 
@@ -98,11 +102,21 @@ export default function MovieSuccessPage() {
       </p>
 
       <QRCodeCanvas
-              value={JSON.stringify(paymentHistory[0])}
-              className="size-28 md:size-40 border border-primary/30 p-2 rounded-md shadow"
-            />
+        value={JSON.stringify(paymentHistory[0])}
+        className="size-28 md:size-40 border border-primary/30 p-2 rounded-md shadow"
+      />
 
-      <div className="mt-5">
+      <div className="mt-5 flex flex-wrap gap-2 items-center">
+        <Button
+          label={"More Seats"}
+          onClick={() => router.push(`/ticket/movie?id=${movieTicket.movieId}`)}
+        />
+
+        <Button
+          label={"View Details"}
+          onClick={() => router.push(`/browse-events/${movieTicket.movieId}`)}
+        />
+
         <DownloadTicket
           movieTicket={movieTicket}
           paymentHistory={paymentHistory[0]}
