@@ -17,7 +17,7 @@ export default function EventCard({ event }) {
       {/* Image */}
       <div className="relative h-48 w-full overflow-hidden">
         <Image
-          src={event.image || "./images/placeholder-image.svg"}
+          src={event.imageUrl || "./images/placeholder-image.svg"}
           alt={event.title}
           fill
           className="object-cover overflow-hidden group-hover:scale-120 custom-transition"
