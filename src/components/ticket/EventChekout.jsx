@@ -3,16 +3,16 @@
 import Button from "@/ui/Button";
 import { useState } from "react";
 
-export default function CheckoutButton({ ticket }) {
+export default function EventCheckout({ eventTicket, disabled }) {
   const [loading, setLoading] = useState(false);
 
   async function handlePayment() {
     setLoading(true);
     try {
-      const res = await fetch("/api/payment", {
+      const res = await fetch("/api/payment/event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(ticket),
+        body: JSON.stringify(eventTicket),
       });
 
       const text = await res.text();
@@ -33,11 +33,12 @@ export default function CheckoutButton({ ticket }) {
     }
   }
 
+
   return (
     <Button
       className={`min-w-32 ${loading ? "pointer-events-none" : ""}`}
       onClick={handlePayment}
-      disabled={loading}
+      disabled={loading || disabled}
       label={loading ? "Processing..." : "Pay Now"}
     />
   );
