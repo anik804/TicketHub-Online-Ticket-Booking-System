@@ -27,13 +27,14 @@ export default function ContactPage() {
     <div className="bg-white text-gray-900 dark:bg-black dark:text-gray-100">
     {/* 🔹 Banner Section */}
 <div
-  className="relative h-[300px] bg-cover bg-center flex flex-col items-center justify-center text-center"
+  className="relative h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center mt-[-80px]"
   style={{
     backgroundImage: "url('/contact.jpg')",
   }}
 >
+
   {/* Dark blur overlay */}
-  <div className="absolute inset-0 bg-black/70 backdrop-blur-[4px]"></div>
+  <div className="absolute inset-0 bg-black/70 backdrop-blur-[5px]"></div>
 
   <motion.div
     initial={{ opacity: 0, y: 30 }}
