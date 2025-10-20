@@ -1,11 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) =>
@@ -18,44 +24,50 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 text-gray-900 dark:text-gray-100 px-6 py-16">
-      
-      {/* Heading */}
-      <motion.div
-        initial={{ opacity: 0, y: -40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        className="text-center mb-14"
-      >
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-wide">
-          Get in{" "}
-          <span className="bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] bg-clip-text text-transparent">
-            Touch
-          </span>
-        </h1>
-        <p className="text-gray-700 dark:text-gray-300 mt-3 max-w-xl mx-auto text-lg">
-          Have questions or feedback? Fill out the form or reach us directly
-          through the contact details below.
-        </p>
-      </motion.div>
+    <div className="bg-white text-gray-900 dark:bg-black dark:text-gray-100">
+    {/* 🔹 Banner Section */}
+<div
+  className="relative h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center mt-[-80px]"
+  style={{
+    backgroundImage: "url('/contact.jpg')",
+  }}
+>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-        
-        {/* Contact Form Card */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
+  {/* Dark blur overlay */}
+  <div className="absolute inset-0 bg-black/70 backdrop-blur-[5px]"></div>
+
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+    className="relative z-10"
+  >
+    <p className="text-gray-300 mb-2">Home / Contact</p>
+    <h1 className="text-4xl md:text-5xl font-bold text-white">Contact</h1>
+  </motion.div>
+</div>
+
+{/* 🔸 Full-width dotted divider under banner */}
+<div className="w-full pt-2 border-b-6 border-dashed border-black"></div>
+
+
+
+
+      {/* 🔹 Contact Form Section */}
+      <div className="max-w-5xl mx-auto px-6 py-20 text-center">
+        <p className="text-[#d96c2c] uppercase font-semibold">Contact With Us</p>
+        <h2 className="text-3xl md:text-4xl font-bold mb-12">
+          Get in Touch with TicketHub
+        </h2>
+
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="bg-orange-50 dark:bg-gray-800 p-10 rounded-3xl shadow-xl border border-orange-200 dark:border-gray-700"
+          className="max-w-3xl mx-auto bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-700 p-10 rounded-2xl"
         >
-          <h2 className="text-3xl font-bold mb-3 text-gray-700 dark:text-gray-100">
-            Send us a Message
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg">
-            We'd love to hear from you! Fill out the form below and we’ll get back to you shortly.
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
             <input
               type="text"
               name="name"
@@ -63,101 +75,163 @@ export default function ContactPage() {
               value={form.name}
               onChange={handleChange}
               required
-              className="w-full px-5 py-3 rounded-xl bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 placeholder-gray-400 dark:placeholder-gray-500 focus:border-[#FF0000] focus:ring focus:ring-[#FF0000]/30 outline-none transition"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
             />
             <input
               type="email"
               name="email"
-              placeholder="Your Email"
+              placeholder="Email Address"
               value={form.email}
               onChange={handleChange}
               required
-              className="w-full px-5 py-3 rounded-xl bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 placeholder-gray-400 dark:placeholder-gray-500 focus:border-[#FF0000] focus:ring focus:ring-[#FF0000]/30 outline-none transition"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
             />
-            <textarea
-              name="message"
-              rows="5"
-              placeholder="Your Message"
-              value={form.message}
+            <input
+              type="text"
+              name="phone"
+              placeholder="Phone"
+              value={form.phone}
               onChange={handleChange}
               required
-              className="w-full px-5 py-3 rounded-xl bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 placeholder-gray-400 dark:placeholder-gray-500 focus:border-[#FF0000] focus:ring focus:ring-[#FF0000]/30 outline-none transition"
-            ></textarea>
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+            />
+            <input
+              type="text"
+              name="subject"
+              placeholder="Subject"
+              value={form.subject}
+              onChange={handleChange}
+              required
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+            />
+          </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 rounded-md bg-gradient-to-r from-[#950101] to-[#FF0000] font-semibold hover:opacity-95 transition text-white"
-            >
-              Send Message
-            </button>
-          </form>
+          <textarea
+            name="message"
+            rows="5"
+            placeholder="Write your message..."
+            value={form.message}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent mb-6"
+          ></textarea>
+
+          <button
+            type="submit"
+            className="bg-[#d96c2c] hover:bg-[#ff8533] transition text-white font-semibold py-3 px-8 rounded w-full"
+          >
+            Send Message
+          </button>
 
           {submitted && (
-            <div className="mt-4 text-center text-green-600 font-medium animate-pulse">
+            <p className="mt-4 text-green-600 font-medium animate-pulse">
               ✅ Your message has been sent successfully!
-            </div>
+            </p>
           )}
-        </motion.div>
+        </motion.form>
+      </div>
 
-        {/* Contact Info Card */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="space-y-8"
-        >
-          <div className="bg-orange-50 dark:bg-gray-700 p-8 rounded-3xl shadow-xl border border-orange-200 dark:border-gray-600">
-            <h2 className="text-3xl font-semibold mb-6 border-b border-orange-200 dark:border-gray-600 pb-2 text-gray-700 dark:text-gray-100">
-              Contact Information
-            </h2>
-            <ul className="space-y-4 text-gray-900 dark:text-gray-100 text-base">
-              <li className="flex items-center gap-3">
-                <Mail className="text-[#FF0000]" /> contact@tickethub.com
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="text-[#FF0000]" /> +880 1234-567890
-              </li>
-              <li className="flex items-center gap-3">
-                <MapPin className="text-[#FF0000]" /> Dhaka, Bangladesh
-              </li>
-            </ul>
+      {/* 🔹 Info Cards Section */}
+      <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
+        {/* About */}
+        <div className="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-700 p-8 rounded-2xl relative overflow-hidden">
+          <div className="absolute right-6 top-6 text-[#d96c2c] opacity-90">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="42"
+              height="42"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-user-square-2"
+            >
+              <path d="M6 22a8 8 0 0 1 12 0" />
+              <circle cx="12" cy="10" r="4" />
+              <rect x="2" y="2" width="20" height="20" rx="2" ry="2" />
+            </svg>
           </div>
+          <h3 className="text-xl font-semibold mb-3 text-left">About</h3>
+          <p className="text-gray-700 dark:text-gray-300 text-left">
+            TicketHub is Bangladesh’s trusted online ticket booking platform.
+            We make your journey easier by providing a fast, secure, and
+            convenient way to book tickets for concerts, events, movies, and more.
+          </p>
+        </div>
 
-          {/* Map */}
-          <div className="rounded-xl overflow-hidden border border-orange-200 dark:border-gray-600 shadow-xl">
-            <iframe
-              title="map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.245931866444!2d90.39945201538573!3d23.810331384557556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c74fef3dfdbd%3A0xe0bb5f5d57f9c9df!2sDhaka!5e0!3m2!1sen!2sbd!4v1674036270280!5m2!1sen!2sbd"
-              width="100%"
-              height="250"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              loading="lazy"
-            ></iframe>
+        {/* Address */}
+        <div className="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-700 p-8 rounded-2xl relative overflow-hidden">
+          <div className="absolute right-6 top-6 text-[#d96c2c] opacity-90">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="42"
+              height="42"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-map-pin"
+            >
+              <path d="M21 10c0 5.523-9 13-9 13s-9-7.477-9-13a9 9 0 1 1 18 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
           </div>
+          <h3 className="text-xl font-semibold mb-3 text-left">Address</h3>
+          <p className="text-left">
+            TicketHub HQ<br />
+            House 15, Road 12, Dhanmondi,<br />
+            Dhaka 1209, Bangladesh
+          </p>
+        </div>
 
-          {/* Social Links */}
-          <div className="flex gap-4">
-            <a
-              href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#950101] hover:bg-[#FF0000] transition"
+        {/* Contact */}
+        <div className="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-700 p-8 rounded-2xl relative overflow-hidden">
+          <div className="absolute right-6 top-6 text-[#d96c2c] opacity-90">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="42"
+              height="42"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-users"
             >
-              <Facebook size={20} className="text-white" />
-            </a>
-            <a
-              href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#950101] hover:bg-[#FF0000] transition"
-            >
-              <Twitter size={20} className="text-white" />
-            </a>
-            <a
-              href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#950101] hover:bg-[#FF0000] transition"
-            >
-              <Instagram size={20} className="text-white" />
-            </a>
+              <path d="M16 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M7 21v-2a4 4 0 0 1 3-3.87" />
+              <circle cx="12" cy="7" r="4" />
+              <circle cx="5" cy="17" r="4" />
+              <circle cx="19" cy="17" r="4" />
+            </svg>
           </div>
-        </motion.div>
+          <h3 className="text-xl font-semibold mb-3 text-left">Contact</h3>
+          <ul className="space-y-2 text-gray-700 dark:text-gray-300 text-left">
+            <li className="flex items-center gap-2">
+              <Phone size={18} className="text-[#d96c2c]" /> +880 1700-123456
+            </li>
+            <li className="flex items-center gap-2">
+              <Mail size={18} className="text-[#d96c2c]" /> support@tickethub.com
+            </li>
+            <li className="flex items-center gap-2">
+              <MapPin size={18} className="text-[#d96c2c]" /> Dhaka, Bangladesh
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* 🔹 Map Section */}
+      <div className="w-full">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.875435484484!2d90.36650927517746!3d23.750866389220404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf565aefadfd%3A0x30d843b0ed0aefdb!2sDhanmondi%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1697032590174!5m2!1sen!2sbd"
+          width="100%"
+          height="400"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+        ></iframe>
       </div>
     </div>
   );

@@ -46,7 +46,7 @@ export default function Banner() {
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
 
               {/* Live Time Badge */}
-              <div className="absolute top-6 right-6 bg-[#d96c2c] text-white px-4 py-2 rounded-md text-xs sm:text-sm font-medium shadow-md z-10">
+              <div className="absolute top-6 right-6 bg-[#d96c2c] text-white px-4 py-2 rounded text-xs sm:text-sm font-medium shadow-md z-10">
                 Live Updated •{" "}
                 {new Date().toLocaleTimeString([], {
                   hour: "2-digit",
@@ -67,7 +67,7 @@ export default function Banner() {
                 <p className="text-base sm:text-lg md:text-xl mb-8 text-white/90 leading-relaxed">
                   {slide.desc}
                 </p>
-                <Link href={'browse-events'} className="px-6 sm:px-8 py-3 bg-[#d96c2c] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[#b45720] transition-all duration-300 shadow-lg">
+                <Link href={'browse-events'} className="px-6 sm:px-8 py-3 bg-[#d96c2c] text-white rounded font-semibold text-base sm:text-lg hover:bg-[#b45720] transition-all duration-300 shadow-lg">
                   Browse Events
                 </Link>
               </motion.div>
