@@ -53,7 +53,7 @@ export default function GetAnswers() {
         <h2
           className="text-4xl md:text-5xl font-extrabold text-gray-900 drop-shadow-lg"
         >
-           Get Answers & Stay Connected
+           <span className="text-[#d96c2c]">Get Answers</span> & Stay Connected
         </h2>
         <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
           Have questions or want to stay updated on upcoming events?  
