@@ -25,7 +25,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#000000] text-gray-400">
-      {/* 🔹 Top Bar */}
+      {/*  Top Bar */}
       <div className="border-b border-gray-800 flex flex-col md:flex-row items-center justify-between px-8 py-4 text-sm">
         {/* Logo + Title */}
         <div className="flex items-center gap-2 mb-4 md:mb-0">
@@ -159,10 +159,10 @@ export default function Footer() {
     >
       {link.label}
       <span
-        className={`absolute left-0 bottom-0 h-[1px] transition-all duration-300 ease-in-out ${
+        className={`absolute left-0 bottom-0 h-[1px] transition-all duration-300  ${
           pathname === link.href
-            ? "w-full bg-[#d96c2c]"
-            : "w-0 bg-[#d96c2c] group-hover:w-30"
+            ? "w-0 bg-[#d96c2c]"
+            : "w-0 bg-[#d96c2c] "
         }`}
       ></span>
     </Link>

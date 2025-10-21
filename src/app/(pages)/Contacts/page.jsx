@@ -25,7 +25,7 @@ export default function ContactPage() {
 
   return (
     <div className="bg-white text-gray-900 dark:bg-black dark:text-gray-100">
-    {/* 🔹 Banner Section */}
+    {/* Banner Section */}
 <div
   className="relative h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center mt-[-80px]"
   style={{
@@ -47,13 +47,13 @@ export default function ContactPage() {
   </motion.div>
 </div>
 
-{/* 🔸 Full-width dotted divider under banner */}
+{/*  Full-width dotted divider under banner */}
 <div className="w-full pt-2 border-b-6 border-dashed border-black"></div>
 
 
 
 
-      {/* 🔹 Contact Form Section */}
+      {/*  Contact Form Section */}
       <div className="max-w-5xl mx-auto px-6 py-20 text-center">
         <p className="text-[#d96c2c] uppercase font-semibold">Contact With Us</p>
         <h2 className="text-3xl md:text-4xl font-bold mb-12">
@@ -131,7 +131,7 @@ export default function ContactPage() {
         </motion.form>
       </div>
 
-      {/* 🔹 Info Cards Section */}
+      {/*  Info Cards Section */}
       <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 px-6 pb-20">
         {/* About */}
         <div className="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-700 p-8 rounded-2xl relative overflow-hidden">
@@ -222,7 +222,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* 🔹 Map Section */}
+      {/*  Map Section */}
       <div className="w-full">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.875435484484!2d90.36650927517746!3d23.750866389220404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf565aefadfd%3A0x30d843b0ed0aefdb!2sDhanmondi%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1697032590174!5m2!1sen!2sbd"
