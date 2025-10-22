@@ -24,7 +24,7 @@ export default function PaymentHistory() {
 
   return (
     <section className="p-6">
-      <h2 className="text-2xl font-bold mb-6">💳 Payment History</h2>
+      <h2 className="text-2xl font-bold mb-6">Payment History</h2>
 
       {payments.length === 0 ? (
         <p className="text-gray-500">No payments found.</p>

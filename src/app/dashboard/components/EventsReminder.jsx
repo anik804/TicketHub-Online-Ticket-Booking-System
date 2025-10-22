@@ -40,7 +40,7 @@ export default function EventsReminder() {
         animate={{ opacity: 1, y: 0 }}
       >
         <h1 className="text-4xl md:text-5xl font-bold  drop-shadow-sm">
-          🔔 Event Reminder Notifications
+          Event Reminder Notifications
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Schedule reminders for your upcoming events. We’ll notify you via
@@ -59,7 +59,7 @@ export default function EventsReminder() {
           <label className="text-gray-700 font-medium">Event Name</label>
           <input
             type="text"
-            placeholder="🎫 e.g. Music Fest"
+            placeholder=" e.g. Music Fest"
             className="border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#d96c2c] focus:border-[#d96c2c] transition-all"
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
@@ -71,7 +71,7 @@ export default function EventsReminder() {
           <label className="text-gray-700 font-medium">Email</label>
           <input
             type="email"
-            placeholder="📧 your@email.com"
+            placeholder=" your@email.com"
             className="border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#d96c2c] focus:border-[#d96c2c] transition-all"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -104,16 +104,16 @@ export default function EventsReminder() {
       <div className="bg-white shadow-md rounded-2xl p-6 overflow-x-auto border border-gray-100">
         {reminders.length === 0 ? (
           <p className="text-gray-500 text-center py-4 italic">
-            No reminders yet — create one above 🚀
+            No reminders yet — create one above
           </p>
         ) : (
           <table className="w-full text-left border-collapse rounded-xl overflow-hidden">
             <thead>
               <tr className="bg-[#d96c2c]/10 text-[#d96c2c] font-semibold">
-                <th className="p-3">📅 Event</th>
-                <th className="p-3">📧 Email</th>
-                <th className="p-3">🗓 Date</th>
-                <th className="p-3">✅ Status</th>
+                <th className="p-3"> Event</th>
+                <th className="p-3">Email</th>
+                <th className="p-3">Date</th>
+                <th className="p-3">Status</th>
               </tr>
             </thead>
             <tbody>
