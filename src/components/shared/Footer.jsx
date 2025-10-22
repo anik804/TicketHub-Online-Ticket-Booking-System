@@ -57,6 +57,9 @@ export default function Footer() {
         {/* Social */}
 <nav>
   <h6 className="footer-title text-[#d96c2c] mb-2">Social</h6>
+  <p className="text-lg text-white">
+    Follow us on social media for the latest updates!
+  </p>
   <div className="flex gap-4 mt-2">
     {[
       {
