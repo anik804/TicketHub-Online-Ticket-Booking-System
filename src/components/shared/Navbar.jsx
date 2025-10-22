@@ -6,7 +6,7 @@ import { useSession, signOut } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { X, Menu } from "lucide-react";
 
 export default function Navbar() {
@@ -17,25 +17,39 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Detect scroll position
+  // Routes where navbar should NOT appear
+  const hideNavbarRoutes = [
+    "/dashboard",
+    "/dashboard/admin",
+    "/dashboard/organizer",
+    "/auth/login",
+    "/auth/register",
+  ];
+
+  // Detect if current page should hide navbar
+  const shouldHideNavbar = hideNavbarRoutes.some((path) =>
+    pathname.startsWith(path)
+  );
+
+  // Scroll behavior
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) setScrolled(true);
-      else setScrolled(false);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Navbar links
   const links = [
     { href: "/", label: "Home" },
     { href: "/browse-events", label: "Browse Events" },
     { href: "/movies", label: "Movies" },
     { href: "/blog", label: "Blog" },
-    // { href: "/about", label: "About" },
     { href: "/Contacts", label: "Contacts" },
   ];
 
+  // Logout handler
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
@@ -50,12 +64,16 @@ export default function Navbar() {
     }
   };
 
+  //  If route matches hidden ones → hide navbar completely
+  if (shouldHideNavbar) {
+    return null;
+  }
+
+  //  Otherwise show navbar with scroll effect
   return (
     <div
       className={`fixed top-0 z-50 w-full transition-all duration-500 ${
-        scrolled
-          ? "bg-black shadow-lg backdrop-blur-md"
-          : "bg-transparent"
+        scrolled ? "bg-black shadow-lg backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <div className="navbar px-6 py-3">
