@@ -4,29 +4,44 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
+// React Icons
+import {
+  FaCalendarPlus,
+  FaClipboardList,
+  FaBell,
+  FaMoneyCheckAlt,
+  FaTicketAlt,
+  FaRegUser,
+  FaUserCog,
+  FaMoneyBillWave,
+  FaFilm,
+  FaUsers,
+  FaUserShield,
+} from "react-icons/fa";
+import { HiOutlineHome } from "react-icons/hi2";
+
 const linksConfig = {
   user: [
-    { label: "Overview", href: "/" },
-    { label: "My Tickets", href: "my-tickets" },
-    { label: "Profile", href: "profile" },
-    { label: "Settings", href: "settings" },
-    { label: "User Reminder", href: "userReminder" },
-    { label: "Movies Payments", href: "movies-payments" },
-    { label: "Events Payments", href: "events-payments" },
+    { label: "Overview", href: "/", icon: <HiOutlineHome /> },
+    { label: "My Tickets", href: "my-tickets", icon: <FaTicketAlt /> },
+    { label: "Profile", href: "profile", icon: <FaRegUser /> },
+    { label: "Settings", href: "settings", icon: <FaUserCog /> },
+    { label: "User Reminder", href: "userReminder", icon: <FaBell /> },
+    { label: "Movies Payments", href: "movies-payments", icon: <FaFilm /> },
+    { label: "Events Payments", href: "events-payments", icon: <FaMoneyBillWave /> },
   ],
   organizer: [
-    { label: "Overview", href: "/" },
-    { label: "Add Event", href: "add-event" },
-    { label: "Manage Events", href: "Managements" },
-    { label: "Organizer Reminder", href: "organizerReminder" },
-    { label: "Payment History", href: "paymentHistory" },
+    { label: "Overview", href: "/", icon: <HiOutlineHome /> },
+    { label: "Add Event", href: "add-event", icon: <FaCalendarPlus /> },
+    { label: "Manage Events", href: "Managements", icon: <FaClipboardList /> },
+    { label: "Organizer Reminder", href: "organizerReminder", icon: <FaBell /> },
+    { label: "Payment History", href: "paymentHistory", icon: <FaMoneyCheckAlt /> },
   ],
   admin: [
-    { label: "Overview", href: "/" },
-    { label: "All Users", href: "users" },
-    // { label: "All Users", href: "users" },
-    { label: "Make Organizer", href: "makeOrganizer" },
-    { label: "Events Reminder", href: "eventsReminder" },
+    { label: "Overview", href: "/", icon: <HiOutlineHome /> },
+    { label: "All Users", href: "users", icon: <FaUsers /> },
+    { label: "Make Organizer", href: "makeOrganizer", icon: <FaUserShield /> },
+    { label: "Events Reminder", href: "eventsReminder", icon: <FaBell /> },
   ],
 };
 
@@ -39,19 +54,16 @@ export default function Sidebar({ role }) {
       <h2 className="text-2xl font-bold mb-8 capitalize">{role} Dashboard</h2>
       <ul className="flex flex-col gap-4">
         {links.map((link) => (
-          <motion.li
-            key={link.href}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <motion.li key={link.href} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
               href={`/dashboard/${role.toLowerCase()}/${link.href}`}
-              className={`block px-4 py-2 rounded transition-colors ${
+              className={`flex items-center gap-3 px-4 py-2 rounded transition-colors ${
                 pathname.includes(link.href)
                   ? "bg-white text-red-700 font-semibold"
                   : "hover:bg-white/20"
               }`}
             >
+              <span className="text-lg">{link.icon}</span>
               {link.label}
             </Link>
           </motion.li>

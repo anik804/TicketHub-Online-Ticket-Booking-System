@@ -13,7 +13,7 @@ export default function OrganizerReminder() {
 
   return (
     <section className="p-6">
-      <h1 className="text-2xl font-bold">📅 Your Reminders</h1>
+      <h1 className="text-2xl font-bold">Your Reminders</h1>
       {reminders.length === 0 ? (
         <Loader></Loader>
       ) : (
