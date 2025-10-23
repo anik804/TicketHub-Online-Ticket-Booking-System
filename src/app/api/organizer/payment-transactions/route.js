@@ -4,7 +4,7 @@ import { dbConnect } from "@/libs/dbConnect";
 export async function GET() {
   try {
     // Connect to the "payment-transactions" collection
-    const collection = dbConnect("ticket-payments");
+    const collection = dbConnect("movie-payments");
 
     // Fetch all payment records
     const payments = await collection.find({}).toArray();

@@ -1,6 +1,8 @@
 "use client";
 
+import React from "react";
 import Head from "next/head";
+import { motion } from "framer-motion";
 import { FileText, CheckCircle, CreditCard, Ban, Shield } from "lucide-react";
 
 export default function Terms() {
@@ -43,40 +45,72 @@ export default function Terms() {
         />
       </Head>
 
-      {/* Page Background */}
-      <main className="min-h-screen bg-gray-100 flex items-center justify-center py-16 px-6">
-        
-        {/* White Card (light theme forced inside dark site) */}
-        <div
-          data-theme="light"
-          className="max-w-4xl w-full bg-white rounded-3xl p-12 shadow-2xl border border-gray-200"
-        >
-          {/* Header */}
-          <header className="mb-12 text-center">
-            <h1 className="text-5xl font-extrabold tracking-tight text-[#d96c2c]">
-              Terms &amp; Conditions
-            </h1>
-            <p className="mt-3 text-sm uppercase tracking-wide font-semibold text-[#d96c2c]">
-              Effective Date: September 18, 2025
-            </p>
-            <p className="mt-5 text-lg leading-relaxed text-[#808080]">
-              Welcome to{" "}
-              <span className="text-[#d96c2c] font-semibold">TicketHub</span> — your trusted platform for online ticket reservations.  
-              By accessing or using our services, you acknowledge that you have read, understood, and agree to be bound by these Terms &amp; Conditions.
-            </p>
-          </header>
+      <div className="bg-white text-gray-900 dark:bg-black dark:text-gray-100">
 
-          {/* Sections */}
-          <section className="space-y-10">
+        {/* Banner Section */}
+        <div
+          className="relative h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center mt-[-80px]"
+          style={{
+            backgroundImage: "url('/terms.jpg')", // replace with your banner image
+          }}
+        >
+          {/* Dark blur overlay */}
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-[5px]"></div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative z-10"
+          >
+            <p className="text-gray-300 mb-2">Home / Terms & Conditions</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white">
+              Terms & Conditions
+            </h1>
+          </motion.div>
+        </div>
+
+        {/* Full-width dotted divider under banner */}
+        <div className="w-full pt-2 border-b-6 border-dashed border-black"></div>
+
+        {/* Terms Content Section */}
+        <div className="max-w-5xl mx-auto px-6 py-20 text-center">
+          <p className="text-[#d96c2c] uppercase font-semibold">
+            Please Read Carefully
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-12">
+            TicketHub Terms & Conditions
+          </h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-700 p-10 rounded-2xl text-left space-y-10"
+          >
+            {/* Intro */}
+            <div>
+              <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                Welcome to{" "}
+                <span className="font-semibold text-[#d96c2c]">TicketHub</span> — 
+                your trusted platform for online ticket reservations. By using our 
+                services, you agree to comply with the following Terms & Conditions.
+              </p>
+              <p className="mt-3 text-sm font-semibold text-[#d96c2c]">
+                Effective Date: September 18, 2025
+              </p>
+            </div>
+
+            {/* Sections */}
             {sections.map((section, idx) => (
               <div key={idx} className="border-l-4 pl-6 border-[#d96c2c]">
                 <div className="flex items-center gap-3 mb-3">
                   {section.icon}
-                  <h2 className="text-2xl font-bold text-[#000000]">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                     {section.title}
-                  </h2>
+                  </h3>
                 </div>
-                <p className="text-base leading-relaxed text-[#808080]">
+                <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
                   {section.body}
                 </p>
                 {section.note && (
@@ -86,26 +120,26 @@ export default function Terms() {
                 )}
               </div>
             ))}
-          </section>
 
-          {/* Footer */}
-          <footer className="mt-16 text-center border-t border-gray-300 pt-6">
-            <p className="text-sm text-[#808080]">
-              &copy; {new Date().getFullYear()}{" "}
-              <span className="text-[#d96c2c] font-semibold">TicketHub</span>. All Rights Reserved.
-            </p>
-            <p className="text-xs mt-2 text-[#808080]">
-              By continuing to use this platform, you agree to our{" "}
-              <a
-                href="/privacy"
-                className="underline text-[#000000] hover:text-[#d96c2c] transition-colors"
-              >
-                Privacy Policy
-              </a>.
-            </p>
-          </footer>
+            {/* Footer */}
+            <div className="pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                &copy; {new Date().getFullYear()}{" "}
+                <span className="font-semibold text-[#d96c2c]">TicketHub</span>. All Rights Reserved.
+              </p>
+              <p className="text-xs mt-2 text-gray-600 dark:text-gray-400">
+                By continuing to use this platform, you agree to our{" "}
+                <a
+                  href="/privacy"
+                  className="underline text-gray-900 dark:text-gray-100 hover:text-[#d96c2c] transition-colors"
+                >
+                  Privacy Policy
+                </a>.
+              </p>
+            </div>
+          </motion.div>
         </div>
-      </main>
+      </div>
     </>
   );
 }
