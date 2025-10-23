@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Menu } from "lucide-react";
+import ThemeToggle from "../toggleTheme/ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -40,7 +41,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full shadow-md bg-black">
+    <div className="sticky top-0 z-50 w-full shadow-md bg-white dark:bg-gray-900 text-black dark:text-white">
       <div className="navbar px-6 py-3">
         {/* Navbar Start */}
         <div className="navbar-start flex items-center gap-2">
@@ -76,11 +77,10 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`px-3 py-1 rounded-md transition-all duration-200 ${
-                    pathname === link.href
-                      ? "text-[#d96c2c]  font-semibold"
-                      : "text-gray-300  hover:text-[#d96c2c]"
-                  }`}
+                  className={`px-3 py-1 rounded-md transition-all duration-200 ${pathname === link.href
+                    ? "text-[#d96c2c]  font-semibold"
+                    : "text-gray-300  hover:text-[#d96c2c]"
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -92,12 +92,16 @@ export default function Navbar() {
         {/* Navbar End */}
         <div className="navbar-end">
           {status === "loading" ? null : !session ? (
-            <Link
-              href="/auth/login"
-              className="px-3 py-1 rounded  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
-            >
-              Join Us
-            </Link>
+            <>
+              <Link
+                href="/auth/login"
+                className="px-3 py-1 rounded  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
+              >
+                Join Us
+              </Link>
+              {/* Theme Toggle */}
+              <ThemeToggle />
+            </>
           ) : (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -132,9 +136,8 @@ export default function Navbar() {
                   <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className={`w-full text-[#d96c2c] hover:text-gray-500 rounded-md px-3 py-1 transition-all ${
-                      isLoggingOut ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`w-full text-[#d96c2c] hover:text-gray-500 rounded-md px-3 py-1 transition-all ${isLoggingOut ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                   >
                     {isLoggingOut ? "Logging out..." : "Logout"}
                   </button>
@@ -170,16 +173,19 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`block text-lg font-medium ${
-                        pathname === link.href
-                          ? "text-[#d96c2c]"
-                          : "text-gray-300 hover:text-gray-500"
-                      }`}
+                      className={`block text-lg font-medium ${pathname === link.href
+                        ? "text-[#d96c2c]"
+                        : "text-gray-300 hover:text-gray-500"
+                        }`}
                     >
                       {link.label}
                     </Link>
                   </li>
                 ))}
+                <li>
+                  {/* Theme Toggle */}
+                  <ThemeToggle />
+                </li>
               </ul>
             </div>
 
