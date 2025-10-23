@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { X, Menu } from "lucide-react";
+import ThemeToggle from "../toggleTheme/ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -127,12 +128,16 @@ export default function Navbar() {
         {/* Navbar End */}
         <div className="navbar-end">
           {status === "loading" ? null : !session ? (
-            <Link
-              href="/auth/login"
-              className="px-3 py-1 rounded font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
-            >
-              Join Us
-            </Link>
+            <>
+              <Link
+                href="/auth/login"
+                className="px-3 py-1 rounded  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
+              >
+                Join Us
+              </Link>
+              {/* Theme Toggle */}
+              <ThemeToggle />
+            </>
           ) : (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -167,9 +172,8 @@ export default function Navbar() {
                   <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className={`w-full text-[#d96c2c] hover:text-gray-500 rounded-md px-3 py-1 transition-all ${
-                      isLoggingOut ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`w-full text-[#d96c2c] hover:text-gray-500 rounded-md px-3 py-1 transition-all ${isLoggingOut ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                   >
                     {isLoggingOut ? "Logging out..." : "Logout"}
                   </button>
@@ -179,6 +183,56 @@ export default function Navbar() {
           )}
         </div>
       </div>
+
+      {/* 📱 Fullscreen Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="fixed inset-0 z-50 flex backdrop-blur-sm bg-black/40"
+          >
+            {/* Sidebar */}
+            <div className="bg-black w-72 h-full p-6 shadow-xl">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-semibold text-[#d96c2c]">Menu</h2>
+                <button onClick={() => setMenuOpen(false)}>
+                  <X className="h-6 w-6 text-gray-700" />
+                </button>
+              </div>
+
+              <ul className="space-y-4">
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`block text-lg font-medium ${pathname === link.href
+                        ? "text-[#d96c2c]"
+                        : "text-gray-300 hover:text-gray-500"
+                        }`}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  {/* Theme Toggle */}
+                  <ThemeToggle />
+                </li>
+              </ul>
+            </div>
+
+            {/* Overlay area (click outside to close) */}
+            <div
+              className="flex-1  cursor-pointer"
+              onClick={() => setMenuOpen(false)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
