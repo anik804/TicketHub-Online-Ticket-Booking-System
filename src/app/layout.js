@@ -1,6 +1,9 @@
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import { Toaster } from "react-hot-toast";
+import BackToTop from "./dashboard/components/shared/BackToTop";
+import { ThemeProvider } from "@/components/contexts/ThemeContext";
 import ClientLayoutWrapper from "./LayoutWrapper/ClientLayoutWrapper.jsx"; 
 
 const roboto = Roboto({
@@ -17,11 +20,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="light" className={roboto.variable}>
+    <html lang="en" className={roboto.variable}>
       <body>
-        <Providers>
-          <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-        </Providers>
+        {/* Wrap only the client-side providers */}
+        <ThemeProvider>
+          <Providers>
+            <Navbar />
+            {children}
+            <Toaster position="top-right" />
+            <Footer />
+            <BackToTop />
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );
