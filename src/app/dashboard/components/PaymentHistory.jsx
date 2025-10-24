@@ -2,35 +2,48 @@
 
 import { useEffect, useState } from "react";
 import Loader from "./shared/Loader";
+import { useEventPayment } from "@/hooks/useEventPayment";
+import { useSession } from "next-auth/react";
 
 export default function PaymentHistory() {
-  const [payments, setPayments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [payments, setPayments] = useState([]);
+  // const [loading, setLoading] = useState(true);
+   const { data: session,status } = useSession();
+   const organizerEmail =  status==='authenticated' && session?.user?.email
 
-  useEffect(() => {
-    const organizerEmail =
-      localStorage.getItem("organizerEmail") || "organizer@example.com";
+   console.log(session)
+    const {
+      paymentHistory = [],
+      paymentLoading,
+    } = useEventPayment({ organizer:organizerEmail});
+   
 
-    fetch(`/api/organizer/payment-transactions?organizerEmail=${organizerEmail}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Payments response:", data);
-        setPayments(Array.isArray(data) ? data : []);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching payments:", err);
-        setLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const organizerEmail =
+  //     localStorage.getItem("organizerEmail") || "organizer@example.com";
 
-  if (loading) return <Loader />;
+  //   fetch(`/api/organizer/payment-transactions?organizerEmail=${organizerEmail}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log("Payments response:", data);
+  //       setPayments(Array.isArray(data) ? data : []);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error fetching payments:", err);
+  //       setLoading(false);
+  //     });
+  // }, []);
+
+  console.log(paymentHistory)
+
+  if (paymentLoading) return <Loader />;
 
   return (
     <section className="p-6 bg-gray-50 min-h-screen">
       <h2 className="text-2xl font-bold mb-6">Payment History</h2>
 
-      {Array.isArray(payments) && payments.length > 0 ? (
+      {Array.isArray(paymentHistory) && paymentHistory.length > 0 ? (
         <div className="overflow-x-auto bg-white rounded-xl shadow border border-gray-200">
           <table className="table table-zebra w-full">
             <thead className="bg-gray-100">
@@ -45,7 +58,7 @@ export default function PaymentHistory() {
               </tr>
             </thead>
             <tbody>
-              {payments.map((payment, index) => (
+              {paymentHistory.map((payment, index) => (
                 <tr key={payment._id}>
                   <td>{index + 1}</td>
                   <td>{payment.paidBy}</td>
