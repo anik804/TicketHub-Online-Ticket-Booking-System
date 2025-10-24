@@ -18,6 +18,7 @@ import {
   FaFilm,
   FaUsers,
   FaUserShield,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { HiOutlineHome } from "react-icons/hi2";
 
@@ -53,7 +54,7 @@ const linksConfig = {
   admin: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "All Users", href: "users", icon: <FaUsers /> },
-    { label: "All Event", href: "allEvents", icon: <FaCalendarPlus /> },
+    { label: "All Event", href: "allEvents", icon: <FaCalendarAlt /> },
     { label: "Make Organizer", href: "makeOrganizer", icon: <FaUserShield /> },
     { label: "Events Reminder", href: "eventsReminder", icon: <FaBell /> },
   ],
