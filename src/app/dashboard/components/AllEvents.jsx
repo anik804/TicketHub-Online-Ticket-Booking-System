@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Loader from "./shared/Loader";
 
-export default function AdminEventsPage() {
+export default function AllEvents() {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(true);
