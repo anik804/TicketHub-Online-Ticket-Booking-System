@@ -3,14 +3,22 @@ import React from "react";
 
 export default function Loading() {
   return (
-    <main className="flex min-h-dvh w-full justify-center items-center">
+    <main className="flex min-h-dvh w-full justify-center items-center flex-col gap-8">
       <Image
         src="/images/loading.svg"
         width={500}
         height={500}
         alt="Loading..."
-        className="size-20 md:size-26 lg:size-32"
+        className="size-18 md:size-22 lg:size-28"
       />
+      <Image
+        src="/images/ticket-title.png"
+        width={500}
+        height={500}
+        alt="Logo"
+        className="h-3 w-auto"
+      />
+     
     </main>
   );
 }

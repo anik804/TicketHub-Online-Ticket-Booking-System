@@ -2,6 +2,7 @@
   "name": "tickethub",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
@@ -9,12 +10,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.5",
     "bcrypt": "^6.0.0",
     "crypto-js": "^4.2.0",
     "daisyui": "^5.1.12",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.2",
-    "framer-motion": "^12.23.22",
+    "framer-motion": "^12.23.24",
     "jspdf": "^3.0.3",
     "jspdf-autotable": "^5.0.2",
     "lottie-react": "^2.4.1",
@@ -30,13 +32,18 @@
     "react-dom": "19.1.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
+    "react-is": "^19.2.0",
     "react-leaflet": "^5.0.0",
+    "react-leaflet-markercluster": "^5.0.0-rc.0",
     "react-qr-code": "^2.0.18",
     "react-responsive-carousel": "^3.2.23",
     "react-slick": "^0.31.0",
+    "react-spinners": "^0.17.0",
+    "recharts": "^3.2.1",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.23.0",
-    "swiper": "^12.0.1"
+    "swiper": "^12.0.1",
+    "yet-another-react-lightbox": "^3.25.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
