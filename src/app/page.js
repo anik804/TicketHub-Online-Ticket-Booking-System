@@ -1,25 +1,30 @@
 import CategorySection from "@/layouts/CategorySection";
 import Banner from "@/layouts/Banner";
-import CustomerTestimonials from "@/components/home/CustomerTestimonials";
 import HowItWorks from "@/layouts/HowItWorks";
 import Partners from "@/layouts/Partners";
-import SpecialOffers from "@/components/home/SpecialOffers";
 import WhyChooseUs from "@/layouts/WhyChooseUs";
-import Newsletter from "@/layouts/Newsletter";
-import FAQ from "@/layouts/FAQ";
+import MoviesNowPlaying from "@/components/home/MoviesNowPlaying";
+import RollingPartners from "@/components/home/RollingPartners";
+import GetAnswers from "@/layouts/GetAnswers";
+import PhotoGallery from "@/components/home/PhotoGallery";
+import FeedbackSection from "@/layouts/FeedbackSection";
+
 
 export default function Home() {
   return (
-    <main>
+    <main >
       <Banner></Banner>
       <CategorySection></CategorySection>
-      <HowItWorks></HowItWorks>
-      <SpecialOffers />
+      <MoviesNowPlaying />
+      <RollingPartners />
+      <PhotoGallery/>
+       <FeedbackSection/>
+      
       <WhyChooseUs></WhyChooseUs>
-      <CustomerTestimonials />
+      <HowItWorks></HowItWorks>
       <Partners></Partners>
-      <FAQ></FAQ>
-      <Newsletter></Newsletter>
+
+      <GetAnswers></GetAnswers>
     </main>
   );
 }

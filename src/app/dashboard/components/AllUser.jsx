@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Loader from "./shared/Loader";
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
@@ -20,7 +21,7 @@ export default function AdminUsersPage() {
   }, []);
 
   if (loading) {
-    return <p className="text-center py-6">Loading users...</p>;
+    return <Loader></Loader>;
   }
 
   return (

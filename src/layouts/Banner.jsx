@@ -1,96 +1,74 @@
 "use client";
-
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-const slides = [
-  {
-    id: 1,
-    title: "🎟️ Book Your Tickets Anytime",
-    desc: "Hassle-free online ticket booking with instant confirmation.",
-    img: "https://images.unsplash.com/photo-1652018440238-1aeb20a803a7?w=1600&auto=format&fit=crop&q=60",
-  },
-  {
-    id: 2,
-    title: "💸 Exclusive Offers",
-    desc: "Save big with our seasonal discounts and flash sales!",
-    img: "https://images.unsplash.com/photo-1612733374229-51b4b6bd1960?w=1600&auto=format&fit=crop&q=60",
-  },
-  {
-    id: 3,
-    title: "🔒 Fast & Secure Checkout",
-    desc: "Enjoy a smooth booking experience with secure payments.",
-    img: "https://images.unsplash.com/photo-1617976166080-c8f997ccc237?w=1600&auto=format&fit=crop&q=60",
-  },
-];
-
 export default function Banner() {
+  const slides = [
+    {
+      title: "Discover & Book Events Instantly",
+      desc: "Experience seamless ticket booking with live event updates — anytime, anywhere.",
+      bg: "https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?w=1400&auto=format&fit=crop&q=80",
+    },
+    {
+      title: "Real-Time Ticket Availability",
+      desc: "Get live seat updates and instant confirmations for your favorite shows.",
+      bg: "https://images.unsplash.com/photo-1611550082883-a65b37a8ea89?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHRpY2tldCUyMGF2YWlsYWJpbGl0eXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+    },
+    {
+      title: "Join Exciting Concerts & Festivals",
+      desc: "From music nights to sports events — book and enjoy the experience live.",
+      bg: "https://images.unsplash.com/photo-1619229724813-32decfc1c345?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGZlc3RpdmFscyUyMGFuZCUyMGNvbmNlcnRzfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=6000",
+    },
+  ];
+
   return (
-    <section className="w-full">
-      <Carousel
-        autoPlay
-        infiniteLoop
-        showThumbs={false}
-        showStatus={false}
-        showArrows={false}
-        interval={4000}
-        stopOnHover={false}
-        swipeable
-        emulateTouch
-        className="text-white"
+    <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden">
+      <Swiper
+        modules={[Autoplay, Pagination, EffectFade]}
+        effect="fade"
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        loop={true}
+        className="h-full"
       >
-        {slides.map((slide) => (
-          <div
-            key={slide.id}
-            className="relative h-[450px] md:h-[600px] w-full flex items-center justify-center"
-            style={{
-              backgroundImage: `url(${slide.img})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black/50"></div>
-
-            {/* Animated Text Content */}
-            <motion.div
-              className="relative z-10 text-center max-w-2xl px-4"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+        {slides.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <div
+              className="relative w-full h-full bg-cover bg-center flex items-center justify-center"
+              style={{ backgroundImage: `url(${slide.bg})` }}
             >
-              <motion.h1
-                className="text-3xl text-gray-300 md:text-5xl font-bold leading-tight drop-shadow-lg"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                {slide.title}
-              </motion.h1>
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
 
-              <motion.p
-                className="text-lg text-gray-300 md:text-xl mt-4 opacity-90 drop-shadow-md"
-                initial={{ opacity: 0, y: 20 }}
+              {/* Content */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                transition={{ duration: 0.8 }}
+                className="relative z-10 text-center text-white px-4 sm:px-8 md:px-16 max-w-3xl"
               >
-                {slide.desc}
-              </motion.p>
-
-              <Link href={'/browse-events'}
-                className="mt-6 btn rounded-md bg-gradient-to-r from-[#950101] to-[#FF0000] hover:opacity-95 transition text-white px-6 py-3  font-semibold text-lg shadow-md hover:scale-105  duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                Browse Events
-              </Link>
-            </motion.div>
-          </div>
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 leading-tight drop-shadow-md">
+                  {slide.title}
+                </h1>
+                <p className="text-base sm:text-lg md:text-xl mb-8 text-white/90 leading-relaxed">
+                  {slide.desc}
+                </p>
+                <Link
+                  href={"browse-events"}
+                  className="px-6 sm:px-8 py-3 bg-[#d96c2c] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[#b45720] transition-all duration-300 shadow-lg"
+                >
+                  Browse Events
+                </Link>
+              </motion.div>
+            </div>
+          </SwiperSlide>
         ))}
-      </Carousel>
+      </Swiper>
     </section>
   );
 }

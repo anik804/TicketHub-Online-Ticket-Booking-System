@@ -1,45 +1,54 @@
-<<<<<<< HEAD
-import React from "react";
-
-export default function PageLayout({ children, title }) {
-=======
 "use client";
 
+import React from "react";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
-export default function PageLayout({ children, title }) {
+export default function PageLayout({ className, children, title, imageURL }) {
   const { data: session, status } = useSession();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (status === "loading") return;
-    if (!session) {
-      router.push("/auth/login");
-    }
-  }, [session, status, router]);
-
+  // Show loader while session state is being determined
   if (status === "loading") {
-    return <Loading/>;
+    return <Loading />;
   }
 
->>>>>>> 6bd7e48a8aef6db451a87ff7ce3ece1b6bbfb982
+  // Prevent flicker when user is not authenticated
+  if (!session) return null;
+
   return (
-    <section className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 text-gray-900 dark:text-gray-100 px-6 py-16 flex justify-center">
-      <div className="max-w-4xl w-full bg-orange-50 dark:bg-gray-800 shadow-2xl rounded-3xl border border-orange-200 dark:border-gray-700 p-12">
-        {/* Main Title */}
-        <h1
-          className="text-5xl font-extrabold text-center mb-12 
-             bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] 
-             dark:from-red-400 dark:via-orange-300 dark:to-yellow-300
-             bg-clip-text text-transparent"
-        >
+    <section className="min-h-dvh w-full bg-base-100 relative overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        className="w-full h-50 md:h-72 pb-3 border-b-10 md:border-b-14 border-dashed border-black relative flex items-center justify-center"
+      >
+        <div className="w-full h-[97%] absolute top-0 left-0 z-0 bg-black" />
+        {imageURL && (
+          <Image
+            src={imageURL || null}
+            width={500}
+            height={500}
+            alt="background"
+            className="h-[97%] w-full object-cover absolute top-0 left-0 z-1 bg-black"
+          />
+        )}
+        <div className="w-full h-[97%] absolute top-0 left-0 z-2 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
+        <p className="relative z-10 text-3xl md:text-4xl lg:text-7xl font-bold text-shadow-xs text-white">
           {title}
-        </h1>
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className={`w-full mx-auto my-10 px-5 py-20 md:px-8 lg:px-10 ${className}`}
+      >
         {children}
-      </div>
+      </motion.div>
     </section>
   );
 }
