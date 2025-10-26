@@ -90,7 +90,7 @@ export default function AllEvents() {
                 <h2 className="text-xl font-semibold text-gray-800">
                   {event.title}
                 </h2>
-                <p className="text-gray-500 text-sm mt-1">{event.date}</p>
+                <p className="text-gray-500 text-sm mt-1">{event.eventDateTime}</p>
                 <p className="mt-2 text-gray-700">{event.location}</p>
                 <p className="font-bold text-red-600 mt-3 text-lg">
                   ৳{event.price}

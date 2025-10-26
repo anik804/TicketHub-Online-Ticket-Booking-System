@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Menu } from "lucide-react";
-// import ThemeToggle from "../toggleTheme/ThemeToggle";
 import ThemeToggler from "./ThemeToggler";
 
 export default function Navbar() {
@@ -115,7 +114,7 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-1 rounded-md transition-all duration-200 ${
                     pathname === link.href
-                      ? "text-[#d96c2c] font-semibold"
+                      ? "text-primary font-semibold"
                       : "text-gray-300 hover:text-[#d96c2c]"
                   }`}
                 >
