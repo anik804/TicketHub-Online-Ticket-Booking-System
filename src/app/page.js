@@ -12,7 +12,7 @@ import FeedbackSection from "@/layouts/FeedbackSection";
 
 export default function Home() {
   return (
-    <main >
+    <main className="overflow-hidden" >
       <Banner></Banner>
       <CategorySection></CategorySection>
       <MoviesNowPlaying />

@@ -192,6 +192,7 @@
 // // add
 
 "use client";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 export default function AddEventPage() {
@@ -215,6 +216,8 @@ export default function AddEventPage() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const {data : session,status} = useSession();
+  const email = session?.user?.email
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -225,7 +228,7 @@ export default function AddEventPage() {
       const res = await fetch("/api/organizer/organizer-add-event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData,email}),
       });
 
       if (res.ok) {
@@ -241,7 +244,7 @@ export default function AddEventPage() {
           totalSeats: "",
           availableSeats: "",
           discount: "",
-          organizerEmail: "",
+          // organizerEmail: "",
         });
       } else {
         setMessage("❌ Failed to add event.");
@@ -363,7 +366,7 @@ export default function AddEventPage() {
           className="w-full input input-bordered"
         />
 
-        <input
+        {/* <input
           type="email"
           name="organizerEmail"
           placeholder="Organizer Email"
@@ -371,7 +374,7 @@ export default function AddEventPage() {
           onChange={handleChange}
           className="w-full input input-bordered"
           required
-        />
+        /> */}
 
         {/* <input
           type="email"

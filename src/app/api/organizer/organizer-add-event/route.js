@@ -103,7 +103,7 @@ const newEvent = {
   totalSeats: Number(body.totalSeats) || 0,
   availableSeats: Number(body.availableSeats) || 0,
   discount: Number(body.discount) || 0,
-  organizerEmail: body.organizerEmail || "",
+  organizerEmail: body.email || "",
   createdAt: new Date(),
 };
 
