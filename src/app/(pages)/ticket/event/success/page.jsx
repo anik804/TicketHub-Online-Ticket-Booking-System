@@ -116,6 +116,7 @@ export default function EventSuccessPage() {
         <EventTicketDownload
           eventTicket={eventTicket}
           paymentHistory={paymentHistory[0]}
+         
         />
       </div>
     </PageLayout>
