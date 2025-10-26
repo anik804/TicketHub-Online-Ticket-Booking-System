@@ -25,37 +25,35 @@ export default function ContactPage() {
 
   return (
     <div className="bg-white text-gray-900 dark:bg-black dark:text-gray-100">
-    {/* Banner Section */}
-<div
-  className="relative h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center mt-[-80px]"
-  style={{
-    backgroundImage: "url('/contact.jpg')",
-  }}
->
+      {/* Banner Section */}
+      <div
+        className="relative h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center mt-[-80px]"
+        style={{
+          backgroundImage: "url('/contact.jpg')",
+        }}
+      >
+        {/* Dark blur overlay */}
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-[5px]"></div>
 
-  {/* Dark blur overlay */}
-  <div className="absolute inset-0 bg-black/70 backdrop-blur-[5px]"></div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10"
+        >
+          <p className="text-gray-300 mb-2">Home / Contact</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-white">Contact</h1>
+        </motion.div>
+      </div>
 
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className="relative z-10"
-  >
-    <p className="text-gray-300 mb-2">Home / Contact</p>
-    <h1 className="text-4xl md:text-5xl font-bold text-white">Contact</h1>
-  </motion.div>
-</div>
-
-{/*  Full-width dotted divider under banner */}
-<div className="w-full pt-2 border-b-6 border-dashed border-black"></div>
-
-
-
+      {/*  Full-width dotted divider under banner */}
+      <div className="w-full pt-2 border-b-6 border-dashed border-black"></div>
 
       {/*  Contact Form Section */}
       <div className="max-w-5xl mx-auto px-6 py-20 text-center">
-        <p className="text-[#d96c2c] uppercase font-semibold">Contact With Us</p>
+        <p className="text-[#d96c2c] uppercase font-semibold">
+          Contact With Us
+        </p>
         <h2 className="text-3xl md:text-4xl font-bold mb-12">
           Get in Touch with TicketHub
         </h2>
@@ -154,9 +152,9 @@ export default function ContactPage() {
           </div>
           <h3 className="text-xl font-semibold mb-3 text-left">About</h3>
           <p className="text-gray-700 dark:text-gray-300 text-left">
-            TicketHub is Bangladesh’s trusted online ticket booking platform.
-            We make your journey easier by providing a fast, secure, and
-            convenient way to book tickets for concerts, events, movies, and more.
+            TicketHub is Bangladesh’s trusted online ticket booking platform. We
+            make your journey easier by providing a fast, secure, and convenient
+            way to book tickets for concerts, events, movies, and more.
           </p>
         </div>
 
@@ -180,8 +178,10 @@ export default function ContactPage() {
           </div>
           <h3 className="text-xl font-semibold mb-3 text-left">Address</h3>
           <p className="text-left">
-            TicketHub HQ<br />
-            House 15, Road 12, Dhanmondi,<br />
+            TicketHub HQ
+            <br />
+            House 15, Road 12, Dhanmondi,
+            <br />
             Dhaka 1209, Bangladesh
           </p>
         </div>
@@ -213,7 +213,8 @@ export default function ContactPage() {
               <Phone size={18} className="text-[#d96c2c]" /> +880 1700-123456
             </li>
             <li className="flex items-center gap-2">
-              <Mail size={18} className="text-[#d96c2c]" /> support@tickethub.com
+              <Mail size={18} className="text-[#d96c2c]" />{" "}
+              support@tickethub.com
             </li>
             <li className="flex items-center gap-2">
               <MapPin size={18} className="text-[#d96c2c]" /> Dhaka, Bangladesh

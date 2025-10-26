@@ -5,6 +5,9 @@ import { Toaster } from "react-hot-toast";
 import BackToTop from "./dashboard/components/shared/BackToTop";
 import { ThemeProvider } from "@/components/contexts/ThemeContext";
 import ClientLayoutWrapper from "./LayoutWrapper/ClientLayoutWrapper.jsx"; 
+import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
+
 
 
 const roboto = Roboto({
