@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-// import { FaTicketAlt } from "react-icons/fa"; // 
+// import { FaTicketAlt } from "react-icons/fa"; //
 
 // React Icons
 import {
@@ -18,6 +18,7 @@ import {
   FaFilm,
   FaUsers,
   FaUserShield,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { HiOutlineHome } from "react-icons/hi2";
 
@@ -29,18 +30,31 @@ const linksConfig = {
     { label: "Settings", href: "settings", icon: <FaUserCog /> },
     { label: "User Reminder", href: "userReminder", icon: <FaBell /> },
     { label: "Movies Payments", href: "movies-payments", icon: <FaFilm /> },
-    { label: "Events Payments", href: "events-payments", icon: <FaMoneyBillWave /> },
+    {
+      label: "Events Payments",
+      href: "events-payments",
+      icon: <FaMoneyBillWave />,
+    },
   ],
   organizer: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "Add Event", href: "add-event", icon: <FaCalendarPlus /> },
     { label: "Manage Events", href: "Managements", icon: <FaClipboardList /> },
-    { label: "Organizer Reminder", href: "organizerReminder", icon: <FaBell /> },
-    { label: "Payment History", href: "paymentHistory", icon: <FaMoneyCheckAlt /> },
+    {
+      label: "Organizer Reminder",
+      href: "organizerReminder",
+      icon: <FaBell />,
+    },
+    {
+      label: "Payment History",
+      href: "paymentHistory",
+      icon: <FaMoneyCheckAlt />,
+    },
   ],
   admin: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "All Users", href: "users", icon: <FaUsers /> },
+    { label: "All Event", href: "allEvents", icon: <FaCalendarAlt /> },
     { label: "Make Organizer", href: "makeOrganizer", icon: <FaUserShield /> },
     { label: "Events Reminder", href: "eventsReminder", icon: <FaBell /> },
   ],
@@ -79,7 +93,11 @@ export default function Sidebar({ role }) {
       {/*  Sidebar Links */}
       <ul className="flex flex-col gap-3">
         {links.map((link) => (
-          <motion.li key={link.href} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <motion.li
+            key={link.href}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <Link
               href={`/dashboard/${role.toLowerCase()}/${link.href}`}
               className={`flex items-center gap-3 px-4 py-2 rounded transition-colors ${
