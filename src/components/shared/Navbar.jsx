@@ -8,11 +8,7 @@ import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Menu } from "lucide-react";
-<<<<<<< HEAD
-// import ThemeToggle from "../toggleTheme/ThemeToggle";
-=======
 import ThemeToggler from "./ThemeToggler";
->>>>>>> f9856b6116aab73ce4a544ed4b4549316c5dabcb
 
 export default function Navbar() {
   const pathname = usePathname();
