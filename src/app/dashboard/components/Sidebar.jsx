@@ -35,6 +35,10 @@ const linksConfig = {
       href: "events-payments",
       icon: <FaMoneyBillWave />,
     },
+    {
+      label: "My Blogs",
+      href: "my-blogs",
+    }
   ],
   organizer: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
