@@ -130,13 +130,19 @@ export default function MovieTicketPage() {
           </p>
           <p className="flex items-center gap-2">
             <CalendarDays className="size-4" />{" "}
-            {movieData.date
-              ? format(new Date(movieData.date), "PPPPp")
+            {movieData.eventDateTime
+              ? format(new Date(movieData.eventDateTime), "PPPPp")
               : "No Date Available"}
           </p>
           <p className="flex items-center gap-2 text-lg font-semibold mt-2">
             <CircleDollarSign className="size-5" /> {movieData.price} BDT / seat
           </p>
+          {movieData.discount > 0 && (
+                <p>
+                  Discount:{" "}
+                  <span className="font-semibold">{movieData.discount}%</span>
+                </p>
+              )}
           <p className="flex items-center gap-1 text-xs text-gray-500 mt-1">
             <FaInfoCircle className="size-3" /> You can change currency during
             payment.

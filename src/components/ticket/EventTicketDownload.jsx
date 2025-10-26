@@ -58,7 +58,7 @@ export default function EventTicketDownload({ eventTicket, paymentHistory }) {
       headStyles: { halign: "center", fillColor: [217, 108, 44], textSize: 14 },
       body: [
         ["Title", eventTicket.title || "N/A"],
-        ["Date & Time", eventTicket.date || "N/A"],
+        ["Date & Time", eventTicket.eventDateTime || "N/A"],
         ["Venue", eventTicket.location || "N/A"],
         ["Seat Quantity", eventTicket.seatQuantity || "Not Assigned"],
       ],
@@ -117,7 +117,7 @@ export default function EventTicketDownload({ eventTicket, paymentHistory }) {
       </div>
 
       <Button
-        className="w-40 md:w-45 lg:w-50"
+        className="w-full"
         label="Download Ticket"
         onClick={handleDownload}
       />

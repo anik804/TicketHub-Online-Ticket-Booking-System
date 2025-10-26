@@ -38,7 +38,12 @@ export default function MovieSeatProceed({ seatLength, movieId, seats }) {
       .then((res) => res.json())
       .then((data) => {
         if (data.result === "success")
-          setTotalPrice(Number(data.conversion_result) * seatLength);
+          setTotalPrice(
+            Number(
+              data.conversion_result -
+                (data.conversion_result * movieTicket.discount) / 100
+            ).toFixed(2) * seatLength
+          );
         else setTotalPrice(movieTicket.price * seatLength);
       })
       .catch(() => setTotalPrice(movieTicket.price * seatLength))
@@ -98,7 +103,7 @@ export default function MovieSeatProceed({ seatLength, movieId, seats }) {
               </p>
               <p className="flex items-center  gap-2 text-sm">
                 <CalendarDays className="size-4" />{" "}
-                {movieTicket.date || "Date not available"}
+                {movieTicket.eventDateTime || "Date not available"}
               </p>
 
               <p className="flex items-center  gap-2 mt-3 mb-6 text-sm">
@@ -116,9 +121,15 @@ export default function MovieSeatProceed({ seatLength, movieId, seats }) {
               <div className="flex items-center justify-between gap-2 mt-4 mb-2">
                 <p className="text-lg">
                   Total Price :{" "}
-                  {converting
-                    ? "Converting..."
-                    : `${currency} ${totalPrice.toFixed(2)}`}
+                  {converting ? "Converting..." : `${currency} ${totalPrice}`}
+                  {movieTicket.discount > 0 && (
+                    <p className="text-xs">
+                      <span className="font-semibold">
+                        {movieTicket.discount}%
+                      </span>{" "}
+                      discount applied
+                    </p>
+                  )}
                 </p>
                 <select
                   value={currency}
@@ -132,7 +143,10 @@ export default function MovieSeatProceed({ seatLength, movieId, seats }) {
               </div>
 
               <div className="flex items-center justify-center">
-                <MovieCheckout movieTicket={movieTicket} disabled={converting} />
+                <MovieCheckout
+                  movieTicket={movieTicket}
+                  disabled={converting}
+                />
               </div>
             </div>
           </motion.div>
