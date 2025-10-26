@@ -6,6 +6,7 @@ import BackToTop from "./dashboard/components/shared/BackToTop";
 import { ThemeProvider } from "@/components/contexts/ThemeContext";
 import ClientLayoutWrapper from "./LayoutWrapper/ClientLayoutWrapper.jsx"; 
 
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -25,13 +26,17 @@ export default function RootLayout({ children }) {
         {/* Wrap only the client-side providers */}
         <ThemeProvider>
           <Providers>
-            <Navbar />
+            <ClientLayoutWrapper>
+             
             {children}
             <Toaster position="top-right" />
-            <Footer />
+            
             <BackToTop />
+            </ClientLayoutWrapper>
           </Providers>
         </ThemeProvider>
+
+        
       </body>
     </html>
   );
