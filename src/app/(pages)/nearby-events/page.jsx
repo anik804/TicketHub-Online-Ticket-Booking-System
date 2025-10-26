@@ -2,10 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import PageLayout from "@/ui/PageLayout";
-import Button from "@/ui/Button";
-import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+import { format, parseISO } from "date-fns";
 import {
   Loader2,
   LocateFixed,
@@ -14,21 +13,34 @@ import {
   Clock,
   Map,
 } from "lucide-react";
-import { format, parseISO } from "date-fns";
 
-// Dynamically import Leaflet map
+import PageLayout from "@/ui/PageLayout";
+import Button from "@/ui/Button";
+
+import "@/libs/leafletFix";
+
+import L from "leaflet";
+
+// ✅ Import Leaflet CSS globally (required!)
+import "leaflet/dist/leaflet.css";
+import { HiInformationCircle } from "react-icons/hi2";
+
+// ✅ Dynamically import Leaflet components (client-only)
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
   { ssr: false }
 );
+
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),
   { ssr: false }
 );
+
 const Marker = dynamic(
   () => import("react-leaflet").then((mod) => mod.Marker),
   { ssr: false }
 );
+
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
   ssr: false,
 });
@@ -36,12 +48,19 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
 export default function NearbyEvents() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [mapLoading, setMapLoading] = useState(true);
+  const [mapReady, setMapReady] = useState(false);
   const [userPos, setUserPos] = useState(null);
+  const mapRef = useRef(null);
   const router = useRouter();
-  const mapRef = useRef();
 
-  // Fetch nearby events from backend
+  const customIcon = L.icon({
+    iconUrl: "/images/mappin.png",
+    iconSize: [30, 30],
+    iconAnchor: [15, 45],
+    popupAnchor: [0, -45],
+  });
+
+  // ✅ Fetch nearby events
   const fetchEvents = async (lat, lng) => {
     try {
       const res = await fetch("/api/nearby-events", {
@@ -56,7 +75,7 @@ export default function NearbyEvents() {
     }
   };
 
-  // Get user location
+  // ✅ Get user location
   useEffect(() => {
     if (!("geolocation" in navigator)) {
       console.error("Geolocation not supported");
@@ -78,8 +97,10 @@ export default function NearbyEvents() {
     );
   }, []);
 
+  // ✅ Handle “Locate Me” button
   const handleLocateMe = () => {
     if (!("geolocation" in navigator)) return;
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
@@ -92,97 +113,68 @@ export default function NearbyEvents() {
     );
   };
 
+  // ✅ Loading state
   if (loading) {
     return (
-      <PageLayout className={"flex h-[50vh] justify-center items-center"}>
-        <Loader2 className="animate-spin" /> Loading Nearby Events...
+      <PageLayout className="flex h-[70vh] justify-center items-center text-gray-600">
+        <Loader2 className="animate-spin w-6 h-6 mr-2" />
+        Fetching nearby events...
       </PageLayout>
     );
   }
 
   return (
     <PageLayout title="Nearby Events">
-      <div className="flex flex-col gap-6">
-        {/* Event Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {events.length === 0 && (
-            <div className="text-center text-primary py-10 md:col-span-2">No nearby events found.</div>
-          )}
-          {events.map((event, index) => (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.5 }}
-              key={index}
-              className="p-4 rounded-md shadow-md bg-base-100 flex flex-col md:flex-row justify-between items-center md:items-end gap-4 hover:shadow-lg transition border border-primary/30"
-            >
-              <div className="flex-1 flex flex-col gap-1 ">
-                <h3 className="text-xl font-semibold flex items-center gap-2">
-                  {event.title}
-                </h3>
-                <p className="flex items-center gap-1 text-gray-600 ml-2">
-                  <MapPin className="size-4" /> {event.location}
-                </p>
-                <p className="flex items-center gap-1 text-gray-600 ml-2">
-                  <CalendarDays className="size-4" />{" "}
-                  {format(parseISO(event.date), "PPPPp")}
-                </p>
-                {typeof event.distance === "number" && (
-                  <p className="flex items-center gap-1 text-sm text-gray-500 ml-2">
-                    <Clock className="size-4" /> {event.distance.toFixed(1)} km
-                    away
-                  </p>
-                )}
-              </div>
-              <Button
-                label={"View Details"}
-                onClick={() => router.push(`/browse-events/${event._id}`)}
-              />
-            </motion.div>
-          ))}
-        </div>
-
+      <div className="flex flex-col gap-8">
         {/* Map Section */}
-        <div className="relative h-[400px] w-full rounded-md overflow-hidden shadow-sm border border-primary/20">
-          {mapLoading && (
-            <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
-              <Map className="size-12 text-gray-400 animate-bounce" />
-              <span className="ml-2 text-gray-500">Loading Map...</span>
+        <section className="relative h-72 rounded-lg overflow-hidden shadow-sm border border-primary/30 z-10">
+          {!mapReady && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-base-300 z-10">
+              <Map className="size-10 opacity-50 animate-bounce" />
+              <span className="opacity-70 mt-2">Loading map...</span>
             </div>
           )}
+
           {userPos && (
             <MapContainer
               center={userPos}
               zoom={13}
               style={{ height: "100%", width: "100%" }}
-              whenCreated={(mapInstance) => {
-                mapRef.current = mapInstance;
-                setMapLoading(false); // Map is ready
+              whenCreated={(map) => {
+                mapRef.current = map;
+                setMapReady(true);
               }}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution="© OpenStreetMap contributors"
               />
-              <Marker position={userPos}>
-                <Popup>You are here</Popup>
+
+              <Marker position={userPos} icon={customIcon}>
+                <Popup>
+                  <strong>You are here</strong>
+                </Popup>
               </Marker>
+
               {events.map((event) => (
                 <Marker
                   key={event._id}
+                  icon={customIcon}
                   position={[event.lat, event.lng]}
                   eventHandlers={{
-                    click: () => router.push(`/event/${event._id}`),
+                    click: () => router.push(`/browse-events/${event._id}`),
                   }}
                 >
                   <Popup>
-                    <strong>{event.title}</strong>
-                    <br />
-                    {event.location}
-                    <br />
-                    <span className="text-sm text-gray-500">
-                      {event.distance?.toFixed(1)} km away
-                    </span>
+                    <div className="text-sm">
+                      <strong>{event.title}</strong>
+                      <br />
+                      {event.location}
+                      <br />
+                      <span className="text-xs text-gray-500">
+                        {event.distance?.toFixed(1)} km away
+                      </span>
+                    </div>
                   </Popup>
                 </Marker>
               ))}
@@ -192,12 +184,60 @@ export default function NearbyEvents() {
           {/* Locate Me Button */}
           <button
             onClick={handleLocateMe}
-            className="absolute top-3 right-3 z-[20] bg-white shadow-md hover:bg-gray-100 transition p-2 rounded-full"
+            className="absolute top-3 right-3 z-[1000] bg-white hover:bg-gray-50 border border-gray-200 shadow-sm p-2 rounded-full transition-all"
             title="Locate Me"
           >
             <LocateFixed className="w-5 h-5 text-gray-700" />
           </button>
-        </div>
+
+          {/* Information */}
+          <div className="absolute bottom-2 left-2 z-[1000] bg-base-100 rounded-full py-2 px-4 flex items-center gap-2 opacity-60 shadow-sm">
+            <HiInformationCircle className="size-4 " />
+            <span className=" text-sm">Click on markers to view details</span>
+          </div>
+        </section>
+        {/* Events List */}
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {events.length === 0 && (
+            <div className="text-center text-primary py-12 md:col-span-2">
+              No nearby events found around your area.
+            </div>
+          )}
+
+          {events.map((event, i) => (
+            <motion.div
+              key={event._id}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="p-5 bg-base-200 border border-primary/20 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+            >
+              <div>
+                <h3 className="text-lg font-semibold mb-1 ">{event.title}</h3>
+                <p className="flex items-center gap-1 text-sm opacity-80">
+                  <MapPin className="size-4" /> {event.location}
+                </p>
+                <p className="flex items-center gap-1 text-sm opacity-80">
+                  <CalendarDays className="size-4" />{" "}
+                  {format(parseISO(event.eventDateTime), "PPpp")}
+                </p>
+                {typeof event.distance === "number" && (
+                  <p className="flex items-center gap-1 text-sm opacity-80">
+                    <Clock className="size-4" /> {event.distance.toFixed(1)} km
+                    away
+                  </p>
+                )}
+              </div>
+              <div className="mt-5">
+                <Button
+                  label="View Details"
+                  onClick={() => router.push(`/browse-events/${event._id}`)}
+                  className="w-full"
+                />
+              </div>
+            </motion.div>
+          ))}
+        </section>
       </div>
     </PageLayout>
   );

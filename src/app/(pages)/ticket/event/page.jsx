@@ -5,17 +5,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import PageLayout from "@/ui/PageLayout";
 import Image from "next/image";
 import { TbTicketOff } from "react-icons/tb";
-import {
-  MapPin,
-  CalendarDays,
-  CircleDollarSign,
-  SeparatorHorizontal,
-} from "lucide-react";
+import { MapPin, CalendarDays, Currency } from "lucide-react";
 import { FaInfoCircle } from "react-icons/fa";
+import { IoIosPeople } from "react-icons/io";
 import Button from "@/ui/Button";
 import EventCheckout from "@/components/ticket/EventChekout";
 import { useEventTicket } from "@/hooks/useEventTicket";
 import { MdEventSeat } from "react-icons/md";
+import { HiOutlineCurrencyBangladeshi } from "react-icons/hi2";
 
 export default function EventTicketPage() {
   const searchParams = useSearchParams();
@@ -46,13 +43,17 @@ export default function EventTicketPage() {
       .then((res) => res.json())
       .then((data) => {
         if (data.result === "success")
-          setTotalPrice(Number(data.conversion_result) * seatQuantity);
-        else setTotalPrice(eventTicket.price * seatQuantity);
+          setTotalPrice(
+            Number(
+              data.conversion_result -
+                (data.conversion_result * eventTicket.discount) / 100
+            ).toFixed(2) * seatQuantity
+          );
+        else setTotalPrice(eventTicket.price * seatQuantity + 100);
       })
-      .catch(() => setTotalPrice(eventTicket.price * seatQuantity))
+      .catch(() => setTotalPrice(eventTicket.price * seatQuantity + 100))
       .finally(() => setConverting(false));
   }, [currency, eventTicket?.price, seatQuantity]);
-
 
   if (ticketLoading) {
     return (
@@ -99,7 +100,7 @@ export default function EventTicketPage() {
           />
         </div>
 
-        <div className="flex-1 flex flex-col gap-2 text-gray-700 dark:text-gray-200">
+        <div className="flex-1 flex flex-col gap-2">
           <p className="flex items-center gap-2">
             <MapPin className="size-4" />
             {eventTicket.location || "Unknown Location"}
@@ -107,21 +108,27 @@ export default function EventTicketPage() {
 
           <p className="flex items-center gap-2">
             <CalendarDays className="size-4" />
-            {eventTicket.date}
+            {eventTicket.eventDateTime}
           </p>
 
           <p className="flex items-center gap-2 text-lg font-semibold mt-2">
-            <CircleDollarSign className="size-5" /> {eventTicket.price} BDT /
-            seat
+            <HiOutlineCurrencyBangladeshi className="size-5" />
+            {eventTicket.price} BDT / Person
           </p>
 
           {/* Seat Quantity Dropdown */}
           {isAvailable && (
             <div className="flex flex-col gap-1">
+              {eventTicket.discount > 0 && (
+                <p>
+                  Discount:{" "}
+                  <span className="font-semibold">{eventTicket.discount}%</span>
+                </p>
+              )}
               <p>Total Seat : {eventTicket.totalSeats}</p>
               <p>Available Seat : {eventTicket.availableSeats}</p>
               <div className="flex items-center gap-2 text-lg font-semibold mt-2">
-                <MdEventSeat className="size-5" />
+                <IoIosPeople className="size-5" />
                 <select
                   id="number"
                   value={seatQuantity}
@@ -162,7 +169,7 @@ export default function EventTicketPage() {
                   Total Price :{" "}
                   {converting
                     ? "Converting..."
-                    : `${currency} ${totalPrice.toFixed(2)}`}
+                    : `${currency} ${totalPrice}`}
                 </p>
                 <select
                   value={currency}

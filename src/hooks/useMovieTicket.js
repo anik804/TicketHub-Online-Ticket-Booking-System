@@ -23,8 +23,8 @@ export const useMovieTicket = ({ movieId, seats = [], currency, totalPrice = 0 }
   const movieTicket = useMemo(() => {
     if (!movieData || !seats?.length || ticketError) return null;
 
-    const formattedDate = movieData.date
-      ? format(parseISO(movieData.date), "PPPPp")
+    const formattedDate = movieData.eventDateTime
+      ? format(parseISO(movieData.eventDateTime), "PPPPp")
       : "Date not available";
 
     return {
@@ -32,10 +32,11 @@ export const useMovieTicket = ({ movieId, seats = [], currency, totalPrice = 0 }
       movieId,
       title: movieData.title || "N/A",
       imageUrl: movieData.imageUrl || null,
-      date: formattedDate,
+      eventDateTime: formattedDate,
       location: movieData.location || "N/A",
       seats,
       amount: totalPrice || 0,
+      discount : movieData.discount || 0,
       price: movieData.price || 0,
       currency: currency || "N/A",
       organizerEmail: movieData.organizerEmail || "N/A",
