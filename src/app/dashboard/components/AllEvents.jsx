@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Loader from "./shared/Loader";
 
-export default function AdminEventsPage() {
+export default function AllEvents() {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -90,7 +90,7 @@ export default function AdminEventsPage() {
                 <h2 className="text-xl font-semibold text-gray-800">
                   {event.title}
                 </h2>
-                <p className="text-gray-500 text-sm mt-1">{event.date}</p>
+                <p className="text-gray-500 text-sm mt-1">{event.eventDateTime}</p>
                 <p className="mt-2 text-gray-700">{event.location}</p>
                 <p className="font-bold text-red-600 mt-3 text-lg">
                   ৳{event.price}
