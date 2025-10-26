@@ -259,7 +259,7 @@ export default function AddEventPage() {
 
   return (
     <section className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
-      <h1 className="text-2xl font-bold mb-6 text-center">🎫 Add New Event</h1>
+      <h1 className="text-2xl text-gray-600 font-bold mb-6 text-center">🎫 Add New Event</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -366,31 +366,7 @@ export default function AddEventPage() {
           className="w-full input input-bordered"
         />
 
-        {/* <input
-          type="email"
-          name="organizerEmail"
-          placeholder="Organizer Email"
-          value={formData.organizerEmail}
-          onChange={handleChange}
-          className="w-full input input-bordered"
-          required
-        /> */}
-
-        {/* <input
-          type="email"
-          name="organizerEmail"
-          value={currentUser.email} // logged-in user email
-          className="w-full input input-bordered bg-gray-100 cursor-not-allowed"
-          disabled
-        /> */}
-
-        {/* <input
-          type="email"
-          name="organizerEmail"
-          value={formData.organizerEmail}
-          className="w-full input input-bordered  cursor-not-allowed"
-          disabled
-        /> */}
+        
 
         <button
           type="submit"
