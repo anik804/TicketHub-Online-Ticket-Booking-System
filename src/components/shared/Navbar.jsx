@@ -128,7 +128,7 @@ export default function Navbar() {
         {/* Navbar End */}
         <div className="navbar-end">
           {/* Theme Toggle */}
-          <ThemeToggler />
+          <ThemeToggler className={"mr-3"} />
           {status === "loading" ? null : !session ? (
             <>
               <Link
