@@ -32,7 +32,7 @@ export default function Partners() {
   ];
 
   return (
-    <section className="relative py-20 bg-gray-50 overflow-hidden">
+    <section className="relative py-20 bg-base-100 overflow-hidden">
       {/* 🎨 Background */}
       {/* <div className="absolute inset-0 -z-10">
         <Image
@@ -51,7 +51,7 @@ export default function Partners() {
             Collaborations
           </p>
           <motion.h2
-            className="text-4xl md:text-5xl font-extrabold text-gray-900"
+            className="text-4xl md:text-5xl font-extrabold "
             initial={{ opacity: 0, y: -30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -60,7 +60,7 @@ export default function Partners() {
           </motion.h2>
 
           <motion.p
-            className="text-gray-600 text-center pt-5 mb-16 text-lg md:text-xl"
+            className="text-gray-500 text-center pt-5 mb-16 text-lg md:text-xl"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}

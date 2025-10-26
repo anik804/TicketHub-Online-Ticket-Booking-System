@@ -56,8 +56,8 @@ export default function ManageEvents() {
   if (loading) return <Loader />;
 
   return (
-    <div className="p-6 bg-white dark:bg-black rounded-2xl shadow-md mt-6 text-gray-900 dark:text-gray-100">
-      <h2 className="text-4xl font-bold mb-8 text-center text-gray-900">
+    <div className="p-6 bg-base-100  rounded-2xl shadow-md mt-6 ">
+      <h2 className="text-4xl font-bold mb-8 text-center ">
         Manage Your Events
       </h2>
 
