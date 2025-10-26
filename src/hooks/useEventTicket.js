@@ -31,8 +31,8 @@ export const useEventTicket = ({
   const eventTicket = useMemo(() => {
     if (!eventData || !seatQuantity || ticketError) return null;
 
-    const formattedDate = eventData.date
-      ? format(parseISO(eventData.date), "PPPPp")
+    const formattedDate = eventData.eventDateTime
+      ? format(parseISO(eventData.eventDateTime), "PPPPp")
       : "Date not available";
 
     return {
@@ -40,13 +40,14 @@ export const useEventTicket = ({
       eventId,
       title: eventData.title || "N/A",
       imageUrl: eventData.imageUrl || null,
-      date: formattedDate,
+      eventDateTime: formattedDate,
       location: eventData.location || "N/A",
       seatQuantity,
       totalSeats: eventData.totalSeats || 0,
       availableSeats: eventData.availableSeats || 0,
       amount: totalPrice || 0,
       price: eventData.price || 0,
+      discount: eventData.discount || 0,
       currency: currency || "N/A",
       organizerEmail: eventData.organizerEmail || "N/A",
       customerName: session?.user?.name || "N/A",
