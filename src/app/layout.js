@@ -8,6 +8,8 @@ import ClientLayoutWrapper from "./LayoutWrapper/ClientLayoutWrapper.jsx";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
+
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -25,15 +27,19 @@ export default function RootLayout({ children }) {
     <html lang="en" className={roboto.variable}>
       <body>
         {/* Wrap only the client-side providers */}
-        <ThemeProvider>
+        {/* <ThemeProvider> */}
           <Providers>
-            <Navbar />
+            <ClientLayoutWrapper>
+             
             {children}
             <Toaster position="top-right" />
-            <Footer />
+            
             <BackToTop />
+            </ClientLayoutWrapper>
           </Providers>
-        </ThemeProvider>
+        {/* </ThemeProvider> */}
+
+        
       </body>
     </html>
   );

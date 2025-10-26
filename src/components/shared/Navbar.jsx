@@ -8,7 +8,11 @@ import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Menu } from "lucide-react";
+<<<<<<< HEAD
 // import ThemeToggle from "../toggleTheme/ThemeToggle";
+=======
+import ThemeToggler from "./ThemeToggler";
+>>>>>>> f9856b6116aab73ce4a544ed4b4549316c5dabcb
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -127,6 +131,8 @@ export default function Navbar() {
 
         {/* Navbar End */}
         <div className="navbar-end">
+          {/* Theme Toggle */}
+          <ThemeToggler />
           {status === "loading" ? null : !session ? (
             <>
               <Link
@@ -135,8 +141,6 @@ export default function Navbar() {
               >
                 Join Us
               </Link>
-              {/* Theme Toggle */}
-              <ThemeToggle />
             </>
           ) : (
             <div className="dropdown dropdown-end">
@@ -172,8 +176,9 @@ export default function Navbar() {
                   <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className={`w-full text-[#d96c2c] hover:text-gray-500 rounded-md px-3 py-1 transition-all ${isLoggingOut ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`w-full text-[#d96c2c] hover:text-gray-500 rounded-md px-3 py-1 transition-all ${
+                      isLoggingOut ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   >
                     {isLoggingOut ? "Logging out..." : "Logout"}
                   </button>
@@ -209,19 +214,16 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`block text-lg font-medium ${pathname === link.href
-                        ? "text-[#d96c2c]"
-                        : "text-gray-300 hover:text-gray-500"
-                        }`}
+                      className={`block text-lg font-medium ${
+                        pathname === link.href
+                          ? "text-[#d96c2c]"
+                          : "text-gray-300 hover:text-gray-500"
+                      }`}
                     >
                       {link.label}
                     </Link>
                   </li>
                 ))}
-                <li>
-                  {/* Theme Toggle */}
-                  <ThemeToggle />
-                </li>
               </ul>
             </div>
 
