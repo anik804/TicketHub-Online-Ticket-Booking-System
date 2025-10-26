@@ -6,9 +6,9 @@ import { useSession, signOut } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { X, Menu } from "lucide-react";
-import ThemeToggle from "../toggleTheme/ThemeToggle";
+// import ThemeToggle from "../toggleTheme/ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -46,7 +46,7 @@ export default function Navbar() {
     { href: "/", label: "Home" },
     { href: "/browse-events", label: "Browse Events" },
     { href: "/movies", label: "Movies" },
-    { href: "/blog", label: "Blog" },
+    { href: "/blogs", label: "Blogs" },
     { href: "/Contacts", label: "Contacts" },
   ];
 
