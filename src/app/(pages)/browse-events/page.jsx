@@ -35,15 +35,22 @@ export default function BrowseEvents() {
   // Filtering
   const filteredEvents = events?.filter((event) => {
     const titleMatch = event.title.toLowerCase().includes(search.toLowerCase());
-    const categoryMatch = event.category.toLowerCase().includes(search.toLowerCase());
-    const categoryFilter = category ? event.category.toLowerCase() === category.toLowerCase() : true;
+    const categoryMatch = event.category
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    const categoryFilter = category
+      ? event.category.toLowerCase() === category.toLowerCase()
+      : true;
     return (titleMatch || categoryMatch) && categoryFilter;
   });
 
   // Pagination Logic
   const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedEvents = filteredEvents.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedEvents = filteredEvents.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -70,14 +77,16 @@ export default function BrowseEvents() {
           className="relative z-10"
         >
           <p className="text-gray-300 mb-2">Home / Browse Events</p>
-          <h1 className="text-4xl md:text-5xl font-bold text-white">Browse Events</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white">
+            Browse Events
+          </h1>
         </motion.div>
       </div>
 
-      <div className="w-full pt-2 border-b-6 border-dashed border-black"></div>
+      <div className="w-full pt-2 border-b-6 border-dashed border-black "></div>
 
       {/* Heading */}
-      <motion.div
+      {/* <motion.div
         className="text-center mb-12"
         initial={{ opacity: 0, y: -30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -89,10 +98,10 @@ export default function BrowseEvents() {
         <p className="text-lg md:text-xl max-w-2xl mx-auto">
           Find the perfect event for you and your friends
         </p>
-      </motion.div>
+      </motion.div> */}
 
       {/* Filter Row */}
-      <div className="w-full lg:w-4/5 flex flex-col md:flex-row gap-4 mb-10 mx-auto items-center">
+      <div className="mt-10 w-full lg:w-4/5 flex flex-col md:flex-row gap-4 mb-10 mx-auto items-center">
         <div className="flex items-center w-full gap-3">
           <span className="min-w-[3rem] h-12 text-2xl border border-base-200 rounded-md shadow-sm flex items-center justify-center text-base-300 bg-base-100">
             <FaSearch />
@@ -123,13 +132,19 @@ export default function BrowseEvents() {
           <option value="Sports">Sports 🏀</option>
           <option value="Workshop">Workshop 🛠️</option>
           <option value="Exhibition / Fair">Exhibition / Fair 🎨</option>
-          <option value="Festival / Cultural Event">Festival / Cultural Event 🎭</option>
-          <option value="Competition / Contest">Competition / Contest 🏆</option>
+          <option value="Festival / Cultural Event">
+            Festival / Cultural Event 🎭
+          </option>
+          <option value="Competition / Contest">
+            Competition / Contest 🏆
+          </option>
         </select>
       </div>
 
       {/* Loading */}
-      {loading && <p className="text-center text-lg font-medium">Loading events...</p>}
+      {loading && (
+        <p className="text-center text-lg font-medium">Loading events...</p>
+      )}
 
       {/* Events Grid */}
       {!loading && (
@@ -168,7 +183,7 @@ export default function BrowseEvents() {
                   onClick={() => handlePageChange(index + 1)}
                   className={`px-4 py-2 border rounded-md ${
                     currentPage === index + 1
-                      ? "bg-secondary text-white"
+                      ? "bg-primary text-white"
                       : "hover:bg-secondary/20"
                   }`}
                 >
@@ -179,7 +194,7 @@ export default function BrowseEvents() {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 border rounded-md hover:bg-secondary hover:text-white transition disabled:opacity-40"
+                className="px-4 py-2 border rounded-md hover:bg-primary hover:text-white transition disabled:opacity-40"
               >
                 Next
               </button>
