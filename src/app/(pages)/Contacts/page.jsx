@@ -24,7 +24,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-white text-gray-900 dark:bg-black dark:text-gray-100">
+    <div className="bg-base-100">
       {/* Banner Section */}
       <div
         className="relative h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center mt-[-80px]"
@@ -54,7 +54,7 @@ export default function ContactPage() {
         <p className="text-[#d96c2c] uppercase font-semibold">
           Contact With Us
         </p>
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12 ">
           Get in Touch with TicketHub
         </h2>
 
@@ -73,7 +73,7 @@ export default function ContactPage() {
               value={form.name}
               onChange={handleChange}
               required
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+              className="w-full text-gray-700 p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
             />
             <input
               type="email"
@@ -82,7 +82,7 @@ export default function ContactPage() {
               value={form.email}
               onChange={handleChange}
               required
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+              className="w-full text-gray-700 p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
             />
             <input
               type="text"
@@ -91,7 +91,7 @@ export default function ContactPage() {
               value={form.phone}
               onChange={handleChange}
               required
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+              className="w-full text-gray-700 p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
             />
             <input
               type="text"
@@ -100,7 +100,7 @@ export default function ContactPage() {
               value={form.subject}
               onChange={handleChange}
               required
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
+              className="w-full text-gray-700 p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent"
             />
           </div>
 
@@ -111,7 +111,7 @@ export default function ContactPage() {
             value={form.message}
             onChange={handleChange}
             required
-            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent mb-6"
+            className="w-full text-gray-700 p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-transparent mb-6"
           ></textarea>
 
           <button
@@ -150,7 +150,7 @@ export default function ContactPage() {
               <rect x="2" y="2" width="20" height="20" rx="2" ry="2" />
             </svg>
           </div>
-          <h3 className="text-xl font-semibold mb-3 text-left">About</h3>
+          <h3 className="text-xl text-gray-700 font-semibold mb-3 text-left">About</h3>
           <p className="text-gray-700 dark:text-gray-300 text-left">
             TicketHub is Bangladesh’s trusted online ticket booking platform. We
             make your journey easier by providing a fast, secure, and convenient
@@ -176,8 +176,8 @@ export default function ContactPage() {
               <circle cx="12" cy="10" r="3" />
             </svg>
           </div>
-          <h3 className="text-xl font-semibold mb-3 text-left">Address</h3>
-          <p className="text-left">
+          <h3 className="text-xl text-gray-700 font-semibold mb-3 text-left">Address</h3>
+          <p className="text-left text-gray-700">
             TicketHub HQ
             <br />
             House 15, Road 12, Dhanmondi,
@@ -207,9 +207,9 @@ export default function ContactPage() {
               <circle cx="19" cy="17" r="4" />
             </svg>
           </div>
-          <h3 className="text-xl font-semibold mb-3 text-left">Contact</h3>
+          <h3 className="text-xl text-gray-700 font-semibold mb-3 text-left">Contact</h3>
           <ul className="space-y-2 text-gray-700 dark:text-gray-300 text-left">
-            <li className="flex items-center gap-2">
+            <li className="flex  items-center gap-2">
               <Phone size={18} className="text-[#d96c2c]" /> +880 1700-123456
             </li>
             <li className="flex items-center gap-2">
