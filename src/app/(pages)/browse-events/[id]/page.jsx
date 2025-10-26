@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -25,7 +24,8 @@ export default function EventDetailsPage() {
       });
   }, [id]);
 
-  if (loading) return <p className="text-center py-6">Loading event...</p>;
+  if (loading)
+    return <p className="text-center mt-25 py-6">Loading event...</p>;
   if (!event) return <p className="text-center py-6">Event not found.</p>;
 
   // Helper functions for MongoDB fields
@@ -59,29 +59,28 @@ export default function EventDetailsPage() {
       <div className="w-full pt-2 border-b-6 border-dashed border-black"></div>
 
       <div className="max-w-6xl mx-auto mt-10 p-6">
-  <div className="flex flex-col md:flex-row bg-gradient-to-b from-white via-[#fffaf8] to-[#fff2e5] border border-gray-100 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+        <div className="flex flex-col md:flex-row bg-gradient-to-b from-white via-[#fffaf8] to-[#fff2e5] border border-gray-100 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+          {/* Left Side - Event Image */}
+          <div className="relative w-full md:w-1/2 h-72 md:h-auto overflow-hidden">
+            <img
+              src={event.imageUrl || "/assets/placeholder.png"}
+              alt={event.title}
+              className="w-full h-90 object-cover hover:scale-110 transition-transform duration-700 ease-in-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+            <span className="absolute top-3 left-3 bg-white/90 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+              {event.category || "Event"}
+            </span>
+          </div>
 
-    {/* Left Side - Event Image */}
-    <div className="relative w-full md:w-1/2 h-72 md:h-auto overflow-hidden">
-      <img
-        src={event.imageUrl || "/assets/placeholder.png"}
-        alt={event.title}
-        className="w-full h-full object-cover hover:scale-110 transition-transform duration-700 ease-in-out"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-      <span className="absolute top-3 left-3 bg-white/90 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
-        {event.category || "Event"}
-      </span>
-    </div>
+          {/* Right Side - Event Details */}
+          <div className="p-8 flex flex-col justify-center md:w-1/2">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">
+              {event.title}
+            </h1>
 
-    {/* Right Side - Event Details */}
-    <div className="p-8 flex flex-col justify-center md:w-1/2">
-      <h1 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">
-        {event.title}
-      </h1>
-
-      {/* Date, Location, Time */}
-       <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-3">
+            {/* Date, Location, Time */}
+            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-3">
               <span className="flex items-center gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -132,43 +131,42 @@ export default function EventDetailsPage() {
               </span>
             </div>
 
+            {/* Description */}
+            <p className="text-gray-700 leading-relaxed mb-5">
+              {event.desc || "No description available for this event."}
+            </p>
 
+            {/* Price, Seats, Discount */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="p-3 bg-white rounded-xl shadow-sm border text-center">
+                <p className="text-gray-500 text-sm">Price</p>
+                <p className="text-2xl font-extrabold text-orange-600">
+                  ৳{Number(event.price)}
+                </p>
+              </div>
+              <div className="p-3 bg-white rounded-xl shadow-sm border text-center">
+                <p className="text-gray-500 text-sm">Seats</p>
+                <p className="font-semibold text-gray-700">
+                  {event.availableSeats} / {event.totalSeats}
+                </p>
+              </div>
+              {event.discount > 0 && (
+                <div className="p-3 bg-white rounded-xl shadow-sm border text-center">
+                  <p className="text-gray-500 text-sm">Discount</p>
+                  <p className="font-semibold text-red-500">
+                    {event.discount}%
+                  </p>
+                </div>
+              )}
+            </div>
 
-      {/* Description */}
-      <p className="text-gray-700 leading-relaxed mb-5">
-        {event.desc || "No description available for this event."}
-      </p>
-
-      {/* Price, Seats, Discount */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="p-3 bg-white rounded-xl shadow-sm border text-center">
-          <p className="text-gray-500 text-sm">Price</p>
-          <p className="text-2xl font-extrabold text-orange-600">
-            ৳{Number(event.price)}
-          </p>
-        </div>
-        <div className="p-3 bg-white rounded-xl shadow-sm border text-center">
-          <p className="text-gray-500 text-sm">Seats</p>
-          <p className="font-semibold text-gray-700">
-            {event.availableSeats} / {event.totalSeats}
-          </p>
-        </div>
-        {event.discount > 0 && (
-          <div className="p-3 bg-white rounded-xl shadow-sm border text-center">
-            <p className="text-gray-500 text-sm">Discount</p>
-            <p className="font-semibold text-red-500">{event.discount}%</p>
+            {/* Buy Button */}
+            <button className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300">
+              Buy Ticket 🎫
+            </button>
           </div>
-        )}
+        </div>
       </div>
-
-      {/* Buy Button */}
-      <button className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300">
-        Buy Ticket 🎫
-      </button>
-    </div>
-  </div>
-</div>
-
     </section>
   );
 }
