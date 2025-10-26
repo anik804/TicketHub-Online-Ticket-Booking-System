@@ -9,6 +9,7 @@ import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
 
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -28,13 +29,17 @@ export default function RootLayout({ children }) {
         {/* Wrap only the client-side providers */}
         <ThemeProvider>
           <Providers>
-            <Navbar />
+            <ClientLayoutWrapper>
+             
             {children}
             <Toaster position="top-right" />
-            <Footer />
+            
             <BackToTop />
+            </ClientLayoutWrapper>
           </Providers>
         </ThemeProvider>
+
+        
       </body>
     </html>
   );
