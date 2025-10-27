@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useSession, signOut } from "next-auth/react";
-import Link from "next/link";
-import { FaBars, FaTicketAlt } from "react-icons/fa";
-import { usePathname } from "next/navigation";
-import { dashboardLinks } from "./components/shared/dashboardLinks";
-import { universalLinks } from "./components/shared/searchedLinks";
-import Image from "next/image";
 import Button from "@/ui/Button";
 import { motion } from "motion/react";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaBars, FaTicketAlt } from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
+import { dashboardLinks } from "./components/shared/dashboardLinks";
+import { universalLinks } from "./components/shared/searchedLinks";
 
 export default function DashboardLayout({ children }) {
   const { data: session, status } = useSession();
