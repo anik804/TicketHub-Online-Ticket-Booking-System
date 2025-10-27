@@ -162,7 +162,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    href={`/dashboard/${session.user.role.toLowerCase()}`}
+                    href={`/dashboard`}
                     className="hover:text-gray-500 rounded-md"
                   >
                     Dashboard
