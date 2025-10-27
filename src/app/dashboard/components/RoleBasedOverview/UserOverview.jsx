@@ -70,7 +70,6 @@ export default function UserOverview() {
   return (
     <DashboardSection role="user" title={`User Dashboard`}>
       <motion.div
- 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
