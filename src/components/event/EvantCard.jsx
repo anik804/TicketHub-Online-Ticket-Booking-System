@@ -40,7 +40,7 @@ export default function EventCard({ event }) {
           {/* 🎫 Get Ticket Button */}
           <Link
             href={`/browse-events/${event._id}`}
-            className="mt-3 inline-block bg-white text-black font-medium px-5 py-2 rounded-sm hover:bg-orange-500 transition"
+            className="mt-3 inline-block bg-primary text-white font-medium px-5 py-2 rounded-sm hover:bg-orange-500 transition"
           >
             View Details
           </Link>

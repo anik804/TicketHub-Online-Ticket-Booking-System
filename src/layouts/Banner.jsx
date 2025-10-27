@@ -17,7 +17,7 @@ export default function Banner() {
     {
       title: "Real-Time Ticket Availability",
       desc: "Get live seat updates and instant confirmations for your favorite shows.",
-      bg: "https://images.unsplash.com/photo-1611550082883-a65b37a8ea89?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHRpY2tldCUyMGF2YWlsYWJpbGl0eXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
+      bg: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
     },
     {
       title: "Join Exciting Concerts & Festivals",

@@ -128,7 +128,7 @@ export default function Navbar() {
         {/* Navbar End */}
         <div className="navbar-end">
           {/* Theme Toggle */}
-          <ThemeToggler />
+          <ThemeToggler className={"mr-3"} />
           {status === "loading" ? null : !session ? (
             <>
               <Link
@@ -162,7 +162,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    href={`/dashboard/${session.user.role.toLowerCase()}`}
+                    href={`/dashboard`}
                     className="hover:text-gray-500 rounded-md"
                   >
                     Dashboard
