@@ -24,7 +24,7 @@ export default function EventPaymentHistory() {
         className="min-h-screen"
       >
         {paymentLoading ? (
-          <div className="text-center py-10 text-gray-500 dark:text-gray-400">
+          <div className="text-center py-10 text-white">
             Loading your payments...
           </div>
         ) : paymentError ? (
@@ -36,9 +36,9 @@ export default function EventPaymentHistory() {
             You have not made any event payments yet.
           </div>
         ) : (
-          <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow border border-gray-200 dark:border-gray-700">
-            <table className="min-w-full text-sm text-gray-800 dark:text-gray-100">
-              <thead className="bg-gray-100 dark:bg-gray-700/50">
+          <div className="overflow-x-auto bg-[#142137] rounded-md shadow border border-primary/20 dark:border-gray-700">
+            <table className="min-w-full text-sm text-white">
+              <thead className="bg-black/20">
                 <tr>
                   <th className="px-6 py-4 text-left font-semibold">
                     Transaction ID
@@ -60,9 +60,9 @@ export default function EventPaymentHistory() {
                     key={trx._id}
                     className={`${
                       index % 2 === 0
-                        ? "bg-gray-50 dark:bg-gray-900"
-                        : "bg-white dark:bg-gray-800"
-                    } hover:bg-gray-100 dark:hover:bg-gray-700 transition`}
+                        ? "bg-transparent"
+                        : "bg-black/10"
+                    } hover:bg-black/20 transition`}
                   >
                     <td className="px-6 py-4 font-medium text-blue-600 dark:text-blue-400">
                       {trx.tranId}
