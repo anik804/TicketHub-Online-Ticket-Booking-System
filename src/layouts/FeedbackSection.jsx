@@ -13,6 +13,7 @@ export default function FeedbackSection() {
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
 
+  // Fetch feedbacks
   useEffect(() => {
     async function fetchFeedbacks() {
       try {
@@ -28,6 +29,7 @@ export default function FeedbackSection() {
     fetchFeedbacks();
   }, []);
 
+  // Auto slide every 5s
   useEffect(() => {
     if (feedbacks.length === 0) return;
     const timer = setInterval(() => {
@@ -36,6 +38,7 @@ export default function FeedbackSection() {
     return () => clearInterval(timer);
   }, [feedbacks]);
 
+  // Add feedback
   const handleAddFeedback = async (e) => {
     e.preventDefault();
     if (!newFeedback.trim()) return;
@@ -71,7 +74,10 @@ export default function FeedbackSection() {
   return (
     <section
       className="relative my-10 bg-gray-50 py-20 bg-cover bg-center"
-      style={{ backgroundImage: "url('/feedback.jpg')", backgroundAttachment: "fixed" }}
+      style={{
+        backgroundImage: "url('/feedback.jpg')",
+        backgroundAttachment: "fixed",
+      }}
     >
       <Toaster position="top-right" />
       <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
@@ -89,11 +95,15 @@ export default function FeedbackSection() {
           </h2>
 
           <p className="text-gray-600 mb-6">
-            We value every opinion — here’s what our users think about booking, managing, and organizing events on TicketHub.
+            We value every opinion — here’s what our users think about booking,
+            managing, and organizing events on TicketHub.
           </p>
 
           {/* Feedback Form */}
-          <form onSubmit={handleAddFeedback} className="bg-white p-5 rounded-lg shadow-md border border-gray-200 mb-4">
+          <form
+            onSubmit={handleAddFeedback}
+            className="bg-white p-5 rounded-lg shadow-md border border-gray-200 mb-4"
+          >
             <textarea
               rows="3"
               placeholder="Write your feedback..."
@@ -123,11 +133,13 @@ export default function FeedbackSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.6 }}
-                className="relative bg-white border-4 border-black p-8 shadow-lg rounded-xl max-w-xl"
+                className="relative bg-white border-4 border-black p-8 shadow-lg rounded-xl max-w-xl w-[400px] h-[220px]  flex flex-col justify-between"
               >
-                <p className="text-gray-700 leading-relaxed mb-6">{feedbacks[current].feedback}</p>
+                <div className="overflow-hidden flex-1">
+                  <FeedbackText text={feedbacks[current].feedback} />
+                </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 mt-6">
                   <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#d96c2c]">
                     <Image
                       src={feedbacks[current].img || "/user1.jpg"}
@@ -137,12 +149,14 @@ export default function FeedbackSection() {
                     />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">{feedbacks[current].name || "Anonymous"}</h4>
-                    <p className="text-[#d96c2c] text-sm">{feedbacks[current].role || "Customer"}</p>
+                    <h4 className="font-semibold text-gray-900">
+                      {feedbacks[current].name || "Anonymous"}
+                    </h4>
+                    <p className="text-[#d96c2c] text-sm">
+                      {feedbacks[current].role || "Customer"}
+                    </p>
                   </div>
                 </div>
-
-                <div className="absolute -bottom-3 left-12 w-6 h-6 bg-white border-b-3 border-r-3 border-black rotate-45"></div>
 
                 <div className="absolute -bottom-6 right-6 w-16 h-16 bg-[#d96c2c] rounded-full flex items-center justify-center shadow-md">
                   <MessageSquareQuote className="text-white" size={28} />
@@ -150,10 +164,40 @@ export default function FeedbackSection() {
               </motion.div>
             </AnimatePresence>
           ) : (
-            <p className="text-gray-500 text-lg">No feedbacks yet. Be the first to comment!</p>
+            <p className="text-gray-500 text-lg">
+              No feedbacks yet. Be the first to comment!
+            </p>
           )}
         </div>
       </div>
     </section>
+  );
+}
+
+
+  //  Feedback Text 
+
+function FeedbackText({ text }) {
+  const [expanded, setExpanded] = useState(false);
+  const wordLimit = 35; // approx. 3 lines
+
+  const words = text?.split(" ") || [];
+  const shortText = words.slice(0, wordLimit).join(" ");
+  const isLong = words.length > wordLimit;
+
+  return (
+    <div>
+      <p className="text-gray-700 leading-relaxed mb-2">
+        {expanded || !isLong ? text : `${shortText}...`}
+      </p>
+      {isLong && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="text-[#d96c2c] text-sm font-medium hover:underline"
+        >
+          {expanded ? "Show less" : "Show more"}
+        </button>
+      )}
+    </div>
   );
 }
