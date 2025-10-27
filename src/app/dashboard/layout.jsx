@@ -48,37 +48,45 @@ export default function DashboardLayout({ children }) {
           <span className="text-primary">Hub</span>
         </Link>
 
-        <div className="bg-[#28313f] h-10 flex-1 rounded-md shadow relative text-white">
-          <motion.input
+        <motion.div
           whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.98 }}
+          whileTap={{ scale: 0.99 }}
+          className="bg-[#142137] h-10 flex-1 rounded-md shadow relative text-white"
+        >
+          <input
             type="text"
             placeholder="Search links..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="input-ghost px-3 py-2 w-full focus:bg-gray-700 text-white"
+            className="input-ghost px-3 py-2 w-full text-white bg-transparent border border-transparent focus:border focus:border-primary/30 focus:bg-[#181f2b] focus-within:ring-0 outline-none transition-colors duration-200 rounded-md"
           />
 
           {searchTerm !== "" && (
-            <div className="absolute top-10 left-0 w-full bg-[#1c232f] shadow h-auto transition-all duration-300 ease-in-out">
+            <div className="absolute top-10 left-0 w-full bg-[#181f2b] shadow h-auto transition-all duration-300 ease-in-out">
               {filteredMenu.map((item) => (
                 <Link
                   key={item.label}
                   href={`${item.href}`}
-                  className="block px-4 py-3 text-white hover:bg-gray-700"
+                  className="block px-4 py-3 text-white hover:bg-[#142137]"
                 >
                   {item.label}
                 </Link>
               ))}
             </div>
           )}
-        </div>
+        </motion.div>
 
-        <Button className={"h-10"} label="Sign Out" onClick={() => signOut()}/>
+        <Button className={"h-10"} label="Sign Out" onClick={() => signOut()} />
 
-        <div className="size-10 rounded-full bg-green-300 overflow-hidden shadow">
+        <div className="size-10 rounded-full overflow-hidden shadow">
           {
-            <Image src={userPhoto} alt="user" width={40} height={40} className="object-cover w-full h-full" />
+            <Image
+              src={userPhoto || "/images/placeholder-avatar.svg"}
+              alt="user"
+              width={40}
+              height={40}
+              className="object-cover w-full h-full"
+            />
           }
         </div>
       </nav>

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 
 import { useSession } from "next-auth/react";
 import { useEventPayment } from "@/hooks/useEventPayment";
@@ -48,6 +48,8 @@ export default function MyTickets() {
 }
 
 export const MyTicketCard = ({ payment }) => {
+  const [ticket, setTicket] = useState(null);
+
   const { eventTicket, ticketLoading, ticketError } = useEventTicket({
     eventId: payment.eventId,
     seatQuantity: payment.seatQuantity,
@@ -55,20 +57,25 @@ export const MyTicketCard = ({ payment }) => {
     totalPrice: payment.amount,
   });
 
+  useEffect(() => {
+    if (eventTicket) {
+      setTicket(eventTicket);
+    }
+  }, [eventTicket]);
+
   const handleCancelTicket = () => {};
   return (
     <div className="flex flex-col gap-2 w-full h-40 p-4 bg-base-300 rounded-md shadow-sm border border-primary/30">
-      {ticketLoading ? (
-        <span className="loading loading-bars text-primary" />
-      ) : (
+      {ticket ? (
+        <div>Hello</div>
+      ) :
+      
+      (
         <>
-          <h1>{eventTicket?.title}</h1>
+          <h1>{ticket?.title}</h1>
 
           <Button onClick={handleCancelTicket} label="Cancel Ticket" />
-          <EventTicketDownload
-            paymentHistory={payment}
-            eventTicket={eventTicket}
-          />
+          <EventTicketDownload paymentHistory={payment} eventTicket={ticket} />
         </>
       )}
     </div>
