@@ -23,7 +23,7 @@ export default function PageLayout({ className, children, title, imageURL }) {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="w-full h-50 md:h-72 lg:h-80 pb-3 border-b-10 md:border-b-14 border-dashed border-black relative flex items-center justify-center"
+        className="w-full h-54 md:h-76 lg:h-84 pb-3 border-b-10 md:border-b-14 border-dashed border-black relative flex items-center justify-center"
       >
         <div className="w-full h-[97%] absolute top-0 left-0 z-0 bg-black" />
         {imageURL && (
@@ -36,8 +36,9 @@ export default function PageLayout({ className, children, title, imageURL }) {
           />
         )}
         <div className="w-full h-[97%] absolute top-0 left-0 z-2 bg-gradient-to-b from-black/50 via-transparent to-black/50" />
-        <p className="relative z-10 text-3xl md:text-4xl lg:text-7xl font-bold text-shadow-xs text-white">
+        <p className="relative z-10 text-3xl md:text-4xl lg:text-7xl font-bold text-shadow-sm text-white">
           {title}
+          <div className="bg-primary w-1/5 mx-auto h-1 mt-5 rounded-full"/>
         </p>
       </motion.div>
 
