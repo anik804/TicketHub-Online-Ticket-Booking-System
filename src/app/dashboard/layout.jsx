@@ -15,7 +15,7 @@ import { HiOutlineMenu } from "react-icons/hi";
 export default function DashboardLayout({ children }) {
   const { data: session, status } = useSession();
 
-  const role = session?.user?.role;
+  const role = session?.user?.role.toLowerCase();
   const userPhoto = session?.user?.image;
 
   const pathname = usePathname();
@@ -27,8 +27,10 @@ export default function DashboardLayout({ children }) {
 
   useEffect(() => {
     if (!role) return;
-    setSearchedLinks([...dashboardLinks.user, ...universalLinks]);
+    setSearchedLinks([...dashboardLinks[role], ...universalLinks]);
   }, [role]);
+
+  console.log("Role", role);
 
   // Filter the menu based on search input
   const filteredMenu = role
