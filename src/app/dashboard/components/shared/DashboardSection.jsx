@@ -20,8 +20,8 @@ export default function DashboardSection({ title, children, role="user" }) {
   </div>);
 
   return (
-    <div className="flex-1 pt-20 pb-10 px-6 text-white">
-      <h1 className="text-2xl font-bold mb-6">{title}</h1>
+    <div className="flex-1 pt-20 pb-10 px-6 text-white overflow-hidden">
+      {title && <h1 className="text-2xl font-bold mb-6">{title}</h1>}
       {children}
     </div>
   );
