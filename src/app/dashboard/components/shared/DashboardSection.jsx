@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react";
 import React from "react";
 
-export default function DashboardSection({ title, children, role="user" }) {
+export default function DashboardSection({ title, children, role = "user" }) {
   const { data: session, status } = useSession();
 
   if (status === "loading")
@@ -12,12 +12,14 @@ export default function DashboardSection({ title, children, role="user" }) {
       </div>
     );
 
-  const isUser = session?.user?.role === role;
+  const isUser = session?.user?.role.toLowerCase() === role;
 
-  if (!isUser) return(
-  <div className=" w-full h-100 flex justify-center items-center text-white text-2xl">
-    Unathorized
-  </div>);
+  if (!isUser)
+    return (
+      <div className=" w-full h-100 flex justify-center items-center text-white text-2xl">
+        Unathorized
+      </div>
+    );
 
   return (
     <div className="flex-1 pt-20 pb-10 px-6 text-white overflow-hidden">
