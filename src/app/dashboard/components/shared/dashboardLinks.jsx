@@ -48,7 +48,7 @@ export const dashboardLinks = {
     },
   ],
   // For Movie Admin Only
-  movieAdmin: [
+  movieadmin: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "Add Movie", href: "/add-movie", icon: <FaCalendarPlus /> },
     { label: "Manage Movies", href: "/managements", icon: <FaClipboardList /> },
