@@ -30,7 +30,6 @@ export default function DashboardLayout({ children }) {
     setSearchedLinks([...dashboardLinks[role], ...universalLinks]);
   }, [role]);
 
-  console.log("Role", role);
 
   // Filter the menu based on search input
   const filteredMenu = role
@@ -43,7 +42,7 @@ export default function DashboardLayout({ children }) {
     <main className="w-full min-h-dvh bg-[#131a26]">
       <nav className="fixed top-0 left-0 w-full h-16 flex items-center justify-between gap-4 px-4 border-b-[0.5px] border-primary/30 z-51 bg-[#131a26] shadow shadow-black/50">
         {/* Page Title */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-white">
           <HiOutlineMenu
             onClick={() => setMobileMenu(!mobileMenu)}
             className="size-8 md:hidden"

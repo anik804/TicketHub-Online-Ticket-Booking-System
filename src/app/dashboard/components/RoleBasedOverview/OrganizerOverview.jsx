@@ -53,7 +53,9 @@ export default function OrganizerOverview() {
 
     const fetchStats = async () => {
       try {
-        const res = await fetch(`/api/organizer/stats?email=${session.user.email}`);
+        const res = await fetch(
+          `/api/organizer/stats?email=${session.user.email}`
+        );
         const data = await res.json();
         if (res.ok) setStats(data);
       } catch (err) {
@@ -65,82 +67,97 @@ export default function OrganizerOverview() {
   }, [session]);
 
   return (
-<DashboardSection title="Organizer Dashboard" role="organizer">
-<motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="pt-10 w-full"
-    >
-      {/* Organizer Info */}
-      <div className="mb-10 p-6 bg-white rounded-2xl shadow-lg border border-orange-100">
-        <h2 className="text-3xl font-semibold mb-3 text-gray-800">
-          Welcome, {session?.user.name || "Organizer"} 🎤
-        </h2>
-        <p className="text-gray-600">Email: {session?.user.email}</p>
-      </div>
+    <DashboardSection title="Organizer Dashboard" role="organizer">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="pt-10 w-full"
+      >
+        {/* Organizer Info */}
+        <div className="mb-10 p-6 bg-white rounded-2xl shadow-lg border border-orange-100">
+          <h2 className="text-3xl font-semibold mb-3 text-gray-800">
+            Welcome, {session?.user.name || "Organizer"} 🎤
+          </h2>
+          <p className="text-gray-600">Email: {session?.user.email}</p>
+        </div>
 
-      {/* Stats Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        <StatCard title="Total Events" value={stats.totalEvents} color="bg-orange-500" />
-        <StatCard title="Pending Events" value={stats.pendingEvents} color="bg-orange-400" />
-        <StatCard title="Total Profit" value={`$${stats.totalProfit.toLocaleString()}`} color="bg-orange-600" />
-      </div>
+        {/* Stats Section */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <StatCard
+            title="Total Events"
+            value={stats.totalEvents}
+            color="bg-orange-500"
+          />
+          <StatCard
+            title="Pending Events"
+            value={stats.pendingEvents}
+            color="bg-orange-400"
+          />
+          <StatCard
+            title="Total Profit"
+            value={`$${stats.totalProfit.toLocaleString()}`}
+            color="bg-orange-600"
+          />
+        </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Line Chart - Event Growth */}
-        <motion.div
-          className="bg-white p-6 rounded-2xl shadow-lg border border-orange-100"
-          whileHover={{ scale: 1.01 }}
-        >
-          <h3 className="text-xl font-bold mb-4 text-gray-800">
-            Event Growth Overview
-          </h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={eventTrend}>
-              <XAxis dataKey="month" stroke="#888" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="events"
-                stroke="#f97316"
-                strokeWidth={3}
-                dot={{ r: 4, fill: "#f97316" }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </motion.div>
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Line Chart - Event Growth */}
+          <motion.div
+            className="bg-white p-6 rounded-2xl shadow-lg border border-orange-100"
+            whileHover={{ scale: 1.01 }}
+          >
+            <h3 className="text-xl font-bold mb-4 text-gray-800">
+              Event Growth Overview
+            </h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={eventTrend}>
+                <XAxis dataKey="month" stroke="#888" />
+                <YAxis />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="events"
+                  stroke="#f97316"
+                  strokeWidth={3}
+                  dot={{ r: 4, fill: "#f97316" }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </motion.div>
 
-        {/* Pie Chart - Revenue Breakdown */}
-        <motion.div
-          className="bg-white p-6 rounded-2xl shadow-lg border border-orange-100"
-          whileHover={{ scale: 1.01 }}
-        >
-          <h3 className="text-xl font-bold mb-4 text-gray-800">
-            Revenue Breakdown by Category
-          </h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={revenueBreakdown}
-                dataKey="value"
-                nameKey="name"
-                outerRadius={120}
-                label
-              >
-                {revenueBreakdown.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </motion.div>
-      </div>
-    </motion.div>
-</DashboardSection>
+          {/* Pie Chart - Revenue Breakdown */}
+          <motion.div
+            className="bg-white p-6 rounded-2xl shadow-lg border border-orange-100"
+            whileHover={{ scale: 1.01 }}
+          >
+            <h3 className="text-xl font-bold mb-4 text-gray-800">
+              Revenue Breakdown by Category
+            </h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={revenueBreakdown}
+                  dataKey="value"
+                  nameKey="name"
+                  outerRadius={120}
+                  label
+                >
+                  {revenueBreakdown.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </motion.div>
+        </div>
+      </motion.div>
+    </DashboardSection>
   );
 }
 
