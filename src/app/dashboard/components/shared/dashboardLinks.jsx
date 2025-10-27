@@ -28,39 +28,51 @@ export const dashboardLinks = {
     { label: "User Reminder", href: "/user-reminder", icon: <FaBell /> },
     { label: "My Tickets", href: "/my-tickets", icon: <FaTicketAlt /> },
     { label: "Movies Payments", href: "/movies-payments", icon: <FaFilm /> },
-    { label: "Events Payments", href: "/events-payments", icon: <FaMoneyBillWave />},
-    { label: "My Blogs", href: "/my-blogs", icon: <FaMoneyBillWave />},
+    {
+      label: "Events Payments",
+      href: "/events-payments",
+      icon: <FaMoneyBillWave />,
+    },
+    { label: "My Blogs", href: "/my-blogs", icon: <FaMoneyBillWave /> },
   ],
   // For Organizer Only
   organizer: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "Add Event", href: "/add-event", icon: <FaCalendarPlus /> },
-    { label: "Manage Events", href: "/managements", icon: <FaClipboardList />},
+    { label: "Manage Events", href: "/managements", icon: <FaClipboardList /> },
     {
       label: "Organizer Reminder",
       href: "/organizer-reminder",
-      icon: <FaBell />
+      icon: <FaBell />,
     },
     {
       label: "Payment History",
       href: "/payment-history",
-      icon: <FaMoneyCheckAlt />
+      icon: <FaMoneyCheckAlt />,
     },
   ],
   // For Movie Admin Only
-  movieAdmin: [
+  movieadmin: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "Add Movie", href: "/add-movie", icon: <FaCalendarPlus /> },
     { label: "Manage Movies", href: "/managements", icon: <FaClipboardList /> },
     { label: "Reminder", href: "/reminder", icon: <FaBell /> },
-    { label: "Payment History", href: "/payment-history", icon: <FaMoneyCheckAlt /> },
+    {
+      label: "Payment History",
+      href: "/payment-history",
+      icon: <FaMoneyCheckAlt />,
+    },
   ],
   // For Admin Only
   admin: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "All Users", href: "/all-users", icon: <FaUsers /> },
     { label: "All Event", href: "/all-events", icon: <FaCalendarAlt /> },
-    { label: "Make Organizer", href: "/make-organizer", icon: <FaUserShield /> },
+    {
+      label: "Make Organizer",
+      href: "/make-organizer",
+      icon: <FaUserShield />,
+    },
     { label: "Events Reminder", href: "/events-reminder", icon: <FaBell /> },
   ],
 };
