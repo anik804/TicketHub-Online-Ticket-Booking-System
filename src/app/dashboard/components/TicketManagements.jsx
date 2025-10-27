@@ -57,8 +57,8 @@ export default function ManageEvents() {
 
   return (
     <div className="p-6 bg-base-100  rounded-2xl shadow-md mt-6 ">
-      <h2 className="text-4xl font-bold mb-8 text-center ">
-        Manage Your Events
+      <h2 className="text-4xl text-gray-600 font-bold mb-8 text-center ">
+        Manage Events
       </h2>
 
       {events.length === 0 && (
