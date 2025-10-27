@@ -97,9 +97,9 @@ export default function MovieDetailsClient({ movie }) {
             </div>
 
             {/* Buy Ticket Button */}
-            <Link href={""} className="mt-4 md:mt-0 px-8 py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition w-max">
+            <button className="mt-4 md:mt-0 px-8 py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition w-max">
               Buy Ticket
-            </Link>
+            </button>
           </div>
         </div>
       </div>
