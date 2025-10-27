@@ -21,7 +21,7 @@ export default function Dashboard() {
       )}
       {role === "admin" && <AdminOverview />}
       {role === "Organizer" && <OrganizerOverview />}
-      {role === "movieAdimn" && <MovieAdminOverview />}
+      {role === "movieAdmin" && <MovieAdminOverview />}
       {role === "user" && <UserOverview />}
     </>
   );
