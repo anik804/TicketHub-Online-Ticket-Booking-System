@@ -1,8 +1,7 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -26,13 +25,21 @@ export default function Banner() {
     },
   ];
 
+  const letterVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.04, type: "spring", stiffness: 300 },
+    }),
+  };
+
   return (
     <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden">
       <Swiper
-        modules={[Autoplay, Pagination, EffectFade]}
+        modules={[Autoplay, EffectFade]}
         effect="fade"
         autoplay={{ delay: 4000, disableOnInteraction: false }}
-        pagination={{ clickable: true }}
         loop={true}
         className="h-full"
       >
@@ -47,17 +54,35 @@ export default function Banner() {
 
               {/* Content */}
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+                initial="hidden"
+                animate="visible"
                 className="relative z-10 text-center text-white px-4 sm:px-8 md:px-16 max-w-3xl"
               >
-                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 leading-tight drop-shadow-md">
-                  {slide.title}
+                {/* Animated Title with typography styles */}
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight drop-shadow-lg tracking-wide uppercase">
+                  {slide.title.split(" ").map((word, i) => (
+                    <motion.span
+                      key={i}
+                      custom={i}
+                      variants={letterVariants}
+                      className="mr-2 inline-block"
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
                 </h1>
-                <p className="text-base sm:text-lg md:text-xl mb-8 text-white/90 leading-relaxed">
+
+                {/* Animated Description */}
+                <motion.p
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 1 }}
+                  className="text-sm sm:text-base md:text-lg mb-8 text-white/90 leading-relaxed italic tracking-tight"
+                >
                   {slide.desc}
-                </p>
+                </motion.p>
+
+                {/* Button */}
                 <Link
                   href={"browse-events"}
                   className="px-6 sm:px-8 py-3 bg-[#d96c2c] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[#b45720] transition-all duration-300 shadow-lg"
