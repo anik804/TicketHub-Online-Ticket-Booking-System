@@ -29,13 +29,13 @@ const steps = [
 export default function HowItWorks() {
   return (
     <section
-      className="relative py-32 bg-gray-50"
+      className="relative py-32 bg-base-100"
       style={{ fontFamily: "var(--font-roboto)" }}
     >
       <div className="max-w-7xl mx-auto px-6 text-center z-10">
         {/* Section Header */}
         <motion.h2
-          className="text-4xl text-black md:text-5xl font-bold mb-16   drop-shadow-md"
+          className="text-4xl md:text-5xl font-bold mb-16   drop-shadow-md"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
