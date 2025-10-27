@@ -114,7 +114,7 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-1 rounded-md transition-all duration-200 ${
                     pathname === link.href
-                      ? "text-[#d96c2c] font-semibold"
+                      ? "text-primary font-semibold"
                       : "text-gray-300 hover:text-[#d96c2c]"
                   }`}
                 >
@@ -162,7 +162,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    href={`/dashboard/${session.user.role.toLowerCase()}`}
+                    href={`/dashboard`}
                     className="hover:text-gray-500 rounded-md"
                   >
                     Dashboard
@@ -196,7 +196,7 @@ export default function Navbar() {
             className="fixed inset-0 z-50 flex backdrop-blur-sm bg-black/40"
           >
             {/* Sidebar */}
-            <div className="bg-black w-72 h-full p-6 shadow-xl">
+            <div className="bg-black w-72 h-76 p-6 shadow-xl">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-semibold text-[#d96c2c]">Menu</h2>
                 <button onClick={() => setMenuOpen(false)}>

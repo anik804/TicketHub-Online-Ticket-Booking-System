@@ -45,7 +45,7 @@ export default function Terms() {
         />
       </Head>
 
-      <div className="bg-white text-gray-900 dark:bg-black dark:text-gray-100">
+      <div className="bg-base-100">
 
         {/* Banner Section */}
         <div
@@ -86,11 +86,11 @@ export default function Terms() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-700 p-10 rounded-2xl text-left space-y-10"
+            className="max-w-4xl mx-auto bg-base-100 shadow-lg border border-gray-200 dark:border-gray-700 p-10 rounded-2xl text-left space-y-10"
           >
             {/* Intro */}
             <div>
-              <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
                 Welcome to{" "}
                 <span className="font-semibold text-[#d96c2c]">TicketHub</span> — 
                 your trusted platform for online ticket reservations. By using our 
@@ -106,11 +106,11 @@ export default function Terms() {
               <div key={idx} className="border-l-4 pl-6 border-[#d96c2c]">
                 <div className="flex items-center gap-3 mb-3">
                   {section.icon}
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                  <h3 className="text-2xl font-bold ">
                     {section.title}
                   </h3>
                 </div>
-                <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
+                <p className="text-base leading-relaxed text-gray-600 ">
                   {section.body}
                 </p>
                 {section.note && (
@@ -130,8 +130,8 @@ export default function Terms() {
               <p className="text-xs mt-2 text-gray-600 dark:text-gray-400">
                 By continuing to use this platform, you agree to our{" "}
                 <a
-                  href="/privacy"
-                  className="underline text-gray-900 dark:text-gray-100 hover:text-[#d96c2c] transition-colors"
+                  
+                  className="underline   hover:text-[#d96c2c] transition-colors"
                 >
                   Privacy Policy
                 </a>.

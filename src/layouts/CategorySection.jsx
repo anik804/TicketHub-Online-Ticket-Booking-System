@@ -9,6 +9,7 @@ import {
   FaFutbol,
   FaTheaterMasks,
   FaPlane,
+  FaLaptopCode,
 } from "react-icons/fa";
 
 const categories = [
@@ -47,7 +48,15 @@ const categories = [
     image: "/categories/travel&tour.jpg",
     desc: "Explore new destinations",
   },
+  {
+    id: 6,
+    title: "Tech Fest",
+    icon: <FaLaptopCode size={20} />,
+    image: "/categories/tech_fest.jpg",
+    desc: "Innovative tech exhibitions & competitions",
+  },
 ];
+
 
 export default function CategorySection() {
   return (
@@ -112,7 +121,7 @@ export default function CategorySection() {
                 </div>
                 <p className="text-gray-200 text-sm mb-5">{category.desc}</p>
 
-                <Link href={`/categories/${category.title.toLowerCase()}`}>
+                <Link href={"browse-events"}>
                   <button className="px-6 py-2 text-sm font-semibold bg-white text-gray-900 rounded shadow hover:bg-[#d96c2c] hover:text-white transition-all duration-300">
                     Explore Now
                   </button>
