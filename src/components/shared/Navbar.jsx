@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaTicketAlt } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { X, Menu } from "lucide-react";
+import ThemeToggler from "./ThemeToggler";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -15,21 +16,46 @@ export default function Navbar() {
   const { data: session, status } = useSession();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
+  // Routes where navbar should NOT appear
+  const hideNavbarRoutes = [
+    "/dashboard",
+    "/dashboard/admin",
+    "/dashboard/organizer",
+    "/auth/login",
+    "/auth/register",
+  ];
+
+  // Detect if current page should hide navbar
+  const shouldHideNavbar = hideNavbarRoutes.some((path) =>
+    pathname.startsWith(path)
+  );
+
+  // Scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Navbar links
   const links = [
     { href: "/", label: "Home" },
     { href: "/browse-events", label: "Browse Events" },
     { href: "/movies", label: "Movies" },
-    { href: "/blog", label: "Blog" },
-    { href: "/about", label: "About" },
+    { href: "/blogs", label: "Blogs" },
     { href: "/Contacts", label: "Contacts" },
   ];
 
+  // Logout handler
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
       await signOut({ redirect: false });
-      toast.success("F out 👋");
+      toast.success("Logged out 👋");
       router.push("/");
     } catch (error) {
       toast.error("Logout failed 😢");
@@ -39,8 +65,18 @@ export default function Navbar() {
     }
   };
 
+  //  If route matches hidden ones → hide navbar completely
+  if (shouldHideNavbar) {
+    return null;
+  }
+
+  //  Otherwise show navbar with scroll effect
   return (
-    <div className="sticky top-0 z-50 w-full shadow-md bg-black">
+    <div
+      className={`fixed top-0 z-50 w-full transition-all duration-500 ${
+        scrolled ? "bg-black shadow-lg backdrop-blur-md" : "bg-transparent"
+      }`}
+    >
       <div className="navbar px-6 py-3">
         {/* Navbar Start */}
         <div className="navbar-start flex items-center gap-2">
@@ -78,8 +114,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3 py-1 rounded-md transition-all duration-200 ${
                     pathname === link.href
-                      ? "text-[#d96c2c]  font-semibold"
-                      : "text-gray-300  hover:text-[#d96c2c]"
+                      ? "text-primary font-semibold"
+                      : "text-gray-300 hover:text-[#d96c2c]"
                   }`}
                 >
                   {link.label}
@@ -91,13 +127,17 @@ export default function Navbar() {
 
         {/* Navbar End */}
         <div className="navbar-end">
+          {/* Theme Toggle */}
+          <ThemeToggler className={"mr-3"} />
           {status === "loading" ? null : !session ? (
-            <Link
-              href="/auth/login"
-              className="px-3 py-1 rounded  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
-            >
-              Join Us
-            </Link>
+            <>
+              <Link
+                href="/auth/login"
+                className="px-3 py-1 rounded  font-semibold hover:text-black hover:bg-white bg-[#d96c2c] text-gray-300"
+              >
+                Join Us
+              </Link>
+            </>
           ) : (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -122,7 +162,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    href={`/dashboard/${session.user.role.toLowerCase()}`}
+                    href={`/dashboard`}
                     className="hover:text-gray-500 rounded-md"
                   >
                     Dashboard
@@ -156,7 +196,7 @@ export default function Navbar() {
             className="fixed inset-0 z-50 flex backdrop-blur-sm bg-black/40"
           >
             {/* Sidebar */}
-            <div className="bg-black w-72 h-full p-6 shadow-xl">
+            <div className="bg-black w-72 h-76 p-6 shadow-xl">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-semibold text-[#d96c2c]">Menu</h2>
                 <button onClick={() => setMenuOpen(false)}>

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 export default function TicketVerify() {
   const searchParams = useSearchParams();
   const tranId = searchParams.get("tranId");
+  const ticket = searchParams.get("ticket");
   const [isLoading, setIsLoading] = useState(true);
   const [paymentStatus, setPaymentStatus] = useState(null);
 
@@ -15,7 +16,7 @@ export default function TicketVerify() {
 
     const verifyPayment = async () => {
       try {
-        const res = await fetch(`/api/payment/verify?tran_id=${tranId}`);
+        const res = await fetch(`/api/payment/verify?ticket=${ticket}&tran_id=${tranId}`);
         const data = await res.json();
         setPaymentStatus(data?.status || "NOT FOUND");
       } catch (error) {
