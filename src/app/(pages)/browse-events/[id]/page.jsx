@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function EventDetailsPage() {
   const { id } = useParams();
@@ -161,9 +162,9 @@ export default function EventDetailsPage() {
             </div>
 
             {/* Buy Button */}
-            <button className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300">
+            <Link href={`/ticket/event?id=${id}`} className="w-full flex justify-center  py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300">
               Buy Ticket 🎫
-            </button>
+            </Link>
           </div>
         </div>
       </div>
