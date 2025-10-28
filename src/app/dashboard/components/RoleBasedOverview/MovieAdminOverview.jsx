@@ -50,7 +50,7 @@ export default function MovieAdminOverview() {
   ];
 
   return (
-    <DashboardSection title="Movie Admin Overview" role="movieAdmin">
+    <DashboardSection title="Movie Admin Overview" role="movieadmin">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
