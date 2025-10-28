@@ -11,7 +11,7 @@ export default function ManageEvents() {
   const [loading, setLoading] = useState(true);
   const [editPriceEvent, setEditPriceEvent] = useState(null);
   const [newPrice, setNewPrice] = useState("");
-  const [decreaseSeatEvent, setDecreaseSeatEvent] = useState(null); // seat decrease modal
+  const [decreaseSeatEvent, setDecreaseSeatEvent] = useState(null);
 
   // Fetch events
   useEffect(() => {
@@ -53,35 +53,38 @@ export default function ManageEvents() {
     }
   };
 
-  if (loading) return <Loader></Loader>;
+  if (loading) return <Loader />;
 
   return (
-    <div className="p-6 bg-gradient-to-br from-[#FF0000]/5 via-white to-[#3D0000]/5 rounded-2xl shadow-md mt-6">
-      <h2 className="text-3xl font-extrabold mb-6 text-center bg-gradient-to-r from-[#3D0000] via-[#950101] to-[#FF0000] bg-clip-text text-transparent">
-        Manage Your Events
+    <div className="p-6 bg-base-100  rounded-2xl shadow-md mt-6 ">
+      <h2 className="text-4xl text-gray-600 font-bold mb-8 text-center ">
+        Manage Events
       </h2>
 
       {events.length === 0 && (
-        <p className="text-center text-gray-600">No events found.</p>
+        <p className="text-center text-gray-500">No events found.</p>
       )}
 
       <div className="space-y-4">
         {events.map((event) => (
-          <div
+          <motion.div
             key={event._id}
-            className="flex justify-between items-center border border-[#950101]/30 bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex justify-between items-center border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm hover:shadow-md transition"
           >
             <div>
-              <h3 className="font-semibold text-lg text-[#3D0000]">
+              <h3 className="font-semibold text-lg text-[#d96c2c]">
                 {event.title}
               </h3>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 Seats:{" "}
                 <span className="font-medium">
                   {event.availableSeats}/{event.totalSeats}
                 </span>
               </p>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 Price: <span className="font-medium">${event.price}</span> |
                 Discount: {event.discount}%
               </p>
@@ -90,7 +93,7 @@ export default function ManageEvents() {
             <div className="flex gap-2">
               {/* +5 Seats */}
               <button
-                className="px-3 py-1 rounded-lg text-white bg-gradient-to-r from-[#950101] to-[#FF0000] hover:from-[#FF0000] hover:to-[#950101] shadow-md transition"
+                className="px-4 py-2 rounded-md bg-[#d96c2c] text-white hover:bg-[#ff8533] transition font-medium"
                 onClick={() =>
                   handleUpdate(event._id, { totalSeats: event.totalSeats + 5 })
                 }
@@ -100,7 +103,7 @@ export default function ManageEvents() {
 
               {/* -1 Seat */}
               <button
-                className="px-3 py-1 rounded-lg border border-[#950101] text-[#950101] bg-white hover:bg-[#950101] hover:text-white transition"
+                className="px-4 py-2 rounded-md border border-[#d96c2c] text-gray-700 bg-transparent hover:bg-[#d96c2c] hover:text-white transition font-medium"
                 onClick={() => setDecreaseSeatEvent(event)}
               >
                 -1 Seat
@@ -108,7 +111,7 @@ export default function ManageEvents() {
 
               {/* Edit Price */}
               <button
-                className="px-3 py-1 rounded-lg border border-[#950101] text-[#950101] bg-white hover:bg-[#950101] hover:text-white transition"
+                className="px-4 py-2 rounded-md border border-[#d96c2c] text-gray-700 bg-transparent hover:bg-[#d96c2c] hover:text-white transition font-medium"
                 onClick={() => {
                   setEditPriceEvent(event);
                   setNewPrice(event.price);
@@ -117,7 +120,7 @@ export default function ManageEvents() {
                 Edit Price
               </button>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -125,39 +128,39 @@ export default function ManageEvents() {
         {/* Decrease Seat Modal */}
         {decreaseSeatEvent && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center bg-black/40 z-50"
+            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white rounded-xl p-6 shadow-xl w-96"
-              initial={{ scale: 0.8 }}
+              className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-xl w-96"
+              initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
+              exit={{ scale: 0.9 }}
               transition={{ duration: 0.2 }}
             >
-              <h3 className="text-lg font-bold text-[#3D0000] mb-4">
+              <h3 className="text-lg font-bold text-[#d96c2c] mb-4">
                 {decreaseSeatEvent.title}
               </h3>
-              <p className="text-gray-700 mb-6">
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
                 Current Available Seats:{" "}
                 <span className="font-semibold">
                   {decreaseSeatEvent.availableSeats}
                 </span>
               </p>
-              <p className="text-gray-700 mb-6">
+              <p className="text-gray-700 dark:text-gray-300 mb-6">
                 Are you sure you want to decrease <b>1 seat</b> from this event?
               </p>
               <div className="flex justify-end gap-3">
                 <button
-                  className="px-4 py-2 rounded-lg border border-[#950101]/40 text-[#3D0000] bg-white hover:bg-[#950101]/10 transition"
+                  className="px-4 py-2 rounded-md border border-gray-400 text-gray-700 dark:text-gray-300 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                   onClick={() => setDecreaseSeatEvent(null)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#950101] to-[#FF0000] text-white hover:opacity-90 transition"
+                  className="px-4 py-2 rounded-md bg-[#d96c2c] text-white hover:bg-[#ff8533] transition"
                   onClick={async () => {
                     const availableSeats = decreaseSeatEvent.availableSeats;
                     if (availableSeats > 0) {
@@ -181,36 +184,36 @@ export default function ManageEvents() {
         {/* Edit Price Modal */}
         {editPriceEvent && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center bg-black/40 z-50"
+            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white rounded-xl p-6 shadow-xl w-96"
-              initial={{ scale: 0.8 }}
+              className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-xl w-96"
+              initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
+              exit={{ scale: 0.9 }}
               transition={{ duration: 0.2 }}
             >
-              <h3 className="text-lg font-bold text-[#3D0000] mb-4">
+              <h3 className="text-lg font-bold text-[#d96c2c] mb-4">
                 Edit Price
               </h3>
               <input
                 type="number"
                 value={newPrice}
                 onChange={(e) => setNewPrice(e.target.value)}
-                className="w-full p-2 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-[#950101]"
+                className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md mb-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-[#d96c2c]"
               />
               <div className="flex justify-end gap-3">
                 <button
-                  className="px-4 py-2 rounded-lg border border-[#950101]/40 text-[#3D0000] bg-white hover:bg-[#950101]/10 transition"
+                  className="px-4 py-2 rounded-md border border-gray-400 text-gray-700 dark:text-gray-300 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                   onClick={() => setEditPriceEvent(null)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#950101] to-[#FF0000] text-white hover:opacity-90 transition"
+                  className="px-4 py-2 rounded-md bg-[#d96c2c] text-white hover:bg-[#ff8533] transition"
                   onClick={async () => {
                     const priceValue = parseFloat(newPrice);
                     if (!isNaN(priceValue))

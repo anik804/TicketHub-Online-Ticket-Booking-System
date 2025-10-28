@@ -6,7 +6,7 @@ export async function GET() {
     const collection2 = dbConnect("events");
 
     // Count users by role
-    const totalUsers = await collection.countDocuments({ role: "User" });
+    const totalUsers = await collection.countDocuments({ role: "user" });
     const totalOrganizers = await collection.countDocuments({
       role: "Organizer",
     });

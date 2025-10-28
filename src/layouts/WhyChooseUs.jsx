@@ -34,7 +34,7 @@ export default function WhyChooseUs() {
 
   return (
     <section
-      className="relative py-24 overflow-hidden bg-white"
+      className="relative py-24 overflow-hidden bg-base-100"
       style={{ fontFamily: "var(--font-roboto)" }}
     >
       <div className="relative max-w-7xl mx-auto px-6 z-10">
@@ -44,15 +44,15 @@ export default function WhyChooseUs() {
             Why Choose Us
           </p>
           <motion.h2
-            className="text-4xl md:text-5xl font-extrabold text-gray-900"
+            className="text-4xl md:text-5xl font-extrabold  "
             initial={{ opacity: 0, y: -30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Your Trusted Experience Partner
+            Our Trusted Experience Partner
           </motion.h2>
           <motion.p
-            className="text-gray-600 text-center pt-5 mb-16 text-lg md:text-xl"
+            className="text-gray-500 text-center pt-5 mb-16 text-lg md:text-xl"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}

@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "./Sidebar";
+import Sidebar from "./SidebarOld";
 import { motion } from "framer-motion";
 
 export default function DashboardLayout({ children, role }) {

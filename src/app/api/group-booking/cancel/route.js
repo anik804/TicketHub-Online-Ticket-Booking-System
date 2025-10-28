@@ -3,7 +3,7 @@ import { dbConnect } from "@/libs/dbConnect";
 
 // CANCEL route for group booking
 export async function POST(req) {
-  try {
+  try { 
     const body = await req.json();
     const { tranId } = body;
 

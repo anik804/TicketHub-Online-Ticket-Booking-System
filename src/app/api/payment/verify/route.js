@@ -6,15 +6,16 @@ export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
     const tranId = searchParams.get("tran_id");
+    const ticket = searchParams.get("ticket");
 
-    if (!tranId) {
+    if (!tranId && !ticket) {
       return NextResponse.json(
-        { error: "Transaction ID required" },
+        { error: "Transaction ID & Ticket Name required" },
         { status: 400 }
       );
     }
 
-    const paymentTransactions = dbConnect("ticket-payments");
+    const paymentTransactions = dbConnect(`${ticket}-payments`);
     const payment = await paymentTransactions.findOne({ tranId });
 
     if (!payment) {
