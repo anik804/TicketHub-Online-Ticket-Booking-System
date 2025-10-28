@@ -48,7 +48,7 @@ export default function HowItWorks() {
           >
             Simple Steps to Your Next Experience
           </motion.h2>
-          <motion.p
+          {/* <motion.p
             className="text-gray-500 text-center pt-5 mb-16 text-lg md:text-xl"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -56,7 +56,7 @@ export default function HowItWorks() {
           >
             Booking tickets has never been easier — just follow these simple
             steps and get ready for your event.
-          </motion.p>
+          </motion.p> */}
         </div>
 
         {/* Steps Cards */}
