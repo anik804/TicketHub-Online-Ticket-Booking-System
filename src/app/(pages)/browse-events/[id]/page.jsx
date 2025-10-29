@@ -9,6 +9,7 @@ export default function EventDetailsPage() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
     if (!id) return;
@@ -25,13 +26,40 @@ export default function EventDetailsPage() {
       });
   }, [id]);
 
+  // Countdown Timer
+  useEffect(() => {
+    if (!event?.eventDateTime) return;
+
+    const timer = setInterval(() => {
+      const eventTime = new Date(event.eventDateTime).getTime();
+      const now = new Date().getTime();
+      const distance = eventTime - now;
+
+      if (distance <= 0) {
+        setTimeLeft("Event Started 🎉");
+        clearInterval(timer);
+      } else {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (distance % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        setTimeLeft(
+          `${days}d : ${hours}h : ${minutes}m : ${seconds}s`
+        );
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [event]);
+
   if (loading)
     return <p className="text-center mt-25 py-6">Loading event...</p>;
   if (!event) return <p className="text-center py-6">Event not found.</p>;
-
-  // Helper functions for MongoDB fields
-  const getNumber = (field) =>
-    field?.$numberInt ? parseInt(field.$numberInt) : field || 0;
 
   return (
     <section className="mt-20">
@@ -83,54 +111,32 @@ export default function EventDetailsPage() {
             {/* Date, Location, Time */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-3">
               <span className="flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-4 h-4 text-orange-500"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8 7V3m8 4V3m-9 4h10M5 11h14m-9 4h4m-8 4h12"
-                  />
-                </svg>
+                📅{" "}
                 {new Date(event.eventDateTime).toLocaleDateString("en-BD", {
                   dateStyle: "medium",
                 })}
               </span>
               <span className="flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  className="w-4 h-4 text-orange-500"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 20a8 8 0 100-16 8 8 0 000 16zm.707-11.707a1 1 0 00-1.414 0L7 10.586V14a1 1 0 001 1h1a1 1 0 001-1v-1h2a1 1 0 001-1V9a1 1 0 00-1-1h-1.293l1.293-1.293z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {event.location}
+                📍 {event.location}
               </span>
               <span className="flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  className="w-4 h-4 text-orange-500"
-                >
-                  <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" />
-                </svg>
+                🕒{" "}
                 {new Date(event.eventDateTime).toLocaleTimeString("en-BD", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
               </span>
             </div>
+
+            {/* Countdown Timer */}
+            {timeLeft && (
+              <div className="my-4 text-center">
+                <p className="text-sm text-gray-500 mb-1">Event Starts In</p>
+                <p className="text-2xl font-bold text-orange-600">
+                  {timeLeft}
+                </p>
+              </div>
+            )}
 
             {/* Description */}
             <p className="text-gray-700 leading-relaxed mb-5">
@@ -162,7 +168,10 @@ export default function EventDetailsPage() {
             </div>
 
             {/* Buy Button */}
-            <Link href={`/ticket/event?id=${id}`} className="w-full flex justify-center  py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300">
+            <Link
+              href={`/ticket/event?id=${id}`}
+              className="w-full flex justify-center py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300"
+            >
               Buy Ticket 🎫
             </Link>
           </div>
