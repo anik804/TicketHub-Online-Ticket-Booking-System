@@ -6,7 +6,7 @@ import DashboardSection from "../../components/shared/DashboardSection";
 export default function page() {
   return (
  
-      <DashboardSection title="Organizer Reminders" role="organizer"> 
+      <DashboardSection role="organizer"> 
       <OrganizerReminder></OrganizerReminder>
       </DashboardSection>
 
