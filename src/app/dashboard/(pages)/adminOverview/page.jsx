@@ -1,12 +1,11 @@
 import React from "react";
-
-import MakeOrganizer from "../../components/MakeOrganizer";
+import AdminOverview from "../../components/RoleBasedOverview/AdminOverview";
 import DashboardSection from "../../components/shared/DashboardSection";
 
 export default function page() {
   return (
     <DashboardSection role="admin">
-      <MakeOrganizer></MakeOrganizer>
+      <AdminOverview></AdminOverview>
     </DashboardSection>
   );
 }
