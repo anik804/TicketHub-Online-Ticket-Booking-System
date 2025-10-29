@@ -133,7 +133,7 @@ export default function BlogDetails() {
             initial={{ width: 0 }}
             animate={{ width: "120px" }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="h-[4px] bg-orange-500 mt-4 mx-auto rounded-full"
+            className="h-[4px] bg-primary mt-4 mx-auto rounded-full"
           ></motion.div>
         </motion.div>
       </div>
@@ -145,7 +145,7 @@ export default function BlogDetails() {
           onClick={() => router.push("/blogs")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="self-start bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-orange-600 transition"
+          className="self-start bg-primary text-white px-5 py-2 rounded font-semibold shadow hover:bg-orange-500 transition"
         >
           ← Back to All Blogs
         </motion.button>
@@ -166,17 +166,17 @@ export default function BlogDetails() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h1 className="text-4xl font-bold text-orange-500">{blog.title}</h1>
+            <h1 className="text-4xl font-bold text-primary">{blog.title}</h1>
             <p className="text-gray-700">{blog.content}</p>
 
             {/* Like & Share */}
             <div className="flex items-center gap-4 mt-4">
               <button
                 onClick={handleLike}
-                className={`px-5 py-2 rounded-lg font-semibold transition-all ${
+                className={`px-5 py-2 rounded font-semibold transition-all ${
                   blog.likes.some((l) => l.email === userEmail)
-                    ? "bg-orange-600"
-                    : "bg-orange-500 hover:bg-orange-600"
+                    ? "bg-primary text-white"
+                    : "bg-primary text-white hover:bg-orange-700"
                 }`}
               >
                 ❤️ {blog.likes.length} {blog.likes.length === 1 ? "Like" : "Likes"}
@@ -184,7 +184,7 @@ export default function BlogDetails() {
 
               <button
                 onClick={() => navigator.clipboard.writeText(window.location.href)}
-                className="bg-orange-500 px-5 py-2 rounded-lg hover:bg-orange-600 transition-all"
+                className="bg-primary text-white px-5 py-2 rounded hover:bg-orange-600 transition-all"
               >
                 🔗 Share
               </button>
@@ -192,14 +192,14 @@ export default function BlogDetails() {
 
             {/* Comments */}
             <div className="bg-zinc-100 dark:bg-zinc-900 p-5 rounded-xl mt-6 flex flex-col gap-3">
-              <h2 className="text-2xl font-semibold text-orange-400">
+              <h2 className="text-2xl font-semibold text-primary">
                 Comments ({blog.comments.length})
               </h2>
 
               <div className="space-y-3 max-h-60 overflow-y-auto">
                 {blog.comments.map((c, i) => (
                   <div key={i} className="border-b border-zinc-300 dark:border-zinc-700 pb-2">
-                    <p className="text-orange-400 font-semibold">{c.user.name}</p>
+                    <p className="text-primary font-semibold">{c.user.name}</p>
                     <p className="text-gray-700 dark:text-gray-300">{c.text}</p>
                   </div>
                 ))}
@@ -216,7 +216,7 @@ export default function BlogDetails() {
                   />
                   <button
                     type="submit"
-                    className="bg-orange-500 px-5 py-2 rounded-lg hover:bg-orange-600"
+                    className="bg-primary text-white px-5 py-2 rounded hover:bg-orange-500"
                   >
                     Post
                   </button>
