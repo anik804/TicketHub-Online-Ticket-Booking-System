@@ -65,7 +65,7 @@ export const dashboardLinks = {
   ],
   // For Admin Only
   admin: [
-    { label: "Overview", href: "/", icon: <HiOutlineHome /> },
+    { label: "Overview", href: "/adminOverview", icon: <HiOutlineHome /> },
     { label: "All Users", href: "/all-users", icon: <FaUsers /> },
     { label: "All Event", href: "/all-events", icon: <FaCalendarAlt /> },
     {
