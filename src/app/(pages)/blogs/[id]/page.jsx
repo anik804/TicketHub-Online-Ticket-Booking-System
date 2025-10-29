@@ -145,7 +145,7 @@ export default function BlogDetails() {
           onClick={() => router.push("/blogs")}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="self-start bg-primary text-white px-5 py-2 rounded font-semibold shadow hover:bg-orange-500 transition"
+          className="self-start bg-primary text-white px-5 py-2 rounded font-semibold shadow hover:bg-orange-400 transition"
         >
           ← Back to All Blogs
         </motion.button>
