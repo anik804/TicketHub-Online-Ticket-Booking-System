@@ -50,7 +50,7 @@ export default function MovieDetailsClient({ movie }) {
       <div className="w-full pt-2 border-b-6 border-dashed border-black mb-8"></div>
 
       {/* Movie Details Section */}
-      <div className="max-w-6xl mx-auto p-8 bg-white rounded-lg shadow-lg">
+      <div className="max-w-6xl mx-auto p-8 bg-base rounded-lg shadow-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8">
           {/* Left: Movie Image */}
           <div className="w-full h-full relative rounded-lg overflow-hidden flex items-stretch">
@@ -65,7 +65,7 @@ export default function MovieDetailsClient({ movie }) {
           {/* Right: Movie Info */}
           <div className="flex flex-col justify-between h-full">
             <div className="flex-1">
-              <h2 className="text-3xl font-bold mb-4">{movie.name}</h2>
+              <h2 className="text-3xl text-gray-600 font-bold mb-4">{movie.name}</h2>
               <p className="text-gray-600 mb-2">
                 {movie.category} / {movie.duration}
               </p>
@@ -81,13 +81,13 @@ export default function MovieDetailsClient({ movie }) {
 
               {/* Description */}
               <div className="mb-4">
-                <h3 className="text-xl font-semibold mb-2">Description</h3>
-                <p className="text-gray-800">
+                <h3 className="text-xl text-gray-600 font-semibold mb-2">Description</h3>
+                <p className="text-gray-600">
                   {readMore ? movie.description : `${movie.description.slice(0, 150)}...`}
                   {movie.description.length > 150 && (
                     <button
                       onClick={toggleReadMore}
-                      className="ml-2 text-orange-500 font-semibold hover:underline"
+                      className="ml-2 text-primary font-semibold hover:underline"
                     >
                       {readMore ? "Show Less" : "Read More"}
                     </button>
@@ -97,7 +97,7 @@ export default function MovieDetailsClient({ movie }) {
             </div>
 
             {/* Buy Ticket Button */}
-            <button className="mt-4 md:mt-0 px-8 py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition w-max">
+            <button className="mt-4 md:mt-0 px-8 py-3 bg-primary text-white font-semibold rounded hover:bg-orange-400 transition w-max">
               Buy Ticket
             </button>
           </div>

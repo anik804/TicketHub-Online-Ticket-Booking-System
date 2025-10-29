@@ -137,7 +137,7 @@ const MovieCard = ({ movie, index }) => {
         <div className="text-white px-5 lg:px-8 z-3">
           <p className="text-sm mb-2">{movie.category} / {movie.duration}</p>
           <p className="text-xl md:text-2xl font-semibold mb-5">{movie.name}</p>
-          <button className="h-10 px-5 text-sm font-semibold bg-orange-600 hover:bg-white hover:text-black transition-all duration-300 ease-in-out rounded">
+          <button className="h-10 px-5 text-sm font-semibold bg-primary hover:bg-white hover:text-black transition-all duration-300 ease-in-out rounded">
             Details
           </button>
         </div>
