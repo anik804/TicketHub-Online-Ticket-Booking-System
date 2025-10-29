@@ -57,9 +57,9 @@ export default function ManageEvents() {
 
   return (
     <div className="p-6 bg-base-100  rounded-2xl shadow-md mt-6 ">
-      <h2 className="text-4xl text-gray-600 font-bold mb-8 text-center ">
+      {/* <h2 className="text-4xl text-gray-600 font-bold mb-8 text-center ">
         Manage Events
-      </h2>
+      </h2> */}
 
       {events.length === 0 && (
         <p className="text-center text-gray-500">No events found.</p>
@@ -72,19 +72,19 @@ export default function ManageEvents() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex justify-between items-center border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm hover:shadow-md transition"
+            className="flex justify-between items-center border border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-gray-900 rounded-xl p-5 shadow-sm hover:shadow-md transition"
           >
             <div>
               <h3 className="font-semibold text-lg text-[#d96c2c]">
                 {event.title}
               </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 Seats:{" "}
                 <span className="font-medium">
                   {event.availableSeats}/{event.totalSeats}
                 </span>
               </p>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 Price: <span className="font-medium">${event.price}</span> |
                 Discount: {event.discount}%
               </p>
@@ -103,7 +103,7 @@ export default function ManageEvents() {
 
               {/* -1 Seat */}
               <button
-                className="px-4 py-2 rounded-md border border-[#d96c2c] text-gray-700 bg-transparent hover:bg-[#d96c2c] hover:text-white transition font-medium"
+                className="px-4 py-2 rounded-md border border-[#d96c2c] text-gray-600 bg-transparent hover:bg-[#d96c2c] hover:text-white transition font-medium"
                 onClick={() => setDecreaseSeatEvent(event)}
               >
                 -1 Seat
@@ -111,7 +111,7 @@ export default function ManageEvents() {
 
               {/* Edit Price */}
               <button
-                className="px-4 py-2 rounded-md border border-[#d96c2c] text-gray-700 bg-transparent hover:bg-[#d96c2c] hover:text-white transition font-medium"
+                className="px-4 py-2 rounded-md border border-[#d96c2c] text-gray-600 bg-transparent hover:bg-[#d96c2c] hover:text-white transition font-medium"
                 onClick={() => {
                   setEditPriceEvent(event);
                   setNewPrice(event.price);
