@@ -112,7 +112,7 @@ export default function AddBlog() {
           transition={{ duration: 0.8 }}
         >
           <p className="text-gray-300 mb-2">Home / Blogs / Add Blog</p>
-          <h1 className="text-4xl md:text-5xl font-bold text-primary">Add Your Blog</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white">Add Your Blog</h1>
         </motion.div>
       </div>
 
@@ -131,27 +131,18 @@ export default function AddBlog() {
           transition={{ duration: 0.3 }}
         >
           <div className="flex-1 flex flex-col gap-5 p-8">
-            <motion.h1
-              className="text-3xl font-bold text-primary text-center lg:text-left"
-              initial={{ x: -100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.7 }}
-            >
-              Add Blog
-            </motion.h1>
-
             <input
               type="text"
               placeholder="Title"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400  text-primary"
+              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400  text-white"
             />
 
             <select
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value })}
-              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400 text-primary "
+              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400 text-white"
             >
               <option value="movie">Movie</option>
               <option value="sports">Sports Event</option>
@@ -165,7 +156,7 @@ export default function AddBlog() {
               rows="7"
               value={form.content}
               onChange={(e) => setForm({ ...form, content: e.target.value })}
-              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400 text-primary"
+              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400 text-white"
             />
           </div>
 
