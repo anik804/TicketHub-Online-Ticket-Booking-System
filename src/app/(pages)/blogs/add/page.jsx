@@ -142,7 +142,7 @@ export default function AddBlog() {
             <select
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value })}
-              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400 text-white"
+              className="w-full bg-gray-800 p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400 text-white"
             >
               <option value="movie">Movie</option>
               <option value="sports">Sports Event</option>
