@@ -94,7 +94,7 @@ export default function EventDetailsPage() {
             <img
               src={event.imageUrl || "/assets/placeholder.png"}
               alt={event.title}
-              className="w-full h-90 object-cover hover:scale-110 transition-transform duration-700 ease-in-out"
+              className="w-full h-120 object-cover hover:scale-110 transition-transform duration-700 ease-in-out"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
             <span className="absolute top-3 left-3 bg-white/90 text-orange-600 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
@@ -170,7 +170,7 @@ export default function EventDetailsPage() {
             {/* Buy Button */}
             <Link
               href={`/ticket/event?id=${id}`}
-              className="w-full flex justify-center py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300"
+              className="w-full flex justify-center py-3 bg-primary text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300"
             >
               Buy Ticket 🎫
             </Link>
