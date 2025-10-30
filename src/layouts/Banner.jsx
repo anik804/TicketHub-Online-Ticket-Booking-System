@@ -47,9 +47,12 @@ export default function Banner() {
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div
-              className="relative w-full h-full bg-cover bg-center flex items-center justify-center"
+              className="relative w-full h-full bg-cover bg-center flex items-center  justify-center"
               style={{ backgroundImage: `url(${slide.bg})` }}
             >
+               {/* Dark Overlay */}
+    <div className="absolute inset-0 bg-black/60"></div>
+    
               {/* Content */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
@@ -69,7 +72,7 @@ export default function Banner() {
                 </h1>
 
                 {/* Description */}
-                <p className="text-sm sm:text-base md:text-lg text-white mb-8 italic leading-relaxed max-w-2xl mx-auto">
+                <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-8 italic leading-relaxed max-w-2xl mx-auto">
                   {slide.desc}
                 </p>
 
@@ -96,7 +99,7 @@ export default function Banner() {
                   >
                     <Link
                       href="/browse-events"
-                      className="block px-8 py-2 sm:px-10 sm:py-3 bg-[#f97316] text-white font-semibold text-base sm:text-lg rounded-full hover:bg-white hover:text-[#f97316] transition-all duration-300 shadow-lg"
+                      className="block px-8 py-2 sm:px-10 sm:py-3 bg-[#f97316] text-white font-semibold text-base sm:text-lg rounded hover:bg-white hover:text-[#f97316] transition-all duration-300 shadow-lg"
                     >
                       Browse Events
                     </Link>
