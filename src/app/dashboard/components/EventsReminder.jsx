@@ -11,21 +11,26 @@ import {
   Trash2,
   Users,
   CheckCircle,
+  Search,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function EventsReminder() {
   const [reminders, setReminders] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [description, setDescription] = useState("");
-  const [email, setEmail] = useState("");
+  const [usersLoading, setUsersLoading] = useState(true);
+  const [selectedEmail, setSelectedEmail] = useState("");
   const [eventName, setEventName] = useState("");
   const [date, setDate] = useState("");
+  const [description, setDescription] = useState("");
   const [sending, setSending] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch existing reminders on mount
+  // Fetch existing reminders and users on mount
   useEffect(() => {
     fetchReminders();
+    fetchUsers();
   }, []);
 
   const fetchReminders = async () => {
@@ -41,34 +46,87 @@ export default function EventsReminder() {
     }
   };
 
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch("/api/admin/users");
+      const data = await res.json();
+      setUsers(data);
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+      toast.error("Failed to load users");
+    } finally {
+      setUsersLoading(false);
+    }
+  };
+
   const handleSendReminder = async (e) => {
     e.preventDefault();
     setSending(true);
 
     const newReminder = {
-      email,
+      email: selectedEmail,
       eventName,
-      description,
       date,
+      description,
       status: "Sent ✅",
     };
 
     try {
-      const res = await fetch("/api/reminders", {
+      // 1. Save reminder to reminders collection
+      const reminderRes = await fetch("/api/reminders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReminder),
       });
 
-      if (res.ok) {
-        const saved = await res.json();
-        setReminders([saved, ...reminders]);
-        toast.success("✅ Reminder sent successfully!");
+      if (reminderRes.ok) {
+        const savedReminder = await reminderRes.json();
+        setReminders([savedReminder, ...reminders]);
+
+        // 2. Create notification for the user
+        const notificationRes = await fetch("/api/notifications", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userEmail: selectedEmail,
+            type: "reminder",
+            title: `Event Reminder: ${eventName}`,
+            message: description
+              ? `You have an upcoming event "${eventName}" on ${new Date(
+                  date
+                ).toLocaleDateString("en-BD", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}. ${description}`
+              : `You have an upcoming event "${eventName}" scheduled on ${new Date(
+                  date
+                ).toLocaleDateString("en-BD", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}.`,
+            eventDetails: {
+              eventName,
+              eventDate: date,
+              description: description || null,
+            },
+          }),
+        });
+
+        if (notificationRes.ok) {
+          toast.success("✅ Reminder sent and notification created!");
+        } else {
+          toast.success("✅ Reminder sent!");
+          toast.error("⚠️ Failed to create notification");
+        }
 
         // Reset form
-        setEmail("");
+        setSelectedEmail("");
         setEventName("");
         setDate("");
+        setDescription("");
+        setSearchTerm("");
       } else {
         toast.error("Failed to send reminder");
       }
@@ -98,6 +156,13 @@ export default function EventsReminder() {
     }
   };
 
+  // Filter users based on search
+  const filteredUsers = users.filter(
+    (user) =>
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const sentCount = reminders.filter((r) => r.status === "Sent ✅").length;
 
   return (
@@ -126,40 +191,51 @@ export default function EventsReminder() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3"
+        className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4"
       >
         <div className="stats bg-base-200 shadow-lg">
           <div className="stat">
             <div className="stat-figure text-primary">
-              <Bell className="h-8 w-8" />
+              <Users className="h-8 w-8" />
             </div>
-            <div className="stat-title">Total Reminders</div>
-            <div className="stat-value text-primary">{reminders.length}</div>
-            <div className="stat-desc">All scheduled reminders</div>
+            <div className="stat-title">Total Users</div>
+            <div className="stat-value text-primary">{users.length}</div>
+            <div className="stat-desc">Registered users</div>
           </div>
         </div>
 
         <div className="stats bg-base-200 shadow-lg">
           <div className="stat">
             <div className="stat-figure text-secondary">
-              <Send className="h-8 w-8" />
+              <Bell className="h-8 w-8" />
             </div>
-            <div className="stat-title">Sent</div>
-            <div className="stat-value text-secondary">{sentCount}</div>
-            <div className="stat-desc">Successfully delivered</div>
+            <div className="stat-title">Total Reminders</div>
+            <div className="stat-value text-secondary">{reminders.length}</div>
+            <div className="stat-desc">All reminders sent</div>
           </div>
         </div>
 
         <div className="stats bg-base-200 shadow-lg">
           <div className="stat">
             <div className="stat-figure text-accent">
-              <Users className="h-8 w-8" />
+              <Send className="h-8 w-8" />
+            </div>
+            <div className="stat-title">Sent</div>
+            <div className="stat-value text-accent">{sentCount}</div>
+            <div className="stat-desc">Successfully delivered</div>
+          </div>
+        </div>
+
+        <div className="stats bg-base-200 shadow-lg">
+          <div className="stat">
+            <div className="stat-figure text-success">
+              <CheckCircle className="h-8 w-8" />
             </div>
             <div className="stat-title">Recipients</div>
-            <div className="stat-value text-accent">
+            <div className="stat-value text-success">
               {new Set(reminders.map((r) => r.email)).size}
             </div>
-            <div className="stat-desc">Unique users</div>
+            <div className="stat-desc">Unique users notified</div>
           </div>
         </div>
       </motion.div>
@@ -178,8 +254,8 @@ export default function EventsReminder() {
                 Stay Ahead with Smart Reminders
               </h3>
               <p className="mt-2 text-white/90">
-                Never miss an event! Send automatic reminders via Email, SMS, or
-                Push Notifications.
+                Select users from your database and send personalized event
+                reminders instantly!
               </p>
             </div>
             <div className="flex gap-3">
@@ -187,7 +263,7 @@ export default function EventsReminder() {
                 <Mail className="h-4 w-4" /> Email
               </div>
               <div className="badge badge-lg gap-2 bg-white/20 text-white border-white/40">
-                <Smartphone className="h-4 w-4" /> SMS
+                <Smartphone className="h-4 w-4" /> In-App
               </div>
             </div>
           </div>
@@ -211,12 +287,57 @@ export default function EventsReminder() {
             <div className="divider mt-0"></div>
 
             <form onSubmit={handleSendReminder} className="space-y-4">
+              {/* Select User */}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-semibold text-base-content">
+                    Select User
+                  </span>
+                  <span className="label-text-alt text-primary">
+                    {users.length} users available
+                  </span>
+                </label>
+
+                {/* Search Input */}
+                <div className="relative mb-2">
+                  <input
+                    type="text"
+                    placeholder="Search users by name or email..."
+                    className="input input-bordered bg-base-200 text-base-content focus:border-primary focus:outline-none w-full pr-10"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                  <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-base-content/40" />
+                </div>
+
+                {/* User Dropdown */}
+                <select
+                  className="select select-bordered bg-base-200 text-base-content focus:border-primary focus:outline-none"
+                  value={selectedEmail}
+                  onChange={(e) => setSelectedEmail(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>
+                    {usersLoading
+                      ? "Loading users..."
+                      : filteredUsers.length === 0
+                      ? "No users found"
+                      : "Choose a user"}
+                  </option>
+                  {filteredUsers.map((user) => (
+                    <option key={user._id} value={user.email}>
+                      {user.name} ({user.email}) - {user.role}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {/* Event Name */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-base-content">
-                      Event Name:
+                    <span className="label-text mr-1 font-semibold text-base-content">
+                      Event Name: 
                     </span>
                   </label>
                   <input
@@ -229,49 +350,32 @@ export default function EventsReminder() {
                   />
                 </div>
 
-                {/* Email */}
+                {/* Event Date */}
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text font-semibold text-base-content">
-                      Email:
+                    <span className="label-text mr-1 font-semibold text-base-content">
+                      Event Date:
                     </span>
                   </label>
                   <input
-                    type="email"
-                    placeholder="Enter Email"
+                    type="date"
                     className="input input-bordered bg-base-200 text-base-content focus:border-primary focus:outline-none"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
                     required
                   />
                 </div>
               </div>
 
-              {/* Event Date */}
+              {/* Description Field */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-semibold text-base-content">
-                    Event Date:
-                  </span>
-                </label>
-                <input
-                  type="date"
-                  className="input input-bordered bg-base-200 text-base-content focus:border-primary focus:outline-none"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Description Field - NEW */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-semibold text-base-content">
-                    Description:   
+                  <span className="label-text mr-1 font-semibold text-base-content">
+                    Description: 
                   </span>
                 </label>
                 <textarea
-                  placeholder="Add event details..."
+                  placeholder="Add event details or special instructions for the user..."
                   className="textarea textarea-bordered bg-base-200 text-base-content focus:border-primary focus:outline-none h-24 resize-none"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -292,7 +396,7 @@ export default function EventsReminder() {
                 ) : (
                   <>
                     <Send className="h-5 w-5" />
-                    Send Reminder
+                    Send Reminder & Create Notification
                   </>
                 )}
               </button>
@@ -305,57 +409,51 @@ export default function EventsReminder() {
           <div className="card-body">
             <h3 className="card-title text-accent">
               <Bell className="h-5 w-5" />
-              Reminder Features
+              How It Works
             </h3>
             <div className="divider mt-0"></div>
 
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/20">
-                  <Mail className="h-5 w-5 text-primary" />
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white font-bold">
+                  1
                 </div>
                 <div>
-                  <p className="font-semibold text-base-content">
-                    Email Notifications
-                  </p>
+                  <p className="font-semibold text-base-content">Select User</p>
                   <p className="text-sm text-base-content/60">
-                    Instant delivery to user inbox
+                    Choose from database users
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-secondary/20">
-                  <Smartphone className="h-5 w-5 text-secondary" />
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-secondary text-white font-bold">
+                  2
                 </div>
                 <div>
-                  <p className="font-semibold text-base-content">
-                    SMS & Push Alerts
-                  </p>
+                  <p className="font-semibold text-base-content">Add Details</p>
                   <p className="text-sm text-base-content/60">
-                    Multi-channel support
+                    Event name, date & description
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-accent/20">
-                  <CalendarDays className="h-5 w-5 text-accent" />
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-accent text-white font-bold">
+                  3
                 </div>
                 <div>
-                  <p className="font-semibold text-base-content">
-                    Auto Scheduling
-                  </p>
+                  <p className="font-semibold text-base-content">Send</p>
                   <p className="text-sm text-base-content/60">
-                    Set and forget reminders
+                    User gets in-app notification
                   </p>
                 </div>
               </div>
 
-              <div className="rounded-lg bg-info/10 p-3 border border-info/20">
+              <div className="rounded-lg bg-success/10 p-3 border border-success/20">
                 <p className="text-xs text-base-content/70">
-                  <strong>Coming Soon:</strong> AI-powered schedule detection
-                  and bulk reminder campaigns
+                  <strong>✅ Automatic:</strong> Notifications are created in
+                  user's dashboard instantly!
                 </p>
               </div>
             </div>
