@@ -34,16 +34,17 @@ export default function MovieManagement() {
     if (!confirm("Are you sure you want to delete this movie?")) return;
     try {
       const res = await fetch(`/api/movies/${id}`, { method: "DELETE" });
+      const result = await res.json();
       if (res.ok) {
         setMovies(movies.filter((m) => m._id !== id));
-        toast.success("Movie deleted successfully");
-      } else toast.error("Delete failed");
+        toast.success(result.message);
+      } else toast.error(result.error);
     } catch {
       toast.error("Failed to delete movie");
     }
   };
 
-  // Upload Image to Cloudinary
+  // Upload Image
   const uploadImage = async () => {
     if (!file) return selectedMovie.imageUrl;
     const formData = new FormData();
@@ -60,7 +61,8 @@ export default function MovieManagement() {
     try {
       const imageUrl = await uploadImage();
       const updatedMovie = { ...selectedMovie, imageUrl };
-      const res = await fetch(`/api/movies/${selectedMovie._id}`, {
+
+      const res = await fetch(`/api/movies/${selectedMovie._id.toString()}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedMovie),
@@ -68,15 +70,16 @@ export default function MovieManagement() {
       const result = await res.json();
 
       if (res.ok) {
-        toast.success("Movie updated successfully");
         setMovies((prev) =>
           prev.map((m) => (m._id === selectedMovie._id ? updatedMovie : m))
         );
+        toast.success(result.message);
         setSelectedMovie(null);
         setPreviewImage(null);
         setFile(null);
       } else toast.error(result.error);
-    } catch {
+    } catch (err) {
+      console.error(err);
       toast.error("Update failed");
     } finally {
       setIsUpdating(false);
@@ -84,12 +87,8 @@ export default function MovieManagement() {
   };
 
   const filteredMovies = movies.filter((movie) => {
-    const matchesName = movie.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter
-      ? movie.category === categoryFilter
-      : true;
+    const matchesName = movie.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = categoryFilter ? movie.category === categoryFilter : true;
     return matchesName && matchesCategory;
   });
 
@@ -171,6 +170,8 @@ export default function MovieManagement() {
           </p>
         )}
       </div>
+
+      {/* Update Modal */}
       <AnimatePresence>
         {selectedMovie && (
           <motion.div
@@ -212,7 +213,6 @@ export default function MovieManagement() {
                 className="file-input file-input-bordered w-full bg-white text-black mb-4"
               />
 
-              {/* Grid Layout for Inputs */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   "name",
@@ -263,22 +263,6 @@ export default function MovieManagement() {
                 />
               </div>
 
-              {/* <div className="flex justify-between gap-3 mt-4">
-          <button
-            type="submit"
-            disabled={isUpdating}
-            className="btn bg-orange-500 w-full text-white hover:bg-orange-600"
-          >
-            {isUpdating ? "Updating..." : "Update Movie"}
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedMovie(null)}
-            className="btn bg-gray-600 w-full text-white hover:bg-gray-700"
-          >
-            Cancel
-          </button>
-        </div> */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
                 <button
                   type="submit"
