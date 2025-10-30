@@ -55,7 +55,7 @@ export const dashboardLinks = {
   movieadmin: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "Add Movie", href: "/add-movie", icon: <FaCalendarPlus /> },
-    { label: "Manage Movies", href: "/managements", icon: <FaClipboardList /> },
+    { label: "Manage Movies", href: "/movie-managements", icon: <FaClipboardList /> },
     { label: "Reminder", href: "/reminder", icon: <FaBell /> },
     {
       label: "Payment History",
