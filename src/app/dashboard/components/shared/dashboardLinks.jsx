@@ -14,6 +14,7 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import { HiOutlineHome } from "react-icons/hi2";
+import { TbJewishStar } from "react-icons/tb";
 
 // যার যার লিঙ্ক দেখে পেজ গুলা দেখে আসবেন
 // সবার লিঙ্ক আছে
@@ -34,6 +35,8 @@ export const dashboardLinks = {
       icon: <FaMoneyBillWave />,
     },
     { label: "My Blogs", href: "/my-blogs", icon: <FaMoneyBillWave /> },
+    { label: "My Wishlist", href: "/wishlist", icon: <TbJewishStar/> }
+
   ],
   // For Organizer Only
   organizer: [
