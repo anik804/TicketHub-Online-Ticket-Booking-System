@@ -85,7 +85,7 @@ export default function AddBlog() {
 
   if (status === "loading")
     return (
-      <div className="h-screen flex items-center justify-center text-orange-500 text-lg font-semibold">
+      <div className="h-screen flex items-center justify-center text-primary text-lg font-semibold">
         Checking authentication...
       </div>
     );
@@ -112,7 +112,7 @@ export default function AddBlog() {
           transition={{ duration: 0.8 }}
         >
           <p className="text-gray-300 mb-2">Home / Blogs / Add Blog</p>
-          <h1 className="text-4xl md:text-5xl font-bold text-orange-500">Add Your Blog</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-primary">Add Your Blog</h1>
         </motion.div>
       </div>
 
@@ -132,7 +132,7 @@ export default function AddBlog() {
         >
           <div className="flex-1 flex flex-col gap-5 p-8">
             <motion.h1
-              className="text-3xl font-bold text-orange-500 text-center lg:text-left"
+              className="text-3xl font-bold text-primary text-center lg:text-left"
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.7 }}
@@ -145,13 +145,13 @@ export default function AddBlog() {
               placeholder="Title"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="w-full p-3 rounded border border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500  text-orange-500"
+              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400  text-primary"
             />
 
             <select
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value })}
-              className="w-full p-3 rounded border border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-orange-500"
+              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400 text-primary "
             >
               <option value="movie">Movie</option>
               <option value="sports">Sports Event</option>
@@ -165,12 +165,12 @@ export default function AddBlog() {
               rows="7"
               value={form.content}
               onChange={(e) => setForm({ ...form, content: e.target.value })}
-              className="w-full p-3 rounded border border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-orange-500"
+              className="w-full p-3 rounded border border-primary focus:outline-none focus:ring-2 focus:ring-orange-400 text-primary"
             />
           </div>
 
           <div className="flex-1 flex flex-col gap-5 items-center justify-center p-8 bg-gray-800">
-            <label className="w-full flex flex-col items-center border-2 border-dashed border-orange-500 rounded-lg p-4 cursor-pointer hover:border-orange-400 transition">
+            <label className="w-full flex flex-col items-center border-2 border-dashed border-primary rounded-lg p-4 cursor-pointer hover:border-orange-400 transition">
               <span className="text-orange-400 mb-2">Upload Image</span>
               <input type="file" onChange={handleImage} className="hidden" />
               {form.image ? (
@@ -186,7 +186,7 @@ export default function AddBlog() {
 
             <button
               type="submit"
-              className="bg-orange-500 w-full py-3 rounded-lg hover:bg-orange-600 transition-all font-semibold mt-auto text-white"
+              className="bg-primary w-full py-3 rounded hover:bg-orange-400 transition-all font-semibold mt-auto text-white"
             >
               Submit
             </button>
@@ -203,7 +203,7 @@ export default function AddBlog() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
             className={`fixed top-10 right-10 px-6 py-3 rounded-lg shadow-lg z-50 ${
-              toast.type === "success" ? "bg-orange-500 text-white" : "bg-red-500 text-white"
+              toast.type === "success" ? "bg-primary text-white" : "bg-red-400 text-white"
             }`}
           >
             {toast.message}
