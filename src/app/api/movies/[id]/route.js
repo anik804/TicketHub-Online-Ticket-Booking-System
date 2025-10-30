@@ -5,7 +5,17 @@ import { dbConnect } from "../../../../libs/dbConnect";
 export async function PUT(req, { params }) {
   try {
     const { id } = params;
+    console.log("PUT params ID:", id);
+
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid movie ID" }, { status: 400 });
+    }
+
     const body = await req.json();
+    console.log("PUT body:", body);
+
+    delete body._id; // Remove _id if accidentally included
+
     const moviesCollection = await dbConnect("movies");
 
     const updated = await moviesCollection.updateOne(
@@ -13,8 +23,10 @@ export async function PUT(req, { params }) {
       { $set: { ...body, updatedAt: new Date() } }
     );
 
-    if (updated.modifiedCount === 0) {
-      return NextResponse.json({ error: "Movie not found or no changes made" }, { status: 404 });
+    console.log("Mongo update result:", updated);
+
+    if (updated.matchedCount === 0) {
+      return NextResponse.json({ error: "Movie not found" }, { status: 404 });
     }
 
     return NextResponse.json({ message: "Movie updated successfully" }, { status: 200 });
@@ -27,8 +39,12 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   try {
     const { id } = params;
-    const moviesCollection = await dbConnect("movies");
 
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid movie ID" }, { status: 400 });
+    }
+
+    const moviesCollection = await dbConnect("movies");
     const deleted = await moviesCollection.deleteOne({ _id: new ObjectId(id) });
 
     if (deleted.deletedCount === 0) {
