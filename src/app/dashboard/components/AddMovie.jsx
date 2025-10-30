@@ -115,17 +115,9 @@ export default function AddMovie() {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="max-w-3xl mx-auto p-8 bg-orange-50 shadow-lg rounded-xl mt-10"
+      className="max-w-full p-8 bg-[#131a26] rounded-xl"
     >
       <Toaster position="top-right" />
-      <motion.h1
-        initial={{ opacity: 0, y: -20, scale: 0.8 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ type: "spring", stiffness: 120, damping: 12 }}
-        className="text-3xl text-black font-bold mb-6 text-center"
-      >
-        🎬 Add New Movie
-      </motion.h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Movie Name */}
@@ -135,7 +127,7 @@ export default function AddMovie() {
           placeholder="Movie Name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full input input-bordered placeholder-black text-black"
+          className="w-full input input-bordered bg-white placeholder-gray-600 text-black"
           required
         />
 
@@ -144,7 +136,7 @@ export default function AddMovie() {
           name="location"
           value={formData.location}
           onChange={handleChange}
-          className="w-full select select-bordered text-black"
+          className="w-full select px-2 select-bordered rounded bg-white placeholder-gray-600 text-black"
           required
         >
           <option value="">Select Location</option>
@@ -162,7 +154,7 @@ export default function AddMovie() {
             name="date"
             value={formData.date}
             onChange={handleChange}
-            className="input input-bordered text-black"
+            className="input input-bordered bg-white placeholder-gray-600 text-black"
             required
           />
           <input
@@ -170,7 +162,7 @@ export default function AddMovie() {
             name="time"
             value={formData.time}
             onChange={handleChange}
-            className="input input-bordered text-black"
+            className="input input-bordered bg-white placeholder-gray-600 text-black"
             required
           />
         </div>
@@ -183,7 +175,7 @@ export default function AddMovie() {
             placeholder="Ticket Price (৳)"
             value={formData.ticketPrice}
             onChange={handleChange}
-            className="input input-bordered placeholder-black text-black"
+            className="input input-bordered bg-white placeholder-gray-600 text-black"
             required
           />
           <input
@@ -192,7 +184,7 @@ export default function AddMovie() {
             placeholder="Director"
             value={formData.director}
             onChange={handleChange}
-            className="input input-bordered placeholder-black text-black"
+            className="input input-bordered bg-white placeholder-gray-600 text-black"
             required
           />
           <input
@@ -201,7 +193,7 @@ export default function AddMovie() {
             placeholder="Writer"
             value={formData.writer}
             onChange={handleChange}
-            className="input input-bordered placeholder-black text-black"
+            className="input input-bordered bg-white placeholder-gray-600 text-black"
             required
           />
           <input
@@ -210,7 +202,7 @@ export default function AddMovie() {
             placeholder="Duration (e.g. 2h 10m)"
             value={formData.duration}
             onChange={handleChange}
-            className="input input-bordered placeholder-black text-black"
+            className="input input-bordered bg-white placeholder-gray-600 text-black"
             required
           />
         </div>
@@ -221,7 +213,7 @@ export default function AddMovie() {
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="select select-bordered text-black"
+            className="select px-2 select-bordered rounded bg-white placeholder-gray-600 text-black"
             required
           >
             <option value="">Select Category</option>
@@ -236,7 +228,7 @@ export default function AddMovie() {
             name="language"
             value={formData.language}
             onChange={handleChange}
-            className="select select-bordered text-black"
+            className="select rounded px-2 select-bordered bg-white placeholder-gray-600 text-black"
             required
           >
             <option value="">Select Language</option>
@@ -254,13 +246,13 @@ export default function AddMovie() {
           placeholder="Movie Description"
           value={formData.description}
           onChange={handleChange}
-          className="w-full textarea textarea-bordered placeholder-black text-black"
+          className="w-full textarea textarea-bordered bg-white placeholder-gray-600 text-black"
           rows="3"
         />
 
         {/* Image Upload */}
         <div className="flex flex-col gap-2">
-          <label className="text-black font-medium">Upload Movie Poster</label>
+          <label className="text-white font-medium">Upload Movie Poster</label>
           <input
             type="file"
             accept="image/*"
