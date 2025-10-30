@@ -1,12 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function MovieDetailsClient({ movie }) {
+  const { data: session } = useSession();
+  const user = session?.user;
+
   const title = movie.name;
   const [readMore, setReadMore] = useState(false);
+  const [wishlisted, setWishlisted] = useState(false);
 
   const letterVariants = {
     hidden: { opacity: 0, y: 50, rotate: 10 },
@@ -20,8 +26,48 @@ export default function MovieDetailsClient({ movie }) {
 
   const toggleReadMore = () => setReadMore(!readMore);
 
+  // Check if movie is already wishlisted
+  useEffect(() => {
+    if (!user) return;
+    async function fetchWishlist() {
+      try {
+        const res = await fetch(`/api/wishlist/${user.id}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const isWishlisted = data.some((m) => m._id === movie._id);
+        setWishlisted(isWishlisted);
+      } catch (err) {
+        console.error("Failed to fetch wishlist:", err);
+      }
+    }
+    fetchWishlist();
+  }, [user, movie._id]);
+
+  const handleWishlist = async () => {
+    if (!user) return toast.error("Please login to add to wishlist");
+
+    try {
+      const res = await fetch("/api/wishlist/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, movieId: movie._id }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setWishlisted(true);
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add to wishlist");
+    }
+  };
+
   return (
     <div className="bg-base-100">
+      <Toaster position="top-right" />
       {/* Banner */}
       <div
         className="relative h-[400px] bg-cover bg-center flex flex-col items-center justify-center text-center"
@@ -96,10 +142,26 @@ export default function MovieDetailsClient({ movie }) {
               </div>
             </div>
 
-            {/* Buy Ticket Button */}
-            <button className="mt-4 md:mt-0 px-8 py-3 bg-primary text-white font-semibold rounded hover:bg-orange-400 transition w-max">
-              Buy Ticket
-            </button>
+            {/* Buttons */}
+            <div className="flex flex-col md:flex-row gap-4 mt-4">
+              {/* Buy Ticket */}
+              <button className="px-8 py-3 bg-primary text-white font-semibold rounded hover:bg-orange-400 transition w-max">
+                Buy Ticket
+              </button>
+
+              {/* Wishlist Button */}
+              <button
+                onClick={handleWishlist}
+                disabled={wishlisted}
+                className={`px-8 py-3 font-semibold rounded transition w-max ${
+                  wishlisted
+                    ? "bg-gray-500 text-white cursor-not-allowed"
+                    : "bg-primary text-white hover:bg-orange-400"
+                }`}
+              >
+                {wishlisted ? "Wishlisted" : "Add to Wishlist"}
+              </button>
+            </div>
           </div>
         </div>
       </div>
