@@ -5,7 +5,7 @@ import DashboardSection from "../../components/shared/DashboardSection";
 export default function page() {
   return (
 
-     <DashboardSection title="User Reminders"> 
+     <DashboardSection role="user"> 
       <UserReminders></UserReminders>
      </DashboardSection>
    
