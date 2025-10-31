@@ -52,7 +52,7 @@ export default function AllEvents() {
 
   return (
     <section className="p-6">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">🎟️ All Events</h1>
+      <h1 className="text-2xl font-bold mb-6 text-primary">All Events</h1>
 
       {/* 🔎 Search + Filter Controls */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
