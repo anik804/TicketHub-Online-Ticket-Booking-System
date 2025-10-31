@@ -10,7 +10,7 @@ export async function POST(req) {
 
     const transactions = dbConnect("movie-transactions");
     const payments = dbConnect("movie-payments");
-    const eventsCollection = dbConnect("events");
+    const moviesCollection = dbConnect("movies");
 
     // Find transaction to get eventId and seats
     const trx = await transactions.findOne({ tranId });
@@ -25,7 +25,7 @@ export async function POST(req) {
     const numberOfSeats = seatsPurchased.length;
 
     // Decrease availableSeats in the event by number of seats purchased
-    const updateResult = await eventsCollection.updateOne(
+    const updateResult = await moviesCollection.updateOne(
       {
         _id: new ObjectId(trx.movieId),
         availableSeats: { $gte: numberOfSeats },

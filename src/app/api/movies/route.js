@@ -11,3 +11,17 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to fetch movies" }, { status: 500 });
   }
 }
+
+
+//add movies route
+export async function POST(req) {
+  try {
+    const body = await req.json();
+    const moviesCollection = dbConnect("movies");
+    const result = await moviesCollection.insertOne(body);
+    return NextResponse.json(result, { status: 201 });
+  } catch (err) {
+    console.error("Add movie error:", err);
+    return NextResponse.json({ error: "Failed to add movie" }, { status: 500 });
+  }
+}
