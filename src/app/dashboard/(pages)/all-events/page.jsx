@@ -4,7 +4,7 @@ import DashboardSection from "../../components/shared/DashboardSection";
 
 export default function page() {
   return (
-    <DashboardSection title="All Events" role="organizer">
+    <DashboardSection  role="admin">
       <AllEvents></AllEvents>
     </DashboardSection>
   );

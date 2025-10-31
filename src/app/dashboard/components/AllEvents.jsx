@@ -67,7 +67,7 @@ export default function AllEvents() {
         <select
           value={priceFilter}
           onChange={(e) => setPriceFilter(e.target.value)}
-          className="border border-gray-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-red-400"
+          className="select select-bordered bg-base-200 text-base-content focus:border-primary focus:outline-none w-full max-w-xs"
         >
           <option value="all">All Prices</option>
           <option value="low">Below 500৳</option>
@@ -78,7 +78,7 @@ export default function AllEvents() {
 
       {/* 🗂️ Events List */}
       {filteredEvents.length === 0 ? (
-        <p className="text-gray-600">No events match your search or filter.</p>
+        <p className="text-accent">No events match your search or filter.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredEvents.map((event) => (
@@ -90,7 +90,9 @@ export default function AllEvents() {
                 <h2 className="text-xl font-semibold text-gray-800">
                   {event.title}
                 </h2>
-                <p className="text-gray-500 text-sm mt-1">{event.eventDateTime}</p>
+                <p className="text-gray-500 text-sm mt-1">
+                  {event.eventDateTime}
+                </p>
                 <p className="mt-2 text-gray-700">{event.location}</p>
                 <p className="font-bold text-red-600 mt-3 text-lg">
                   ৳{event.price}

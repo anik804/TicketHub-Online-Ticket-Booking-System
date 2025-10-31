@@ -96,7 +96,7 @@ export default function MovieSeatProceed({ seatLength, movieId, seats }) {
 
             <div className="px-2 flex-1">
               <h1 className="flex items-center gap-2">
-                <Film className="size-4" /> {movieTicket.title}
+                <Film className="size-4" /> {movieTicket.name}
               </h1>
               <p className="flex items-center  gap-2 text-sm">
                 <MapPin className="size-4" /> {movieTicket.location}

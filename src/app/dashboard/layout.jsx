@@ -6,8 +6,8 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FaBars, FaTicketAlt } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import { FaBars, FaSearch, FaTicketAlt } from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
 import { dashboardLinks } from "./components/shared/dashboardLinks";
 import { universalLinks } from "./components/shared/searchedLinks";
@@ -17,6 +17,26 @@ export default function DashboardLayout({ children }) {
 
   const role = session?.user?.role.toLowerCase();
   const userPhoto = session?.user?.image;
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    const handleShortcut = (event) => {
+      // Check if Ctrl + K (Windows/Linux) or ⌘ + K (Mac) pressed
+      const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+      const keyCombo = isMac
+        ? event.metaKey && event.key === "k"
+        : event.ctrlKey && event.key === "k";
+
+      if (keyCombo) {
+        event.preventDefault(); // prevent browser search
+        inputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleShortcut);
+    return () => window.removeEventListener("keydown", handleShortcut);
+  }, []);
 
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
@@ -29,7 +49,6 @@ export default function DashboardLayout({ children }) {
     if (!role) return;
     setSearchedLinks([...dashboardLinks[role], ...universalLinks]);
   }, [role]);
-
 
   // Filter the menu based on search input
   const filteredMenu = role
@@ -59,7 +78,7 @@ export default function DashboardLayout({ children }) {
         </div>
 
         <div
-        onClick={() => setMobileMenu(false)}
+          onClick={() => setMobileMenu(false)}
           className={`md:hidden absolute top-16 left-0 w-full h-fit bg-primary transition-all py-4 duration-300 ease-in-out ${
             mobileMenu ? "translate-x-0" : "-translate-x-full"
           }`}
@@ -99,14 +118,17 @@ export default function DashboardLayout({ children }) {
         <motion.div
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
-          className="bg-[#142137] h-10 flex-1 rounded-md shadow relative text-white hidden md:flex items-center"
+          durration={0.2}
+          className="bg-[#142137] h-10 flex-1 rounded-md shadow relative text-white hidden md:flex items-center text-sm"
         >
+          <FaSearch className="size-5 ml-2 opacity-80 absolute top-[10px] left-2" />
           <input
             type="text"
-            placeholder="Search links..."
+            ref={inputRef}
+            placeholder="Search in TicketHub (Ctrl + K)"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="input-ghost px-3 py-2 w-full text-white bg-transparent border border-transparent focus:border focus:border-primary/30 focus:bg-[#181f2b] focus-within:ring-0 outline-none transition-colors duration-200 rounded-md"
+            className="input-ghost pl-12 pr-3 py-2 w-full text-white bg-transparent border border-transparent focus:border focus:border-primary/30 focus:bg-[#181f2b] focus-within:ring-0 outline-none transition-colors duration-200 rounded-md"
           />
 
           {searchTerm !== "" && (

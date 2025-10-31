@@ -52,6 +52,7 @@ export const useEventTicket = ({
       organizerEmail: eventData.organizerEmail || "N/A",
       customerName: session?.user?.name || "N/A",
       customerEmail: session?.user?.email || "N/A",
+      customerPhone: session?.user?.phone || "N/A",
     };
   }, [
     eventId,

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PageLayout from "@/ui/PageLayout";
 import Image from "next/image";
-import { format } from "date-fns";
 import { MapPin, CalendarDays, CircleDollarSign } from "lucide-react";
 import { motion } from "framer-motion";
 import { FaInfoCircle } from "react-icons/fa";
@@ -14,6 +13,7 @@ import Button from "@/ui/Button";
 import { useMovieData } from "@/hooks/useMovieData";
 import MovieSeatProceed from "@/components/ticket/MovieSeatProceed";
 import { useMoviePayment } from "@/hooks/useMoviePayment";
+import Link from "next/link";
 
 export default function MovieTicketPage() {
   const searchParams = useSearchParams();
@@ -110,14 +110,14 @@ export default function MovieTicketPage() {
     <PageLayout
       className="max-w-5xl flex flex-col gap-6 md:gap-10"
       imageURL={movieData.imageUrl}
-      title={movieData.title}
+      title={movieData.name}
     >
       {/* Event Info */}
       <div className="bg-base-100 border border-primary/20 rounded-md shadow-sm p-6 flex flex-col md:flex-row items-center md:items-start gap-6">
         <div className="relative w-full md:w-1/3 h-56 rounded-md overflow-hidden shadow-md">
           <Image
             src={movieData.imageUrl}
-            alt={movieData.title}
+            alt={movieData.name}
             fill
             className="object-cover"
           />
@@ -130,12 +130,11 @@ export default function MovieTicketPage() {
           </p>
           <p className="flex items-center gap-2">
             <CalendarDays className="size-4" />{" "}
-            {movieData.eventDateTime
-              ? format(new Date(movieData.eventDateTime), "PPPPp")
-              : "No Date Available"}
+            {movieData.date || "Unknown Date"}
+            {movieData.time && `, ${movieData.time}`}
           </p>
           <p className="flex items-center gap-2 text-lg font-semibold mt-2">
-            <CircleDollarSign className="size-5" /> {movieData.price} BDT / seat
+            <CircleDollarSign className="size-5" /> {movieData.ticketPrice} BDT / seat
           </p>
           {movieData.discount > 0 && (
                 <p>
@@ -150,7 +149,7 @@ export default function MovieTicketPage() {
 
           <Button
             label="View Details"
-            onClick={() => router.push(`/browse-events/${id}`)}
+            onClick={() => router.push(`/movies/${id}`)}
             className="mt-3 w-fit"
           />
         </div>

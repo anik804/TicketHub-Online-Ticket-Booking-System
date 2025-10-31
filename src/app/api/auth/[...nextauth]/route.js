@@ -19,7 +19,10 @@ export const authOptions = {
         const user = await Users.findOne({ email: credentials.email });
         if (!user) throw new Error("No user found with this email");
 
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
         if (!isValid) throw new Error("Invalid password");
 
         return {
@@ -41,6 +44,7 @@ export const authOptions = {
           id: profile.sub,
           name: profile.name,
           email: profile.email,
+          phone: profile.phone,
           image: profile.picture,
           role: "user",
           provider: "google",
@@ -56,6 +60,7 @@ export const authOptions = {
           id: profile.id.toString(),
           name: profile.name || profile.login,
           email: profile.email,
+          phone: profile.phone,
           image: profile.avatar_url,
           role: "user",
           provider: "github",
@@ -70,9 +75,9 @@ export const authOptions = {
     async signIn({ user, account }) {
       const Users = dbConnect("Users");
 
-      if (!user?.email){
-        throw new Error("Email is required")
-      };
+      if (!user?.email) {
+        throw new Error("Email is required");
+      }
 
       const existingUser = await Users.findOne({ email: user.email });
 
@@ -92,6 +97,7 @@ export const authOptions = {
           name: user.name,
           email: user.email,
           image: user.image,
+          phone: user.phone,
           role: user.role || "user",
           provider: account.provider,
           createdAt: new Date(),
@@ -106,6 +112,7 @@ export const authOptions = {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
+        token.phone = user.phone;
         token.role = user.role;
         token.image = user.image;
         token.provider = user.provider || "credentials";
@@ -118,6 +125,7 @@ export const authOptions = {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
+        session.user.phone = token.phone;
         session.user.role = token.role;
         session.user.image = token.image;
         session.user.provider = token.provider;

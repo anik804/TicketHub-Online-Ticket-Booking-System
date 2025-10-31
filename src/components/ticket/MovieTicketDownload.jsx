@@ -57,7 +57,7 @@ export default function MovieTicketDownload({ movieTicket, paymentHistory }) {
       head: [[{ content: "Event Details", colSpan: 2 }]],
       headStyles: { halign: "center", fillColor: [217, 108, 44], textSize: 14 },
       body: [
-        ["Title", movieTicket.title || "N/A"],
+        ["Title", movieTicket.name || "N/A"],
         ["Date & Time", movieTicket.eventDateTime || "N/A"],
         ["Venue", movieTicket.location || "N/A"],
         ["Seat", movieTicket.seats || "Not Assigned"],

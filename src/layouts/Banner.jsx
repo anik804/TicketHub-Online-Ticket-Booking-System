@@ -5,90 +5,106 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useEffect } from "react";
+import { TypeAnimation } from "react-type-animation";
 
 export default function Banner() {
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@700&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }, []);
+
   const slides = [
     {
-      title: "Discover & Book Events Instantly",
+      title: "Discover & Book Instantly For Sports",
       desc: "Experience seamless ticket booking with live event updates — anytime, anywhere.",
-      bg: "https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?w=1400&auto=format&fit=crop&q=80",
+      bg: "https://i.ibb.co.com/gZYZX7vK/jannes-glas-0-Na-QQs-LWLk-A-unsplash.jpg",
     },
     {
-      title: "Real-Time Ticket Availability",
-      desc: "Get live seat updates and instant confirmations for your favorite shows.",
-      bg: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170",
+      title: "Real-Time Ticket Updates For Movies",
+      desc: "Get live seat availability and instant confirmations for your favorite shows.",
+      bg: "https://i.ibb.co/hF2fzMW8/jake-hills-23-LET4-Hxj-U-unsplash.jpg",
     },
     {
-      title: "Join Exciting Concerts & Festivals",
+      title: "Join Concerts & Events",
       desc: "From music nights to sports events — book and enjoy the experience live.",
-      bg: "https://images.unsplash.com/photo-1619229724813-32decfc1c345?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGZlc3RpdmFscyUyMGFuZCUyMGNvbmNlcnRzfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=6000",
+      bg: "https://i.ibb.co.com/FbdzVq4J/med-mhamdi-m-H-E0-K581-Yk-unsplash.jpg",
     },
   ];
 
-  const letterVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.04, type: "spring", stiffness: 300 },
-    }),
-  };
-
   return (
-    <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden">
+    <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden font-[Poppins]">
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 6000, disableOnInteraction: false }}
         loop={true}
         className="h-full"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div
-              className="relative w-full h-full bg-cover bg-center flex items-center justify-center"
+              className="relative w-full h-full bg-cover bg-center flex items-center  justify-center"
               style={{ backgroundImage: `url(${slide.bg})` }}
             >
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
-
+               {/* Dark Overlay */}
+    <div className="absolute inset-0 bg-black/60"></div>
+    
               {/* Content */}
               <motion.div
-                initial="hidden"
-                animate="visible"
-                className="relative z-10 text-center text-white px-4 sm:px-8 md:px-16 max-w-3xl"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                className="relative z-10 text-center text-white px-6 sm:px-10 md:px-20 max-w-3xl"
               >
-                {/* Animated Title with typography styles */}
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight drop-shadow-lg tracking-wide uppercase">
-                  {slide.title.split(" ").map((word, i) => (
-                    <motion.span
-                      key={i}
-                      custom={i}
-                      variants={letterVariants}
-                      className="mr-2 inline-block"
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
+                {/* Typewriter Title */}
+                <h1 className="text-3xl sm:text-3xl md:text-4xl font-[Playfair_Display] font-extrabold mb-4 uppercase tracking-wide text-orange-500">
+                  <TypeAnimation
+                    sequence={[slide.title, 3000, ""]}
+                    speed={60}
+                    deletionSpeed={40}
+                    repeat={Infinity}
+                    wrapper="span"
+                  />
                 </h1>
 
-                {/* Animated Description */}
-                <motion.p
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 1 }}
-                  className="text-sm sm:text-base md:text-lg mb-8 text-white/90 leading-relaxed italic tracking-tight"
-                >
+                {/* Description */}
+                <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-8 italic leading-relaxed max-w-2xl mx-auto">
                   {slide.desc}
-                </motion.p>
+                </p>
 
-                {/* Button */}
-                <Link
-                  href={"browse-events"}
-                  className="px-6 sm:px-8 py-3 bg-[#d96c2c] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[#b45720] transition-all duration-300 shadow-lg"
+                {/* Animated Button */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1, duration: 0.8 }}
                 >
-                  Browse Events
-                </Link>
+                  <motion.div
+                    animate={{
+                      boxShadow: [
+                        "0 0 10px #f97316",
+                        "0 0 25px #f97316",
+                        "0 0 10px #f97316",
+                      ],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="inline-block rounded-full"
+                  >
+                    <Link
+                      href="/browse-events"
+                      className="block px-8 py-2 sm:px-10 sm:py-3 bg-[#f97316] text-white font-semibold text-base sm:text-lg rounded hover:bg-white hover:text-[#f97316] transition-all duration-300 shadow-lg"
+                    >
+                      Browse Events
+                    </Link>
+                  </motion.div>
+                </motion.div>
               </motion.div>
             </div>
           </SwiperSlide>

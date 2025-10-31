@@ -9,6 +9,8 @@ import { FaTicketAlt } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Menu } from "lucide-react";
 import ThemeToggler from "./ThemeToggler";
+import Button from "@/ui/Button";
+import { MdOutlineArrowForward } from "react-icons/md";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -151,35 +153,28 @@ export default function Navbar() {
                   />
                 </div>
               </div>
-              <ul className="menu dropdown-content mt-3 w-52 shadow-lg bg-black rounded-lg p-2 text-gray-300">
-                <li>
-                  <Link
-                    href="/profile"
-                    className="hover:text-gray-500 rounded-md"
-                  >
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`/dashboard`}
-                    className="hover:text-gray-500 rounded-md"
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    onClick={handleLogout}
-                    disabled={isLoggingOut}
-                    className={`w-full text-[#d96c2c] hover:text-gray-500 rounded-md px-3 py-1 transition-all ${
-                      isLoggingOut ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  >
-                    {isLoggingOut ? "Logging out..." : "Logout"}
-                  </button>
-                </li>
-              </ul>
+              <div className="menu dropdown-content mt-3 w-52 shadow-lg bg-black rounded-lg p-2 text-gray-300">
+                <div className="flex flex-col gap-1 bg-gray-50/10 p-4 rounded-md">
+                  <strong className="text-primary text-lg">
+                    {session?.user?.name}
+                  </strong>
+                  <span className="text-gray-400">{session?.user?.email}</span>
+                </div>
+  
+                <Link
+                  href={`/dashboard`}
+                  className="hover:text-gray-500 flex items-center gap-1 my-3 hover:gap-3 transition-all duration-300 ease-in-out"
+                >
+                  <span>Dashboard</span><MdOutlineArrowForward />
+                </Link>
+                
+            
+                <Button
+                  label={"Logout"}
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                />
+              </div>
             </div>
           )}
         </div>
