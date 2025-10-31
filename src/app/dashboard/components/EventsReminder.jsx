@@ -170,7 +170,7 @@ export default function EventsReminder() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-base-100 p-4 sm:p-6 lg:p-8"
+      className="min-h-screen  p-4 sm:p-6 lg:p-8"
     >
       {/* Header Section */}
       <motion.div
@@ -178,10 +178,10 @@ export default function EventsReminder() {
         animate={{ opacity: 1, x: 0 }}
         className="mb-8"
       >
-        <h2 className="text-3xl font-bold text-accent lg:text-4xl">
+        <h2 className="text-3xl font-bold text-primary lg:text-4xl">
           Event Reminder System
         </h2>
-        <p className="mt-2 text-sm text-base-content/70">
+        <p className="mt-2 text-sm text-gray-500">
           Send automatic reminders to users about upcoming events
         </p>
       </motion.div>
