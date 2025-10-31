@@ -12,8 +12,10 @@ import {
   FaUsers,
   FaUserShield,
   FaCalendarAlt,
+  FaCross,
 } from "react-icons/fa";
 import { HiOutlineHome } from "react-icons/hi2";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 import { TbJewishStar } from "react-icons/tb";
 
 export const dashboardLinks = {
@@ -21,7 +23,7 @@ export const dashboardLinks = {
   user: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "Profile", href: "/profile", icon: <FaRegUser /> },
-    { label: "Settings", href: "/settings", icon: <FaUserCog /> },
+
     { label: "User Reminder", href: "/user-reminder", icon: <FaBell /> },
     { label: "My Tickets", href: "/my-tickets", icon: <FaTicketAlt /> },
     { label: "Movies Payments", href: "/movies-payments", icon: <FaFilm /> },
@@ -44,6 +46,11 @@ export const dashboardLinks = {
       icon: <FaBell />,
     },
     {
+      label: "Ticket Cancellation",
+      href: "/ticket-cancellation",
+      icon: <IoMdCloseCircleOutline />,
+    },
+    {
       label: "Payment History",
       href: "/payment-history",
       icon: <FaMoneyCheckAlt />,
@@ -58,6 +65,7 @@ export const dashboardLinks = {
       href: "/movie-managements",
       icon: <FaClipboardList />,
     },
+
     { label: "Reminder", href: "/reminder", icon: <FaBell /> },
     {
       label: "Payment History",

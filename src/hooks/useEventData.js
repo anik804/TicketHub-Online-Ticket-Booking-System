@@ -18,8 +18,10 @@ export const useEventData = (id) => {
     },
     enabled: !!id,
     retry: 1,
-    refetchInterval: 1000,
-    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   return { eventData, eventLoading, eventError, refetch };
