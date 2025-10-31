@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import EventCard from "@/components/event/EvantCard";
 import { FaSearch } from "react-icons/fa";
+import Link from "next/link";
 
 export default function BrowseEvents() {
   const [events, setEvents] = useState([]);
@@ -102,7 +103,7 @@ export default function BrowseEvents() {
 
       {/* Filter Row */}
       <div className="mt-10 w-full lg:w-4/5 flex flex-col md:flex-row gap-4 mb-10 mx-auto items-center">
-        <div className="flex items-center w-full gap-3">
+        <div className="flex items-center flex-1 gap-3">
           <span className="min-w-[3rem] h-12 text-2xl border border-base-200 rounded-md shadow-sm flex items-center justify-center text-base-300 bg-base-100">
             <FaSearch />
           </span>
@@ -139,6 +140,10 @@ export default function BrowseEvents() {
             Competition / Contest 🏆
           </option>
         </select>
+
+        <Link href="/nearby-events" className="h-12 text-lg border border-base-200 rounded-md px-3 bg-primary/90 hover:bg-primary text-white shadow-sm flex items-center justify-center gap-2 transition-all">
+          Nearby Events
+        </Link>
       </div>
 
       {/* Loading */}

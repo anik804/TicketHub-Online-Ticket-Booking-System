@@ -31,8 +31,8 @@ export default function AdminUsersPage() {
       {users.length === 0 ? (
         <p className="text-gray-600">No users found.</p>
       ) : (
-        <table className="min-w-full border border-gray-200 rounded-lg shadow-md">
-          <thead className="bg-gray-100">
+        <table className="min-w-full border border-gray-600 rounded-lg shadow-md">
+          <thead className="bg-gray-600">
             <tr>
               <th className="px-4 py-2 border">#</th>
               <th className="px-4 py-2 border">Name</th>
@@ -43,7 +43,7 @@ export default function AdminUsersPage() {
           </thead>
           <tbody>
             {users.map((user, idx) => (
-              <tr key={user._id} className="hover:bg-gray-50">
+              <tr key={user._id} className="hover:bg-gray-500">
                 <td className="px-4 py-2 border text-center">{idx + 1}</td>
                 <td className="px-4 py-2 border">{user.name}</td>
                 <td className="px-4 py-2 border">{user.email}</td>

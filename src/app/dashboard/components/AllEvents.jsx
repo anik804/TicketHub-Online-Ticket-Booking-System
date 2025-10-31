@@ -94,12 +94,12 @@ export default function AllEvents() {
                   {event.eventDateTime}
                 </p>
                 <p className="mt-2 text-gray-700">{event.location}</p>
-                <p className="font-bold text-red-600 mt-3 text-lg">
+                <p className="font-bold text-primary mt-3 text-lg">
                   ৳{event.price}
                 </p>
               </div>
 
-              <button className="mt-5 w-full btn bg-red-600 text-white rounded-xl hover:bg-red-700 transition">
+              <button className="mt-5 w-full btn bg-primary text-white rounded-xl hover:bg-red-700 transition">
                 View Details
               </button>
             </div>
