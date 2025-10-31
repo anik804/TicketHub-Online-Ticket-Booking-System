@@ -69,14 +69,14 @@ export default function AdminOverview() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="min-h-screen bg-gradient-to-br from-base-100 to-base-200 p-4 sm:p-6 lg:p-8"
+      className="min-h-screen w-full p-4 sm:p-6 lg:p-8 my-12"
     >
       {/* Header Section */}
       <motion.div variants={cardVariants} className="mb-8">
-        <h2 className="text-3xl font-bold text-accent lg:text-4xl">
+        <h2 className="text-3xl font-bold text-primary lg:text-4xll">
           📊 Admin Dashboard Overview
         </h2>
-        <p className="mt-2 text-sm text-base-content/70">
+        <p className="mt-2 text-sm text-gray-500">
           Monitor your platform's performance and key metrics
         </p>
       </motion.div>
@@ -90,7 +90,7 @@ export default function AdminOverview() {
         <motion.div
           variants={cardVariants}
           whileHover={{ scale: 1.03, y: -5 }}
-          className="card bg-gradient-to-br from-primary/10 to-primary/5 shadow-xl transition-all duration-300 hover:shadow-2xl"
+          className="card border border-base-300 bg-base-200 shadow-xl transition-all duration-300 hover:shadow-2xl"
         >
           <div className="card-body">
             <div className="flex items-center justify-between">
@@ -143,7 +143,7 @@ export default function AdminOverview() {
         <motion.div
           variants={cardVariants}
           whileHover={{ scale: 1.03, y: -5 }}
-          className="card bg-gradient-to-br from-secondary/10 to-secondary/5 shadow-xl transition-all duration-300 hover:shadow-2xl"
+          className="card border border-base-300 bg-base-200 shadow-xl transition-all duration-300 hover:shadow-2xl"
         >
           <div className="card-body">
             <div className="flex items-center justify-between">
@@ -196,7 +196,7 @@ export default function AdminOverview() {
         <motion.div
           variants={cardVariants}
           whileHover={{ scale: 1.03, y: -5 }}
-          className="card bg-gradient-to-br from-accent/10 to-accent/5 shadow-xl transition-all duration-300 hover:shadow-2xl"
+          className="card border border-base-300 bg-base-200 shadow-xl transition-all duration-300 hover:shadow-2xl"
         >
           <div className="card-body">
             <div className="flex items-center justify-between">
@@ -254,7 +254,7 @@ export default function AdminOverview() {
         {/* Bar Chart */}
         <motion.div
           variants={cardVariants}
-          className="card bg-base-100 shadow-2xl"
+          className="card border border-base-300 bg-base-200 shadow-2xl"
         >
           <div className="card-body">
             <div className="mb-4 flex items-center justify-between">
@@ -266,7 +266,7 @@ export default function AdminOverview() {
                   User & event statistics
                 </p>
               </div>
-              <div className="badge badge-primary gap-2 px-4 py-3">
+              <div className="badge badge-primary gap-2 px-4 py-3 text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4"
@@ -290,17 +290,18 @@ export default function AdminOverview() {
                 <XAxis
                   dataKey="name"
                   tick={{ fill: "currentColor" }}
-                  axisLine={{ stroke: "#e5e7eb" }}
+                  stroke="hsl(var(--bc) / 0.2)"
                 />
                 <YAxis
                   tick={{ fill: "currentColor" }}
-                  axisLine={{ stroke: "#e5e7eb" }}
+                  stroke="hsl(var(--bc) / 0.2)"
                 />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "hsl(var(--b1))",
                     border: "1px solid hsl(var(--b3))",
                     borderRadius: "0.5rem",
+                    color: "hsl(var(--bc))",
                   }}
                 />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
@@ -319,7 +320,7 @@ export default function AdminOverview() {
         {/* Pie Chart */}
         <motion.div
           variants={cardVariants}
-          className="card bg-base-100 shadow-2xl"
+          className="card border border-base-300 bg-base-200 shadow-2xl"
         >
           <div className="card-body">
             <div className="mb-4 flex items-center justify-between">
@@ -331,7 +332,7 @@ export default function AdminOverview() {
                   Breakdown by category
                 </p>
               </div>
-              <div className="badge badge-secondary gap-2 px-4 py-3">
+              <div className="badge badge-secondary gap-2 px-4 py-3 text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4"
@@ -387,6 +388,7 @@ export default function AdminOverview() {
                     backgroundColor: "hsl(var(--b1))",
                     border: "1px solid hsl(var(--b3))",
                     borderRadius: "0.5rem",
+                    color: "hsl(var(--bc))",
                   }}
                 />
               </PieChart>
@@ -398,7 +400,7 @@ export default function AdminOverview() {
       {/* Quick Stats Footer */}
       <motion.div
         variants={cardVariants}
-        className="mt-8 rounded-xl bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 p-6"
+        className="mt-8 rounded-xl border border-base-300 bg-base-200 p-6 shadow-lg"
       >
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           <div className="text-center">
