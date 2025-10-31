@@ -2,12 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import {
+  Users,
+  ShieldCheck,
+  User,
+  Mail,
+  ArrowUp,
+  CheckCircle,
+  Search,
+} from "lucide-react";
 import Loader from "./shared/Loader";
 import toast from "react-hot-toast";
 
 export default function MakeOrganizer() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch all users
   useEffect(() => {
@@ -49,145 +59,152 @@ export default function MakeOrganizer() {
     }
   };
 
+  // Filter users based on search
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (loading) return <Loader />;
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-br from-base-100 to-base-200 p-4 sm:p-6 lg:p-8"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="min-h-screen  p-4 sm:p-6 lg:p-8"
     >
       {/* Header Section */}
-      <div className="mb-8">
-        <motion.h2
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-3xl font-bold text-accent lg:text-4xl"
-        >
-          User Management Dashboard
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mt-2 text-sm text-base-content/70"
-        >
+      <motion.div variants={itemVariants} className="mb-8">
+        <h2 className="text-3xl font-bold text-primary lg:text-4xl">
+           User Management Dashboard
+        </h2>
+        <p className="mt-2 text-sm text-gray-500">
           Manage user roles and permissions efficiently
-        </motion.p>
-      </div>
+        </p>
+      </motion.div>
 
       {/* Stats Section */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        variants={containerVariants}
         className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3"
       >
-        <div className="stats bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg">
+        <motion.div
+          variants={itemVariants}
+          className="stats bg-base-200 shadow-lg"
+        >
           <div className="stat">
             <div className="stat-figure text-primary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block h-8 w-8 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
+              <Users className="h-8 w-8" />
             </div>
-            <div className="stat-title font-semibold">Total Users</div>
+            <div className="stat-title">Total Users</div>
             <div className="stat-value text-primary">{users.length}</div>
             <div className="stat-desc">All registered users</div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="stats bg-gradient-to-br from-secondary/10 to-secondary/5 shadow-lg">
+        <motion.div
+          variants={itemVariants}
+          className="stats bg-base-200 shadow-lg"
+        >
           <div className="stat">
             <div className="stat-figure text-secondary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block h-8 w-8 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                />
-              </svg>
+              <ShieldCheck className="h-8 w-8" />
             </div>
-            <div className="stat-title font-semibold">Organizers</div>
+            <div className="stat-title">Organizers</div>
             <div className="stat-value text-secondary">
               {users.filter((u) => u.role === "Organizer").length}
             </div>
             <div className="stat-desc">Active organizers</div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="stats bg-gradient-to-br from-accent/10 to-accent/5 shadow-lg">
+        <motion.div
+          variants={itemVariants}
+          className="stats bg-base-200 shadow-lg"
+        >
           <div className="stat">
             <div className="stat-figure text-accent">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block h-8 w-8 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
+              <User className="h-8 w-8" />
             </div>
-            <div className="stat-title font-semibold">Regular Users</div>
+            <div className="stat-title">Regular Users</div>
             <div className="stat-value text-accent">
               {users.filter((u) => u.role === "user").length}
             </div>
             <div className="stat-desc">Standard access</div>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Search Bar */}
+      <motion.div variants={itemVariants} className="mb-6">
+        <div className="form-control">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search users by name or email..."
+              className="input input-bordered bg-base-200 text-base-content focus:border-primary focus:outline-none w-full pr-10"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-base-content/40" />
           </div>
         </div>
       </motion.div>
 
       {/* Table Section */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="card bg-base-100 shadow-2xl"
+        variants={itemVariants}
+        className="card border border-base-300 bg-base-100 shadow-2xl"
       >
         <div className="card-body p-0">
-          <div className="overflow-x-auto">
+          {/* Desktop Table */}
+          <div className="hidden overflow-x-auto lg:block">
             <table className="table">
               {/* Table Header */}
               <thead>
-                <tr className="border-b-2 border-base-300 bg-gradient-to-r from-primary/5 to-secondary/5">
-                  <th className="text-left text-base font-bold">No.</th>
-                  <th className="text-base font-bold">User</th>
-                  <th className="text-base font-bold">Email</th>
-                  <th className="text-center text-base font-bold">Role</th>
-                  <th className="text-center text-base font-bold">Action</th>
+                <tr className="border-b-2 border-base-300 bg-base-200">
+                  <th className="text-center text-base font-bold text-base-content">
+                    No.
+                  </th>
+                  <th className="text-base font-bold text-base-content">
+                    User
+                  </th>
+                  <th className="text-base font-bold text-base-content">
+                    Email
+                  </th>
+                  <th className="text-center text-base font-bold text-base-content">
+                    Role
+                  </th>
+                  <th className="text-center text-base font-bold text-base-content">
+                    Action
+                  </th>
                 </tr>
               </thead>
 
               {/* Table Body */}
               <tbody>
-                {users.map((user, i) => (
+                {filteredUsers.map((user, i) => (
                   <motion.tr
                     key={user._id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="border-b border-base-200 transition-all duration-200 hover:bg-base-200/50"
+                    className="border-b border-base-300 hover:bg-base-200/50"
                   >
                     <td className="text-center">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
@@ -221,21 +238,8 @@ export default function MakeOrganizer() {
                     {/* Email */}
                     <td>
                       <div className="flex items-center gap-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4 text-base-content/40"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                          />
-                        </svg>
-                        <span className="text-sm text-gray-400">
+                        <Mail className="h-4 w-4 text-base-content/40" />
+                        <span className="text-sm text-base-content">
                           {user.email}
                         </span>
                       </div>
@@ -245,38 +249,12 @@ export default function MakeOrganizer() {
                     <td className="text-center">
                       {user.role === "Organizer" ? (
                         <div className="badge badge-success gap-2 px-4 py-3 font-semibold">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
+                          <CheckCircle className="h-4 w-4" />
                           Organizer
                         </div>
                       ) : (
                         <div className="badge badge-ghost gap-2 px-4 py-3">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                            />
-                          </svg>
+                          <User className="h-4 w-4" />
                           User
                         </div>
                       )}
@@ -287,43 +265,14 @@ export default function MakeOrganizer() {
                       {user.role === "user" ? (
                         <button
                           onClick={() => handleMakeOrganizer(user._id)}
-                          className="btn btn-primary btn-sm gap-2 transition-all duration-200 hover:scale-105"
+                          className="btn btn-primary btn-sm gap-2 text-white transition-all duration-200 hover:scale-105"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 10l7-7m0 0l7 7m-7-7v18"
-                            />
-                          </svg>
+                          <ArrowUp className="h-4 w-4" />
                           Promote
                         </button>
                       ) : (
-                        <button
-                          className="btn btn-success btn-sm gap-2"
-                          disabled
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
+                        <button className="btn btn-success btn-sm gap-2" disabled>
+                          <CheckCircle className="h-4 w-4" />
                           Active
                         </button>
                       )}
@@ -334,33 +283,121 @@ export default function MakeOrganizer() {
             </table>
           </div>
 
-          {/* Empty State */}
-          {users.length === 0 && (
-            <div className="py-16 text-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="mx-auto h-16 w-16 text-base-content/20"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          {/* Mobile Cards */}
+          <div className="space-y-4 p-4 lg:hidden">
+            {filteredUsers.map((user, index) => (
+              <motion.div
+                key={user._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="card border border-base-300 bg-base-200 shadow-md"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
+                <div className="card-body p-4">
+                  {/* Header */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle h-12 w-12 ring-2 ring-primary/20">
+                          <img
+                            src={user.photo || "/default-avatar.png"}
+                            alt={user.name}
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="font-bold text-accent">{user.name}</p>
+                        <p className="text-xs text-base-content/50">
+                          {user._id.slice(-6)}
+                        </p>
+                      </div>
+                    </div>
+                    {user.role === "Organizer" ? (
+                      <span className="badge badge-success badge-sm">
+                        Organizer
+                      </span>
+                    ) : (
+                      <span className="badge badge-ghost badge-sm">User</span>
+                    )}
+                  </div>
+
+                  <div className="divider my-2"></div>
+
+                  {/* Email */}
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-base-content/60" />
+                    <span className="text-sm text-base-content">
+                      {user.email}
+                    </span>
+                  </div>
+
+                  {/* Action Button */}
+                  {user.role === "user" ? (
+                    <button
+                      onClick={() => handleMakeOrganizer(user._id)}
+                      className="btn btn-primary btn-sm mt-3 w-full gap-2 text-white"
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                      Promote to Organizer
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-success btn-sm mt-3 w-full gap-2"
+                      disabled
+                    >
+                      <CheckCircle className="h-4 w-4" />
+                      Already Organizer
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Empty State */}
+          {filteredUsers.length === 0 && (
+            <div className="py-16 text-center">
+              <Users className="mx-auto h-16 w-16 text-base-content/20" />
               <p className="mt-4 text-lg font-semibold text-base-content/50">
                 No users found
               </p>
               <p className="text-sm text-base-content/30">
-                Users will appear here once registered
+                {searchTerm
+                  ? "Try adjusting your search"
+                  : "Users will appear here once registered"}
               </p>
             </div>
           )}
         </div>
       </motion.div>
+
+      {/* Summary Footer */}
+      {filteredUsers.length > 0 && (
+        <motion.div
+          variants={itemVariants}
+          className="mt-6 rounded-xl border border-base-300 bg-base-200 p-4 shadow-lg"
+        >
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <p className="text-sm text-base-content/70">
+              Showing {filteredUsers.length} of {users.length} users
+            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-base-content">
+                Promotion Rate:
+              </span>
+              <span className="text-lg font-bold text-primary">
+                {(
+                  (users.filter((u) => u.role === "Organizer").length /
+                    users.length) *
+                    100 || 0
+                ).toFixed(1)}
+                %
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </motion.div>
   );
 }
