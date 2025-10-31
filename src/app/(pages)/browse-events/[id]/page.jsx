@@ -1,15 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Button from "@/ui/Button";
 
 export default function EventDetailsPage() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState(null);
+
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!id) return;
@@ -168,12 +172,8 @@ export default function EventDetailsPage() {
             </div>
 
             {/* Buy Button */}
-            <Link
-              href={`/ticket/event?id=${id}`}
-              className="w-full flex justify-center py-3 bg-primary text-white text-lg font-semibold rounded-xl shadow-md hover:scale-[1.02] transition-all duration-300"
-            >
-              Buy Ticket 🎫
-            </Link>
+
+            <Button label={"Buy Ticket"} onClick={() => router.push(`/ticket/event?id=${id}`)} />
           </div>
         </div>
       </div>
