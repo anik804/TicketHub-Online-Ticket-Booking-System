@@ -229,8 +229,9 @@ export default function Register() {
             onChange={handleChange}
             className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           >
-            <option value="user">user</option>
-            <option value="Organizer">Organizer</option>
+            <option value="user">User</option>
+            <option value="organizer">Organizer</option>
+            <option value="movieAdmin">Movie Admin</option>
           </select>
         </div>
 

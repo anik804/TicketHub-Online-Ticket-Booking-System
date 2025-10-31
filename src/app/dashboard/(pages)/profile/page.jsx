@@ -13,8 +13,8 @@ export default function ProfilePage() {
 
   if (!session) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-2xl font-semibold text-gray-700">
+      <div className="flex flex-col items-center justify-center h-screen bg-[#0a0a0a] text-gray-200">
+        <h1 className="text-2xl font-semibold">
           Please log in to view your profile.
         </h1>
       </div>
@@ -37,11 +37,10 @@ export default function ProfilePage() {
       if (res.ok) {
         toast.success("Profile updated successfully ✅");
 
-        // Force session update for all components (Navbar)
         await signIn("credentials", {
           redirect: false,
           email: session.user.email,
-          password: "", // keep empty since we just need to refresh session
+          password: "",
         });
       } else {
         toast.error(data.error || "Failed to update profile ❌");
@@ -54,51 +53,56 @@ export default function ProfilePage() {
   };
 
   return (
-    <DashboardSection title="Profile">
-      <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white px-4">
-      <Toaster position="top-center" />
-      <div className="bg-gray-900 p-6 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
+    <DashboardSection title="My Profile">
+      <div className="min-h-screen w-full bg-gradient-to-b text-white py-10 px-4">
+        <Toaster position="top-center" />
+        <div className="max-w-3xl mx-auto bg-[#1b1b1b] border border-[#333] rounded-2xl shadow-lg p-8 w-full">
 
-        <div className="flex flex-col items-center mb-6">
-          <img
-            src={image || "/default-avatar.png"}
-            alt="Profile"
-            className="w-24 h-24 rounded-full border-2 border-red-500"
-          />
+          <div className="flex flex-col items-center mb-8">
+            <img
+              src={image || "/default-avatar.png"}
+              alt="Profile"
+              className="w-28 h-28 rounded-full border-4 border-orange-500 shadow-md object-cover"
+            />
+          </div>
+
+          <form onSubmit={handleUpdate} className="flex flex-col gap-6">
+            <div>
+              <label className="block mb-2 text-gray-300 font-medium">
+                Name
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2 rounded-lg bg-[#222] border border-[#444] text-white focus:outline-none focus:border-orange-500 transition"
+                placeholder="Enter your name"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 text-gray-300 font-medium">
+                Profile Photo URL
+              </label>
+              <input
+                type="text"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                className="w-full px-4 py-2 rounded-lg bg-[#222] border border-[#444] text-white focus:outline-none focus:border-orange-500 transition"
+                placeholder="Paste image URL"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-lg transition shadow-md hover:shadow-orange-600/40 disabled:opacity-60"
+            >
+              {loading ? "Updating..." : "Update Profile"}
+            </button>
+          </form>
         </div>
-
-        <form onSubmit={handleUpdate} className="flex flex-col gap-4">
-          <div>
-            <label className="block mb-1">Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1">Profile Photo URL</label>
-            <input
-              type="text"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              className="w-full px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded"
-          >
-            {loading ? "Updating..." : "Update Profile"}
-          </button>
-        </form>
       </div>
-    </div>
     </DashboardSection>
   );
 }

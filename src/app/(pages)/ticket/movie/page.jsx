@@ -134,14 +134,15 @@ export default function MovieTicketPage() {
             {movieData.time && `, ${movieData.time}`}
           </p>
           <p className="flex items-center gap-2 text-lg font-semibold mt-2">
-            <CircleDollarSign className="size-5" /> {movieData.ticketPrice} BDT / seat
+            <CircleDollarSign className="size-5" /> {movieData.ticketPrice} BDT
+            / seat
           </p>
           {movieData.discount > 0 && (
-                <p>
-                  Discount:{" "}
-                  <span className="font-semibold">{movieData.discount}%</span>
-                </p>
-              )}
+            <p>
+              Discount:{" "}
+              <span className="font-semibold">{movieData.discount}%</span>
+            </p>
+          )}
           <p className="flex items-center gap-1 text-xs text-gray-500 mt-1">
             <FaInfoCircle className="size-3" /> You can change currency during
             payment.

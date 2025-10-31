@@ -10,8 +10,6 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
   PieChart,
   Pie,
   Cell,
@@ -46,23 +44,19 @@ export default function OrganizerOverview() {
     { name: "Other", value: 10 },
   ];
 
-  const COLORS = ["#f97316", "#fb923c", "#fdba74", "#fed7aa"]; // orange theme
+  const COLORS = ["#f97316", "#fb923c", "#fdba74", "#ffedd5"]; // orange palette
 
   useEffect(() => {
     if (!session) return;
-
     const fetchStats = async () => {
       try {
-        const res = await fetch(
-          `/api/organizer/stats?email=${session.user.email}`
-        );
+        const res = await fetch(`/api/organizer/stats?email=${session.user.email}`);
         const data = await res.json();
         if (res.ok) setStats(data);
       } catch (err) {
         console.error("Failed to fetch stats:", err);
       }
     };
-
     fetchStats();
   }, [session]);
 
@@ -71,15 +65,15 @@ export default function OrganizerOverview() {
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="pt-10 w-full"
+        transition={{ duration: 0.6 }}
+        className="pt-10 w-full text-white min-h-screen"
       >
         {/* Organizer Info */}
-        <div className="mb-10 p-6 bg-white rounded-2xl shadow-lg border border-orange-100">
-          <h2 className="text-3xl font-semibold mb-3 text-gray-800">
+        <div className="mb-10 p-6 bg-[#1e1e1e] rounded-2xl shadow-lg border border-orange-600/20">
+          <h2 className="text-3xl font-semibold mb-2 text-orange-400">
             Welcome, {session?.user.name || "Organizer"} 🎤
           </h2>
-          <p className="text-gray-600">Email: {session?.user.email}</p>
+          <p className="text-gray-400 text-sm">Email: {session?.user.email}</p>
         </div>
 
         {/* Stats Section */}
@@ -88,51 +82,60 @@ export default function OrganizerOverview() {
             title="Total Events"
             value={stats.totalEvents}
             color="bg-orange-500"
+            icon="📅"
           />
           <StatCard
             title="Pending Events"
             value={stats.pendingEvents}
             color="bg-orange-400"
+            icon="⏳"
           />
           <StatCard
             title="Total Profit"
             value={`$${stats.totalProfit.toLocaleString()}`}
             color="bg-orange-600"
+            icon="💰"
           />
         </div>
 
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Line Chart - Event Growth */}
+          {/* Line Chart */}
           <motion.div
-            className="bg-white p-6 rounded-2xl shadow-lg border border-orange-100"
-            whileHover={{ scale: 1.01 }}
+            className="bg-[#1e1e1e] p-6 rounded-2xl shadow-lg border border-orange-600/20 hover:border-orange-500/40 transition"
+            whileHover={{ scale: 1.02 }}
           >
-            <h3 className="text-xl font-bold mb-4 text-gray-800">
+            <h3 className="text-xl font-bold mb-4 text-orange-400">
               Event Growth Overview
             </h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={eventTrend}>
-                <XAxis dataKey="month" stroke="#888" />
-                <YAxis />
-                <Tooltip />
+                <XAxis dataKey="month" stroke="#999" />
+                <YAxis stroke="#999" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#222",
+                    border: "1px solid #f97316",
+                    color: "#fff",
+                  }}
+                />
                 <Line
                   type="monotone"
                   dataKey="events"
                   stroke="#f97316"
                   strokeWidth={3}
-                  dot={{ r: 4, fill: "#f97316" }}
+                  dot={{ r: 5, fill: "#f97316" }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </motion.div>
 
-          {/* Pie Chart - Revenue Breakdown */}
+          {/* Pie Chart */}
           <motion.div
-            className="bg-white p-6 rounded-2xl shadow-lg border border-orange-100"
-            whileHover={{ scale: 1.01 }}
+            className="bg-[#1e1e1e] p-6 rounded-2xl shadow-lg border border-orange-600/20 hover:border-orange-500/40 transition"
+            whileHover={{ scale: 1.02 }}
           >
-            <h3 className="text-xl font-bold mb-4 text-gray-800">
+            <h3 className="text-xl font-bold mb-4 text-orange-400">
               Revenue Breakdown by Category
             </h3>
             <ResponsiveContainer width="100%" height={300}>
@@ -142,16 +145,21 @@ export default function OrganizerOverview() {
                   dataKey="value"
                   nameKey="name"
                   outerRadius={120}
-                  label
+                  label={({ name, percent }) =>
+                    `${name}: ${(percent * 100).toFixed(0)}%`
+                  }
                 >
                   {revenueBreakdown.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#222",
+                    border: "1px solid #f97316",
+                    color: "#fff",
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </motion.div>
@@ -161,15 +169,18 @@ export default function OrganizerOverview() {
   );
 }
 
-// Stat Card component
-function StatCard({ title, value, color }) {
+// Reusable StatCard Component
+function StatCard({ title, value, color, icon }) {
   return (
     <motion.div
-      className="p-6 rounded-2xl shadow-md border border-orange-100 bg-white flex flex-col items-start justify-between hover:shadow-xl transition"
+      className="p-6 rounded-2xl bg-[#1e1e1e] border border-orange-600/20 hover:border-orange-500/40 shadow-md flex flex-col items-start justify-between transition"
       whileHover={{ scale: 1.05 }}
     >
-      <p className="text-sm text-gray-500 font-medium mb-1">{title}</p>
-      <h2 className={`text-3xl font-bold text-gray-800`}>{value}</h2>
+      <div className="flex items-center justify-between w-full mb-2">
+        <span className="text-xl">{icon}</span>
+        <p className="text-gray-400 text-sm font-medium">{title}</p>
+      </div>
+      <h2 className="text-3xl font-bold text-white">{value}</h2>
       <div className={`mt-3 h-1 w-full rounded-full ${color}`}></div>
     </motion.div>
   );

@@ -32,7 +32,7 @@ export default function PageLayout({ className, children, title, imageURL }) {
             width={500}
             height={500}
             alt="background"
-            className="h-[97%] w-full object-cover absolute top-0 left-0 z-1 bg-black"
+            className="h-[97%] w-full object-cover absolute top-0 left-0 z-1 bg-black/60 backdrop-blur-[5px]"
           />
         )}
         <div className="w-full h-[97%] absolute top-0 left-0 z-2 bg-gradient-to-b from-black/50 via-transparent to-black/50" />

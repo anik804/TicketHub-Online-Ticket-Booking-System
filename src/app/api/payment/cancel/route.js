@@ -1,70 +1,152 @@
 import { dbConnect } from "@/libs/dbConnect";
 import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
 
-// ================================
-// GET: Fetch all pending cancellations
-// ================================
+/**
+ * ================================
+ * GET: Fetch all pending cancellation requests
+ * ================================
+ */
 export async function GET() {
   try {
-    const collection = dbConnect("event-ticket-cancel");
+    const collection = await dbConnect("event-ticket-cancel");
 
-    const data = await collection.find({ status: "pending" }).toArray();
+    const data = await collection.find({ status: "pending" }).sort({ createdAt: -1 }).toArray();
 
-    return NextResponse.json({ data }, { status: 200 });
+    return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
     console.error("❌ Error fetching ticket cancellations:", error);
     return NextResponse.json(
-      { error: "Failed to retrieve ticket cancellations." },
+      { success: false, message: "Failed to retrieve ticket cancellations." },
       { status: 500 }
     );
   }
 }
 
-// ================================
-// POST: Request a ticket cancellation
-// ================================
+/**
+ * ================================
+ * POST: Create a new cancellation request
+ * ================================
+ */
 export async function POST(req) {
   try {
-    const body = await req.json();
-    const { tranId, userEmail, eventId, reason } = body;
+    const { tranId, customerEmail } = await req.json();
 
-    // --- Validation ---
-    if (!tranId || !userEmail || !eventId) {
+    if (!tranId || !customerEmail) {
       return NextResponse.json(
-        { error: "Missing required fields: tranId, userEmail, eventId" },
+        { success: false, message: "Missing required fields (tranId or customerEmail)" },
         { status: 400 }
       );
     }
 
     const collection = await dbConnect("event-ticket-cancel");
 
-    // --- Check if cancellation already exists ---
-    const existingRequest = await collection.findOne({ tranId });
-    if (existingRequest) {
+    // Prevent duplicate cancellation
+    const existing = await collection.findOne({ tranId });
+    if (existing) {
       return NextResponse.json(
-        { error: `Cancellation already ${existingRequest.status}` },
+        { success: false, message: `Cancellation already ${existing.status}` },
         { status: 400 }
       );
     }
 
-    // --- Create a new cancellation request ---
+    // Insert new request
     await collection.insertOne({
       tranId,
-      userEmail,
-      eventId,
-      reason: reason || "No reason provided",
+      customerEmail,
       status: "pending",
       createdAt: new Date(),
     });
 
     return NextResponse.json(
-      { message: "Ticket cancellation request submitted successfully." },
+      { success: true, message: "Ticket cancellation request submitted successfully." },
       { status: 201 }
     );
   } catch (error) {
     console.error("❌ Error creating ticket cancellation:", error);
     return NextResponse.json(
-      { error: "Failed to create ticket cancellation request." },
+      { success: false, message: "Failed to create ticket cancellation request." },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * ================================
+ * PATCH: Approve or Reject a Cancellation
+ * ================================
+ */
+export async function PATCH(req) {
+  try {
+    const { id, action } = await req.json();
+
+    // ✅ Input validation
+    if (!id || !action) {
+      return NextResponse.json(
+        { success: false, message: "Missing required fields (id or action)" },
+        { status: 400 }
+      );
+    }
+
+    const cancelCollection = await dbConnect("event-ticket-cancel");
+    const paymentCollection = await dbConnect("event-payments");
+
+    // ✅ Find the cancellation record
+    const cancelRecord = await cancelCollection.findOne({ _id: new ObjectId(id) });
+    if (!cancelRecord) {
+      return NextResponse.json(
+        { success: false, message: "Cancellation request not found." },
+        { status: 404 }
+      );
+    }
+
+    const { tranId } = cancelRecord;
+    let updateDoc = {};
+    let message = "";
+
+    // ✅ Handle approve/reject
+    if (action === "approve") {
+      updateDoc = { $set: { status: "approved" } };
+      message = "✅ Ticket cancellation approved successfully.";
+
+      // 🔥 Delete payment record using tranId
+      const deleteResult = await paymentCollection.deleteOne({ tranId });
+      if (deleteResult.deletedCount === 0) {
+        console.warn(`⚠️ No payment found to delete for tranId: ${tranId}`);
+      }
+
+    } else if (action === "reject") {
+      updateDoc = { $set: { status: "rejected" } };
+      message = "❌ Ticket cancellation rejected.";
+    } else {
+      return NextResponse.json(
+        { success: false, message: "Invalid action. Use 'approve' or 'reject'." },
+        { status: 400 }
+      );
+    }
+
+    // ✅ Update cancellation status
+    const updateResult = await cancelCollection.updateOne(
+      { _id: new ObjectId(id) },
+      updateDoc
+    );
+
+    if (updateResult.modifiedCount === 0) {
+      return NextResponse.json(
+        { success: false, message: "No matching record found or already updated." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message },
+      { status: 200 }
+    );
+
+  } catch (error) {
+    console.error("❌ Error updating cancellation status:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to update ticket status." },
       { status: 500 }
     );
   }
