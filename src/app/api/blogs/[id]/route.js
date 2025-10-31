@@ -7,7 +7,6 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 let cachedClient = global.mongoClient;
 let cachedDb = global.mongoDb;
 
-// ✅ Database Connection Helper
 async function dbConnect() {
   if (cachedClient && cachedDb) return cachedDb;
 
@@ -27,7 +26,6 @@ async function dbConnect() {
   }
 }
 
-// ✅ GET Blog by ID
 export async function GET(req, { params }) {
   try {
     const db = await dbConnect();
@@ -49,7 +47,6 @@ export async function GET(req, { params }) {
   }
 }
 
-// ✅ PUT (Update Blog)
 export async function PUT(req, { params }) {
   try {
     const session = await getServerSession(authOptions);
@@ -92,7 +89,6 @@ export async function PUT(req, { params }) {
   }
 }
 
-// ✅ DELETE Blog
 export async function DELETE(req, { params }) {
   try {
     const session = await getServerSession(authOptions);

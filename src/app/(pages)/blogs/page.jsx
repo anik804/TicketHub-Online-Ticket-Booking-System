@@ -53,7 +53,7 @@ export default function AllBlogs() {
             initial={{ width: 0 }}
             animate={{ width: "120px" }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="h-[4px] bg-orange-500 mt-4 mx-auto rounded-full"
+            className="h-[4px] bg-primary mt-4 mx-auto rounded-full"
           ></motion.div>
         </motion.div>
       </div>
@@ -64,7 +64,7 @@ export default function AllBlogs() {
       <div className="max-w-6xl mx-auto px-6 py-10 flex justify-end">
         <Link
           href="/blogs/add"
-          className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-all font-semibold shadow-md hover:shadow-lg"
+          className="bg-primary text-white px-6 py-3 rounded hover:bg-orange-400 transition-all font-semibold shadow-md hover:shadow-lg"
         >
           Add Blog
         </Link>
@@ -103,13 +103,13 @@ export default function AllBlogs() {
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -5 }}
               >
-                <p className="text-sm uppercase text-orange-400 font-semibold">
+                <p className="text-sm uppercase text-primary font-semibold">
                   {blog.category}
                 </p>
                 <h2 className="text-xl md:text-2xl font-bold">{blog.title}</h2>
                 <Link
                   href={`/blogs/${blog._id}`}
-                  className="mt-2 inline-block bg-orange-500 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition-all"
+                  className="mt-2 inline-block bg-primary px-4 py-2 rounded text-sm font-semibold hover:bg-orange-400 transition-all"
                 >
                   Details
                 </Link>
