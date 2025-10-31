@@ -16,10 +16,6 @@ import {
 import { HiOutlineHome } from "react-icons/hi2";
 import { TbJewishStar } from "react-icons/tb";
 
-// যার যার লিঙ্ক দেখে পেজ গুলা দেখে আসবেন
-// সবার লিঙ্ক আছে
-// বুজে শুনে সিরিয়ালও করতে পারেন
-
 export const dashboardLinks = {
   // For User Only
   user: [
@@ -35,8 +31,7 @@ export const dashboardLinks = {
       icon: <FaMoneyBillWave />,
     },
     { label: "My Blogs", href: "/my-blogs", icon: <FaMoneyBillWave /> },
-    { label: "My Wishlist", href: "/wishlist", icon: <TbJewishStar/> }
-
+    { label: "My Wishlist", href: "/wishlist", icon: <TbJewishStar /> },
   ],
   // For Organizer Only
   organizer: [
@@ -58,7 +53,11 @@ export const dashboardLinks = {
   movieadmin: [
     { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "Add Movie", href: "/add-movie", icon: <FaCalendarPlus /> },
-    { label: "Manage Movies", href: "/movie-managements", icon: <FaClipboardList /> },
+    {
+      label: "Manage Movies",
+      href: "/movie-managements",
+      icon: <FaClipboardList />,
+    },
     { label: "Reminder", href: "/reminder", icon: <FaBell /> },
     {
       label: "Payment History",
@@ -68,7 +67,7 @@ export const dashboardLinks = {
   ],
   // For Admin Only
   admin: [
-    { label: "Overview", href: "/adminOverview", icon: <HiOutlineHome /> },
+    { label: "Overview", href: "/", icon: <HiOutlineHome /> },
     { label: "All Users", href: "/all-users", icon: <FaUsers /> },
     { label: "All Event", href: "/all-events", icon: <FaCalendarAlt /> },
     {

@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
+import Button from "@/ui/Button";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function MovieDetailsClient({ movie }) {
   const { data: session } = useSession();
@@ -13,6 +16,8 @@ export default function MovieDetailsClient({ movie }) {
   const title = movie.name;
   const [readMore, setReadMore] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
+
+  const router = useRouter();
 
   const letterVariants = {
     hidden: { opacity: 0, y: 50, rotate: 10 },
@@ -74,7 +79,11 @@ export default function MovieDetailsClient({ movie }) {
         style={{ backgroundImage: `url('${movie.imageUrl}')` }}
       >
         <div className="absolute inset-0 bg-black/70 backdrop-blur-[5px]" />
-        <motion.div className="relative z-10" initial="hidden" animate="visible">
+        <motion.div
+          className="relative z-10"
+          initial="hidden"
+          animate="visible"
+        >
           <p className="text-gray-300 mb-2 text-lg md:text-xl tracking-wide">
             Home / Movies / {movie.name}
           </p>
@@ -111,7 +120,9 @@ export default function MovieDetailsClient({ movie }) {
           {/* Right: Movie Info */}
           <div className="flex flex-col justify-between h-full">
             <div className="flex-1">
-              <h2 className="text-3xl text-gray-600 font-bold mb-4">{movie.name}</h2>
+              <h2 className="text-3xl text-gray-600 font-bold mb-4">
+                {movie.name}
+              </h2>
               <p className="text-gray-600 mb-2">
                 {movie.category} / {movie.duration}
               </p>
@@ -123,13 +134,19 @@ export default function MovieDetailsClient({ movie }) {
               <p className="text-gray-600 mb-2">
                 Date: {movie.date} | Time: {movie.time}
               </p>
-              <p className="text-gray-600 mb-4">Ticket Price: ৳{movie.ticketPrice}</p>
+              <p className="text-gray-600 mb-4">
+                Ticket Price: ৳{movie.ticketPrice}
+              </p>
 
               {/* Description */}
               <div className="mb-4">
-                <h3 className="text-xl text-gray-600 font-semibold mb-2">Description</h3>
+                <h3 className="text-xl text-gray-600 font-semibold mb-2">
+                  Description
+                </h3>
                 <p className="text-gray-600">
-                  {readMore ? movie.description : `${movie.description.slice(0, 150)}...`}
+                  {readMore
+                    ? movie.description
+                    : `${movie.description.slice(0, 150)}...`}
                   {movie.description.length > 150 && (
                     <button
                       onClick={toggleReadMore}
@@ -145,9 +162,13 @@ export default function MovieDetailsClient({ movie }) {
             {/* Buttons */}
             <div className="flex flex-col md:flex-row gap-4 mt-4">
               {/* Buy Ticket */}
-              <button className="px-8 py-3 bg-primary text-white font-semibold rounded hover:bg-orange-400 transition w-max">
+
+              <Link
+                className={`px-8 py-3 font-semibold rounded transition w-max bg-primary text-white hover:bg-orange-400`}
+                href={`/ticket/movie?id=${movie._id}`}
+              >
                 Buy Ticket
-              </button>
+              </Link>
 
               {/* Wishlist Button */}
               <button

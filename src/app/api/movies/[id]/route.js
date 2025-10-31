@@ -2,6 +2,32 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { dbConnect } from "../../../../libs/dbConnect";
 
+export async function GET(request, { params }) {
+
+  const { id } = await params;
+
+  try {
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
+    }
+
+    const collection = await dbConnect("movies");
+    const event = await collection.findOne({ _id: new ObjectId(id) });
+
+    if (!event) {
+      return NextResponse.json({ error: "Event not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(event, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching event:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch event", details: error.message },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(req, { params }) {
   try {
     const { id } = params;
@@ -12,7 +38,6 @@ export async function PUT(req, { params }) {
     }
 
     const body = await req.json();
-    console.log("PUT body:", body);
 
     delete body._id; // Remove _id if accidentally included
 

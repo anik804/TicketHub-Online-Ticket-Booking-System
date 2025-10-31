@@ -31,7 +31,6 @@ export default function Dashboard() {
 
   const userRole = session?.user?.role.toLowerCase();
 
-  console.log(userRole);
 
   // If no role or session not ready yet
   if (!userRole) {

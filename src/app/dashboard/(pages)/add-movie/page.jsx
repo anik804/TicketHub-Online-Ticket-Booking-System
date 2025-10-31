@@ -6,7 +6,7 @@ import AddMovie from "../../components/AddMovie";
 
 function page() {
   return (
-    <DashboardSection title="" role="movieadmin">
+    <DashboardSection title="Add a new Movie" role="movieadmin">
       <AddMovie></AddMovie>
     </DashboardSection>
   );
