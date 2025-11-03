@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## TicketHub – Online Ticket Booking System
 
-## Getting Started
+## Live Link 
+https://ticket-hub-online-ticket-booking-sy.vercel.app/
 
+## Project Type: Full-Stack Web Application
 
+## Tech Stack:
+ Next.js | React | Tailwind CSS | MongoDB | Stripe | SSLCOMMERZ | Firebase | Jira | Framer Motion
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## User Credentials 
+**User
+Email:pranoy12@gmail.com
+Password:Pranoy@154
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Organizer
+Email:arnab1234@gmail.com
+Password:Arnab@154
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+**Admin
+Email:kabirBai12@gmail.com
+Password:Kabir@154
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Overview
 
-## Learn More
+TicketHub is a web-based ticket booking platform that allows users to browse events, book seats, make secure payments, generate e-tickets with QR codes, and manage bookings. Organizers can add and manage events, while admins monitor and control the entire system.
 
-To learn more about Next.js, take a look at the following resources:
+## Key Features
+1.User Features
+**Browse events by category, price, date, location
+**Real-time seat selection (prevents double booking)
+**Secure online payments (Stripe / SSLCommerz)
+**Download e-ticket with QR code
+**Ticket cancellation & refund request
+**Wishlist / Save event
+**Group / multi-seat booking
+**Search & filter events
+**Review and rating system
+**Event reminder via email/SMS
+**View booking & payment history
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.Organizer Features
+**Add/manage events and seats
+**Dynamic pricing & ticket updates
+**Approve refund requests
+**View earnings & payment history
+**Access dedicated organizer dashboard
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.Admin Features
+**Manage users & organizers
+**Approve organizer roles
+**Review event listings
+**Monitor system activity and payments
 
-## Deploy on Vercel
+## System Modules
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Authentication - Role-based login for User, Organizer, Admin
+**Event Module - Create, browse, filter, view, manage events
+**Seat Booking Module - Real-time seat locking & booking
+**Payment Module - Secure online payment & records
+**E-Ticket Module - QR code ticket generation & PDF
+**Refund Module - Full refund lifecycle handling
+**Review Module - User feedback on events
+**Notification System -	Email/SMS event reminders
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Conclusion
+
+TicketHub ensures a fast, secure, and seamless online ticket booking experience, offering real-time booking, role-based dashboards, secure payment integration, and modern UI designed for scalability and performance.
